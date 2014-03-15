@@ -30,9 +30,19 @@
 Toteutuskieleksi olen valinnut Javan (servletit Tomcat:n ajettavaksi), ja tietokannaksi olen valinnut niin ikään suositeltu PostgreSQL.
 
 \section{Yleiskuva järjestelmästä}
-Aiheenani on keskustelufoorumin toteuttaminen. 
+Aiheenani on keskustelufoorumin toteuttaminen. Järjestelmässä on kolme käyttäjäkategoriaa: 
+\begin{itemize}
+  \item ylläpitäjä (admin),
+  \item moderaattori (moderator),
+  \item käyttäjä (user).
+\end{itemize}
+Käyttäjä voi luoda tunnuksensa rekisteröitymällä sovellukseen. Ensimmäinen ylläpitäjä on luotu SQL-komennosta. Myöhemmin kun järjestelmässä alkaa olla käyttäjiä, ylläpitäjä voi ylentää tavallisen käyttäjän moderaattoriksi tai suoraan ylläpitäjäksi. Lisäksi, ylläpitäjä voi poistaa oman tai mielivaltaisen moderaattorin tai käyttäjän. Mitä tulee tilanteeseen, jossa ylläpitäjä poistaa itseään, onnistuu se vain jos poiston jälkeen järjestelmään jää vähintään yksi muu ylläpitäjä. (Järjestelmässä pitää olla vähintään yksi ylläpitäjä.) Moderaattori voi poistaa käyttäjien viestit, mikäli siihen on tarvetta. Lisäksi, moderaattori voi asettaa käyttäjät maksimissaan 7 vuorokauden käyttökieltoon. Mitä tulee keskustelusäikeisiin, uusien luonti vaatii vähintään moderaattorioikeudet; säikeiden poistaaminen on ainoastaan ylläpitäjien etuoikeus. Ylläpitäjät pystyvät tekemään samat toiminnot kuin moderaattorit.
+
+Mitä tulee itse foorumin rakenteeseen, alkusivulla voi selata ``teemoja''. Jokainen teema pitää sisällään vähintään yhden ``säikeen'', joista jälkimmäinen pitää sisällään siihen liittyvän keskusteluhistorian. Keskustelun lisäksi jokainen käyttäjä/moderaattori/ylläpitäjä voi lähettää yksityiset viestit mielivaltaiselle käyttäjälle ilman statusrajoja.
 
 \section{Käyttötapaukset}
-Järjestelmässä on kolme käyttäjäkategoriaa: 
+
+
+
 
 \end{document}

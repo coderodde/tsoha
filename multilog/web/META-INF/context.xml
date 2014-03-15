@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/multilog">
+    <Resource name="jdbc/mlogDB"
+              auth="Container"
+              type="javax.sql.DataSource"
+              removeAbandoned="true"
+              removeAbandonedTimeout="30"
+              maxActive="100"
+              maxIdle="30"
+              maxWait="10000"
+              username="rodionef"
+              password="ccac8eaa12c53175"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://users.cs.helsinki.fi/rodionef" />
+</Context>
