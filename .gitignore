@@ -1,5 +1,7 @@
 *.aux
 *.log
+*.toc
 *.synctex.gz
 /multilog/nbproject/private/
 /multilog/build/
+/multilog/dist/
