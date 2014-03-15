@@ -30,7 +30,7 @@
 
 Toteutuskieleksi olen valinnut Javan (servletit Tomcat:n ajettavaksi), ja tietokannaksi olen valinnut niin ikään suositeltu PostgreSQL.
 
-\section{Yleiskuva järjestelmästä}
+\section{Yleiskuva järjestelmästä (multilog)}
 Aiheenani on keskustelufoorumin toteuttaminen. Järjestelmässä on kolme käyttäjäkategoriaa: 
 \begin{itemize}
   \item ylläpitäjä (admin),
@@ -41,7 +41,19 @@ Käyttäjä voi luoda tunnuksensa rekisteröitymällä sovellukseen. Ensimmäine
 
 Mitä tulee itse foorumin rakenteeseen, alkusivulla voi selata ``teemoja''. Jokainen teema pitää sisällään vähintään yhden ``säikeen'', joista jälkimmäinen pitää sisällään siihen liittyvän keskusteluhistorian. Keskustelun lisäksi jokainen käyttäjä/moderaattori/ylläpitäjä voi lähettää yksityiset viestit mielivaltaiselle käyttäjälle ilman statusrajoja.
 
+Rekisteöityessään käyttäjä voi halutessaan lisätä avatar-kuvan, joka skaalataan tietynkokoiseksi; muussa tapauksessa käytetään oletus-avatar. Avatarkuvan voi lisätä/poistaa myös rekisteröitymisen jälkeen.
+
+multilog sallii viesteissä erityistagien kirjoittamisen, joilla tekstiä pystyy muotolemaan; alustavasti seuraavat muotoilut toteutetaan:
+\begin{itemize}
+  \item kursivointi,
+  \item lihavointi,
+  \item kiinteävälinen tekstitys (monospaced font),
+  \item linkkien upottaminen,
+  \item kuvien linkkittäminen tekstiin.
+\end{itemize}
+
 \section{Käyttötapaukset}
 \includegraphics[width=\textwidth]{multilog_use_case_diagram}
+Huomaa, että kaikki toiminnot paitsi lukeminen ja haku edellyttävät sisäänkirjautumisen.
 
 \end{document}

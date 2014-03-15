@@ -1,5 +1,6 @@
 *.aux
 *.log
+*.png
 *.toc
 *.synctex.gz
 /multilog/nbproject/private/
