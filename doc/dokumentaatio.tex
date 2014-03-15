@@ -37,13 +37,13 @@ Aiheenani on keskustelufoorumin toteuttaminen. Järjestelmässä on kolme käytt
   \item moderaattori (moderator),
   \item käyttäjä (user).
 \end{itemize}
-Käyttäjä voi luoda tunnuksensa rekisteröitymällä sovellukseen. Ensimmäinen ylläpitäjä on luotu SQL-komennosta. Myöhemmin kun järjestelmässä alkaa olla käyttäjiä, ylläpitäjä voi ylentää tavallisen käyttäjän moderaattoriksi tai suoraan ylläpitäjäksi. Lisäksi, ylläpitäjä voi poistaa oman tai mielivaltaisen moderaattorin tai käyttäjän. Mitä tulee tilanteeseen, jossa ylläpitäjä poistaa itseään, onnistuu se vain jos poiston jälkeen järjestelmään jää vähintään yksi muu ylläpitäjä. (Järjestelmässä pitää olla vähintään yksi ylläpitäjä.) Moderaattori voi poistaa käyttäjien viestit, mikäli siihen on tarvetta. Lisäksi, moderaattori voi asettaa käyttäjät maksimissaan 7 vuorokauden käyttökieltoon. Mitä tulee keskustelusäikeisiin, uusien luonti vaatii vähintään moderaattorioikeudet; säikeiden poistaaminen on ainoastaan ylläpitäjien etuoikeus. Ylläpitäjät pystyvät tekemään samat toiminnot kuin moderaattorit.
+Käyttäjä voi luoda tunnuksensa rekisteröitymällä sovellukseen. Ensimmäinen ylläpitäjä on luotu SQL-komennosta. Myöhemmin kun järjestelmässä alkaa olla käyttäjiä, ylläpitäjä voi ylentää tavallisen käyttäjän moderaattoriksi tai suoraan ylläpitäjäksi. Lisäksi, ylläpitäjä voi poistaa itsensä tai mielivaltaisen moderaattorin tai käyttäjän. Mitä tulee tilanteeseen, jossa ylläpitäjä poistaa itseään, onnistuu se vain jos poiston jälkeen järjestelmään jää vähintään yksi muu ylläpitäjä. (Järjestelmässä pitää olla vähintään yksi ylläpitäjä.) Moderaattori voi poistaa käyttäjien viestit, mikäli siihen on tarvetta. Lisäksi, moderaattori voi asettaa käyttäjät maksimissaan 7 vuorokauden käyttökieltoon. Mitä tulee keskustelusäikeisiin, uusien luonti vaatii vähintään moderaattorioikeudet; säikeiden poistaaminen on ainoastaan ylläpitäjien etuoikeus. Ylläpitäjät pystyvät tekemään samat toiminnot kuin moderaattorit. 
 
-Mitä tulee itse foorumin rakenteeseen, alkusivulla voi selata ``teemoja''. Jokainen teema pitää sisällään vähintään yhden ``säikeen'', joista jälkimmäinen pitää sisällään siihen liittyvän keskusteluhistorian. Keskustelun lisäksi jokainen käyttäjä/moderaattori/ylläpitäjä voi lähettää yksityiset viestit mielivaltaiselle käyttäjälle ilman statusrajoja.
+Mitä tulee itse foorumin rakenteeseen, alkusivulla voi selata ``teemoja''. Jokainen teema pitää sisällään vähintään yhden ``säikeen'', joista jälkimmäinen pitää sisällään siihen liittyvän keskusteluhistorian. Teemojen luonti ja poistaminen vaatii ylläpitäjän. Keskustelun lisäksi jokainen käyttäjä/moderaattori/ylläpitäjä voi lähettää yksityiset viestit mielivaltaiselle käyttäjälle ilman statusrajoja.
 
 Rekisteöityessään käyttäjä voi halutessaan lisätä avatar-kuvan, joka skaalataan tietynkokoiseksi; muussa tapauksessa käytetään oletus-avatar. Avatarkuvan voi lisätä/poistaa myös rekisteröitymisen jälkeen.
 
-multilog sallii viesteissä erityistagien kirjoittamisen, joilla tekstiä pystyy muotolemaan; alustavasti seuraavat muotoilut toteutetaan:
+multilog sallii viesteissä erityistagien kirjoittamisen, joilla tekstiä pystyy muotoilemaan; alustavasti seuraavat muotoilut toteutetaan:
 \begin{itemize}
   \item kursivointi,
   \item lihavointi,
@@ -53,7 +53,8 @@ multilog sallii viesteissä erityistagien kirjoittamisen, joilla tekstiä pystyy
 \end{itemize}
 
 \section{Käyttötapaukset}
-\includegraphics[width=\textwidth]{multilog_use_case_diagram}
-Huomaa, että kaikki toiminnot paitsi lukeminen ja haku edellyttävät sisäänkirjautumisen.
+\includegraphics[width=\textwidth, height=\textheight, keepaspectratio]{multilog_use_case_diagram}
+\newpage
+\noindent Huomaa, että kaikki toiminnot paitsi lukeminen ja haku edellyttävät sisäänkirjautumisen.
 
 \end{document}
