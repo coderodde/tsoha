@@ -15,14 +15,22 @@
 \usepackage{color}
 \usepackage{hyperref}
 \usepackage{tocloft}
+\usepackage{fancyvrb}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+
+
+\makeatletter
+\g@addto@macro\cftsecfont{\bfseries}
+\g@addto@macro\cftsubsecfont{\bfseries}
+
+\g@addto@macro\cftsecpagefont{\bfseries}
+\g@addto@macro\cftsubsecpagefont{\bfseries}
 
 \title{Tietokantasovellus -- Dokumentaatio}
 \date{2014, periodi 4}
 \author{Rodion ``rodde'' Efremov}
 \renewcommand*\rmdefault{iwona}
 \definecolor{logobg}{RGB}{31,124,255}
-
 
 \begin{document}
 
@@ -82,5 +90,61 @@ multilog sallii viesteissä erityistagien kirjoittamisen, joilla tekstiä pystyy
   \item[Ylläpitäjä (admin)] \hfill \\
   Ylläpitäjä, joka voi ylentää peruskäyttäjän/moderaattorin ylläpitäjäksi, poistaa ei-ylläpitäjäkäyttäjän, luoda/poistaa aiheet. Perii myös \textbf{moderaattorin} toiminnot.
 \end{description}
+
+\subsection{Käyttötapauskuvaukset}
+\begin{Verbatim}[frame=single]
+Jokamiehen käyttötapaukset
+    Haku:  
+      Postausten, säikeiden, teemojen ja profiilien haku
+    Lukeminen:
+      Haetun sisällön lukeminen
+\end{Verbatim}
+
+\begin{Verbatim}[frame=single]
+Peruskäyttäjän käyttötapaukset
+  Säikeen luonti:
+    Peruskäyttäjä voi luoda säikeen teeman alle
+  Kirjoittaminen:
+    Peruskäyttäjä voi kirjoittaa säikeessä
+  Vastaaminen:
+    Peruskäyttäjä voi vastata olemassa olevaan viestiin
+  Muokkaaminen:
+    Peruskäyttäjä voi muokata omat viestit
+  Tietojen päivittäminen:
+    Peruskäyttäjä voi päivittää henkilötietojaan; 
+    myös poistaamaan tilinsä
+    
+ ** Peruskäyttäjä perii kaikki jokamiehen toiminnot **
+\end{Verbatim}
+
+\newpage
+
+\begin{Verbatim}[frame=single]
+Moderaattorin käyttötapaukset
+  Säikeen poisto:
+    Moderaattori voi poistaa mielivaltaisen säikeen
+  Käyttökiellon asettaminen:
+    Moderaattori voi aseta mielivaltaisen peruskäyttäjän 
+    käyttökieltoon (maksimissaan 7 päiväksi)
+  Putsaaminen:
+    Moderaattori voi poistaa mielivaltaisen peruskäyttäjän viestin
+  Ylentäminen:
+    Moderaattori voi promotoida peruskäyttäjän moderaattoriksi
+    
+** Moderattori perii kaikki peruskäyttään toiminnot  **
+\end{Verbatim}
+
+\begin{Verbatim}[frame=single]
+Ylläpitäjän käyttötapaukset
+  Y.1 Ylentäminen:
+    Ylläpitäjä voi promotoida moderaattorin ylläpitäjäksi
+  Y.2 Alentaminen:
+    Ylläpitäjä void alentaa moderaattorin peruskäyttäjäksi
+  Y.3 Käyttäjän poisto:
+    Ylläpitäjä voi poistaa peruskäyttäjän
+    (Y.2:n nojalla myös moderaattorin)
+    
+** Ylläpitäjä perii kaikki moderaattorin toiminnot **
+\end{Verbatim}
 
 \end{document}
