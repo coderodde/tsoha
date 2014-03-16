@@ -12,16 +12,28 @@
 \usepackage{empheq}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{color}
 
 \title{Tietokantasovellus -- Dokumentaatio}
 \date{2014, periodi 4}
 \author{Rodion ``rodde'' Efremov}
 \renewcommand*\rmdefault{iwona}
+\definecolor{logobg}{RGB}{31,124,255}
 
 \begin{document}
+
 \pagenumbering{Roman}
+\centerline{\colorbox{white}{\begin{minipage}{12cm}
 \maketitle
+\end{minipage}}}
+\pagecolor{logobg}
+
+\begin{center}
+\centerline{\includegraphics[width=450px, height=200px]{multilogo}}
+\end{center}
+
 \newpage
+\pagecolor{white}
 \tableofcontents
 \newpage
 \pagenumbering{arabic}
@@ -37,9 +49,9 @@ Aiheenani on keskustelufoorumin toteuttaminen. Järjestelmässä on kolme käytt
   \item moderaattori (moderator),
   \item käyttäjä (user).
 \end{itemize}
-Käyttäjä voi luoda tunnuksensa rekisteröitymällä sovellukseen. Ensimmäinen ylläpitäjä on luotu SQL-komennosta. Myöhemmin kun järjestelmässä alkaa olla käyttäjiä, ylläpitäjä voi ylentää tavallisen käyttäjän moderaattoriksi tai suoraan ylläpitäjäksi. Lisäksi, ylläpitäjä voi poistaa itsensä tai mielivaltaisen moderaattorin tai käyttäjän. Mitä tulee tilanteeseen, jossa ylläpitäjä poistaa itseään, onnistuu se vain jos poiston jälkeen järjestelmään jää vähintään yksi muu ylläpitäjä. (Järjestelmässä pitää olla vähintään yksi ylläpitäjä.) Moderaattori voi poistaa käyttäjien viestit, mikäli siihen on tarvetta. Lisäksi, moderaattori voi asettaa käyttäjät maksimissaan 7 vuorokauden käyttökieltoon. Mitä tulee keskustelusäikeisiin, uusien luonti vaatii vähintään moderaattorioikeudet; säikeiden poistaaminen on ainoastaan ylläpitäjien etuoikeus. Ylläpitäjät pystyvät tekemään samat toiminnot kuin moderaattorit. 
+Käyttäjä voi luoda tunnuksensa rekisteröitymällä sovellukseen. Ensimmäinen ylläpitäjä on luotu SQL-komennosta. Myöhemmin kun järjestelmässä alkaa olla käyttäjiä, ylläpitäjä voi ylentää tavallisen käyttäjän moderaattoriksi tai suoraan ylläpitäjäksi.Ylläpitäjä voi pudottaa moderaattorin peruskäyttäjäksi ja poistaa mielivaltaisen käyttäjän, jolloin myös moderaattoreiden poisto on mahdollista. Lisäksi, mikä tahansa rekisteröitynyt henkilö voi poistaa profiilinsa. Ylläpitäjä voi poistaa myös itsensä tai mielivaltaisen moderaattorin tai käyttäjän. Mitä tulee tilanteeseen, jossa ylläpitäjä poistaa itseään, onnistuu se vain jos poiston jälkeen järjestelmään jää vähintään yksi muu ylläpitäjä. (Järjestelmässä pitää olla vähintään yksi ylläpitäjä.) Moderaattori voi poistaa käyttäjien viestit, mikäli siihen on tarvetta. Lisäksi, moderaattori voi asettaa käyttäjät maksimissaan 7 vuorokauden käyttökieltoon. Toisaalta, moderaattori voi ylentää käyttäjän moderaattoriksi. Mitä tulee keskustelusäikeisiin, uusien luonti onnistuu jo peruskäyttäjän oikeuksilla; säikeiden poistaaminen vaatii vähintään moderaattorin oikeudet. Ylläpitäjät pystyvät tekemään samat toiminnot kuin moderaattoritkin. 
 
-Mitä tulee itse foorumin rakenteeseen, alkusivulla voi selata ``teemoja''. Jokainen teema pitää sisällään vähintään yhden ``säikeen'', joista jälkimmäinen pitää sisällään siihen liittyvän keskusteluhistorian. Teemojen luonti ja poistaminen vaatii ylläpitäjän. Keskustelun lisäksi jokainen käyttäjä/moderaattori/ylläpitäjä voi lähettää yksityiset viestit mielivaltaiselle käyttäjälle ilman statusrajoja.
+Mitä tulee itse foorumin rakenteeseen, alkusivulla voi selata ``teemoja''. Jokainen teema pitää sisällään vähintään yhden ``säikeen'', joista jälkimmäinen pitää sisällään siihen liittyvän keskusteluhistorian. Teemojen luonti ja poistaminen vaatii ylläpitäjän. Keskustelun lisäksi jokainen käyttäjä/moderaattori/ylläpitäjä voi lähettää yksityiset viestit mielivaltaiselle käyttäjälle ilman statusrajoja. Sovellus luo jokaiselle käyttäjälle profiilisivun, joissa näytetään (profiilin omistajan halutessa) sähköpostiosoite, syntymäpäivä, sukupuoli, oikea nimi. Profiilisivuilla esitetään aina avatar-kuva, lista postauksia ja postausten määrä.
 
 Rekisteöityessään käyttäjä voi halutessaan lisätä avatar-kuvan, joka skaalataan tietynkokoiseksi; muussa tapauksessa käytetään oletus-avatar. Avatarkuvan voi lisätä/poistaa myös rekisteröitymisen jälkeen.
 
