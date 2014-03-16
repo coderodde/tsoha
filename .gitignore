@@ -3,6 +3,7 @@
 *.dvi
 *.log
 *.png
+*.out
 *.toc
 *.synctex.gz
 /multilog/nbproject/private/

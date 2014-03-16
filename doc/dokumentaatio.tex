@@ -13,12 +13,16 @@
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{color}
+\usepackage{hyperref}
+\usepackage{tocloft}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 
 \title{Tietokantasovellus -- Dokumentaatio}
 \date{2014, periodi 4}
 \author{Rodion ``rodde'' Efremov}
 \renewcommand*\rmdefault{iwona}
 \definecolor{logobg}{RGB}{31,124,255}
+
 
 \begin{document}
 
@@ -38,9 +42,8 @@
 \newpage
 \pagenumbering{arabic}
 
-\section{Johdanto} Tämä dokumentti on tarkoitettu kuvaamaan Tietokantasovellus-kurssin (582203) aikana toteutettu verkkosovellus. Ajallisesti ottaen kurssisuoritukseni on ajoitettu kevään 2014 neljännelle periodille.
-
-Toteutuskieleksi olen valinnut Javan (servletit Tomcat:n ajettavaksi), ja tietokannaksi olen valinnut niin ikään suositeltu PostgreSQL.
+\section{Johdanto} Tämä dokumentti on tarkoitettu kuvaamaan Tietokantasovellus-kurssin (582203) aikana toteutettu verkkosovellus. Ajallisesti ottaen kurssisuoritukseni on ajoitettu kevään 2014 neljännelle periodille. Harjoitustyön aiheena on \href{http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Keskustelufoorumi.html}{Keskustelufoorumi} ja järjestelmän nimi on \textbf{multilog}. multilog ei paljon eroa phpBB:stä, mutta todennäköisesti tulee olemaan yksinkertaisempi ainakin sivujen tyylityksen osalta. Kuten yleensäkin, multilog:n on tarkoitus olla helppokäyttöinen ja ilmainen palvelu, jossa käyttäjäkunta pääsee keskustelemaan vapaasti. Toteutuskieleksi olen valinnut Javan (servletit Tomcat:n ajettavaksi), ja tietokannaksi olen valinnut niin ikään suositeltu PostgreSQL. Tarkkaanottaen, toteutus perustuu Java EE 5 spesifikaation, joten ohjelmisto voi ajaa ainakin Tomcat 6:ssa.
+Saadakseen postausten tyylittely toimimaan, käyttäjän selaimen on tuettava Javascript. Sovelluksen liittyvät SQL-toiminnot todennäköisesti ei saada standardinmukaisiksi, jotenka järjestelmä on sidottu PostgreSQL:n käyttöön tietokantanaan.
 
 \section{Yleiskuva järjestelmästä (multilog)}
 Aiheenani on keskustelufoorumin toteuttaminen. Järjestelmässä on kolme käyttäjäkategoriaa: 
@@ -64,9 +67,20 @@ multilog sallii viesteissä erityistagien kirjoittamisen, joilla tekstiä pystyy
   \item kuvien linkkittäminen tekstiin.
 \end{itemize}
 
-\section{Käyttötapaukset}
-\includegraphics[width=\textwidth, height=\textheight, keepaspectratio]{multilog_use_case_diagram}
-\newpage
+\subsection{Käyttötapaukset}
+\includegraphics[width=\textwidth, height=0.9\textheight, keepaspectratio]{multilog_use_case_diagram}
+
 \noindent Huomaa, että kaikki toiminnot paitsi lukeminen ja haku edellyttävät sisäänkirjautumisen.
+\subsection{Käyttäjäryhmät}
+\begin{description}
+  \item[Jokamies] \hfill \\
+  Henkilö joka ei ole rekisteröitynyt \textbf{multilog}:iin. Voi hakea ja lukea järjestelmässä olevat postaukset.
+  \item[Peruskäyttäjä (user)] \hfill \\
+  Rekisteröitynyt peruskäyttäjä, joka voi luoda säikeet ja postaukset, vastata olemassaoleviin postauksiin, muokata tietojaan ja poistaa profiilinsa. Perii myös \textbf{jokamiehen} toiminnot.
+  \item[Moderaattori (moderator)] \hfill \\
+  Käyttäjä, joka voi poistaa säikeet ja postaukset, ylentää \textbf{peruskäyttäjän} moderaattoriksi ja aseta peruskäyttäjät käyttökieltoon. Perii myös \textbf{peruskäyttäjän} toiminnot.
+  \item[Ylläpitäjä (admin)] \hfill \\
+  Ylläpitäjä, joka voi ylentää peruskäyttäjän/moderaattorin ylläpitäjäksi, poistaa ei-ylläpitäjäkäyttäjän, luoda/poistaa aiheet. Perii myös \textbf{moderaattorin} toiminnot.
+\end{description}
 
 \end{document}
