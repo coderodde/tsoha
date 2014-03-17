@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+}
+
+#main-content {
+    line-height: 1;
+    top: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 0;
+    font-size: 14px;
+    width: 800px;
+    background-color: #d2d2d2;
+}
+
+#logo {
+    display: block;
+    margin: auto;
+}
+
+#header {
+    background-color: #2894f7;
+}
+
+#footer {
+
+}
