@@ -8,3 +8,4 @@
 *.synctex.gz
 /multilog/nbproject/private/
 /multilog/build/
+context.xml
