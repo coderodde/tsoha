@@ -1,5 +1,8 @@
 body {
     margin: 0;
+    font-family: 'Teknik';
+    font-weight: bold;
+    font-style: normal;
 }
 
 #main-content {
@@ -12,6 +15,7 @@ body {
     padding-bottom: 0;
     font-size: 14px;
     width: 800px;
+    height: 95%;
     background-color: #d2d2d2;
 }
 
@@ -26,4 +30,27 @@ body {
 
 #footer {
 
+}
+
+#navibar {
+    background-color: black;
+}
+
+.navibar-left-item {
+    float: left;
+    display: inline;
+}
+
+.navibar-right-item {
+    float: right;
+    display: inline;
+}
+
+.navibar-link a:link    {color: red;}
+.navibar-link a:hover   {color: red;}
+.navibar-link a:active  {color: red;}
+.navibar-link a:visited {color: red;}
+
+.navibar-link {
+    padding: 10px;
 }
