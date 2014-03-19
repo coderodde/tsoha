@@ -7,6 +7,8 @@ CREATE TYPE e_user_type AS ENUM ('User', 'Mod', 'Admin');
 CREATE TABLE users (
   user_id        BIGSERIAL PRIMARY KEY,
   username       VARCHAR(25) NOT NULL,
+  salt	         VARCHAR(32) NOT NULL,
+  passwd_hash	 VARCHAR(32) NOT NULL,
   first_name     VARCHAR(50) NOT NULL,
   last_name      VARCHAR(50) NOT NULL,
   email          VARCHAR(50) NOT NULL,
