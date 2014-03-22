@@ -146,4 +146,24 @@ Ylläpitäjän käyttötapaukset
 ** Ylläpitäjä perii kaikki moderaattorin toiminnot **
 \end{Verbatim}
 
+\section{Käyttöliittymä}
+Sovelluksen pääsivulla tulee olemaan 4 linkkiä:
+\begin{description}
+  \item[Search] sovelluksen hakutoiminto,
+  \item[Browse] ohjaa teemat sisältävälle sivulle, josta pääsee katsomaan kunkin teeman säikeet, joissa, puolestaan, pääsee lukemaan postaukset,
+  \item[Sign in] ohjaa sisäänkirjautumissivulle,
+  \item[Sign up] ohjaa rekisteröimissivulle.
+\end{description}
+\textbf{Search} - linkin takana on sivu, jossa käyttäjä voi kirjoittaa epätriviaaleja hakulausekkeita, joissa on operaattorit \textbf{NOT}, \textbf{AND} ja \textbf{OR}, joiden lisäksi on valitsimet \textit{post}, \textit{author}, \textit{topic} ja \textit{thread}. \textbf{Browse} - linkin takana on puolestaan lista teemoja, joita klikkaamalla pääsee listaan säikeitä, joita klikkaamalla pääsee lukemaan ko. säikeen postaukset (käyttäjän ollessa kirjautunut pääsee kirjoittamaan oman postauksen tai vastaamaan olemassaolevaan postaukseen). \textbf{Sign up} - linkin takana on sivu, jossa voi luoda peruskäyttäjän profiiliin ja \textbf{Sign in} - linkin takana järjestelmään voi kirjautua.
+
+Käyttäjän ollessa kirjautunut, navigointipalkin oikealla puolella on linkit \- \textbf{Account} ja \textbf{Sign out}, joilla voi mennä oman tilin hallintasivulle tai kirjautua ulos vastaavasti. Jokainen \textit{kirjautunut} käyttäjä $K_1$ voi lukea toisen käyttäjän $K_2$ tiedot sivulla $S$: lukjan $K_1$ ollessa korkeamalla käyttäjätasolla, voi hän promotoida $K_2$:n enintään $K_1$:n tasolle painamalla painiketta sivulla $S$.
+
+Kirjautuneen käyttäjän selatessa säikeen viestit, voi hän painaa postauksen yhteydessä olevaa \textbf{Reply} - painiketta ja vastata siihen. Ellei käyttäjä halua nimenomaan vastata mihinkään postaukseen, voi hän kirjoittaa säikeen lopussa olevaan postauslaatikkoon, jolloin luodaan viesti vailla ``vanhempiviestiä''.
+\begin{center}
+  \includegraphics[width=\textwidth, height=0.9\textheight, keepaspectratio]{UIMainPage}
+\end{center}
+\begin{center}
+  \includegraphics[width=\textwidth, keepaspectratio]{UIAccountView}
+\end{center}
+
 \end{document}
