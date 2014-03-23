@@ -91,7 +91,7 @@ public class ListTest extends HttpServlet {
     String getResults(ResultSet rs) {
         StringBuilder sb = new StringBuilder(8192);
         sb.append("<table>\n")
-          .append("<th><td>Username</td><td>email</td></th>");
+          .append("<tr><td>Username</td><td>email</td></tr>\n");
 
         try {
             while (rs.next()) {
