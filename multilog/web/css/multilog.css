@@ -9,14 +9,18 @@ body {
     line-height: 1;
     top: 0;
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 10px;
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 0;
+    padding-left: 10px;
+    padding-right: 10px;
     font-size: 14px;
     width: 800px;
     height: 95%;
     background-color: #d2d2d2;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 #logo {
@@ -33,7 +37,7 @@ body {
 }
 
 #navibar {
-    background-color: black;
+    height: 40px;
 }
 
 .navibar-left-item {
@@ -46,11 +50,44 @@ body {
     display: inline;
 }
 
-.navibar-link a:link    {color: red;}
-.navibar-link a:hover   {color: red;}
-.navibar-link a:active  {color: red;}
-.navibar-link a:visited {color: red;}
+.navibar-link a:link    {
+    color: black;
+    text-decoration:none;
+}
+
+.navibar-link a:hover   {
+    color: black;
+    text-decoration:none;
+}
+
+.navibar-link a:active  {
+    color: black;
+    text-decoration:none;
+}
+
+.navibar-link a:visited {
+    color: black;
+    text-decoration:none;
+}
 
 .navibar-link {
     padding: 10px;
+}
+
+.post_list_container {
+    background-color: #c4dcf9;
+    padding: 10px;
+    border: 2px solid;
+    border-color: #2894f7;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.post_list_item {
+    background-color: #fafaea;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid;
+    border-color: #edeca7;
+    border-radius: 10px;
 }

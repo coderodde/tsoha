@@ -158,21 +158,25 @@ Sovelluksen pääsivulla tulee olemaan 4 linkkiä:
 
 Käyttäjän ollessa kirjautunut, navigointipalkin oikealla puolella on linkit \- \textbf{Account} ja \textbf{Sign out}, joilla voi mennä oman tilin hallintasivulle tai kirjautua ulos vastaavasti. Jokainen \textit{kirjautunut} käyttäjä $K_1$ voi lukea toisen käyttäjän $K_2$ tiedot sivulla $S$: lukjan $K_1$ ollessa korkeamalla käyttäjätasolla, voi hän promotoida $K_2$:n enintään $K_1$:n tasolle painamalla painiketta sivulla $S$.
 
-Kirjautuneen käyttäjän selatessa säikeen viestit, voi hän painaa postauksen yhteydessä olevaa \textbf{Reply} - painiketta ja vastata siihen. Ellei käyttäjä halua nimenomaan vastata mihinkään postaukseen, voi hän kirjoittaa säikeen lopussa olevaan postauslaatikkoon, jolloin luodaan viesti vailla ``vanhempiviestiä''.
+Kirjautuneen käyttäjän selatessa säikeen viestit, voi hän painaa postauksen yhteydessä olevaa \textbf{Reply} - painiketta ja vastata siihen. Ellei käyttäjä halua nimenomaan vastata mihinkään postaukseen, voi hän kirjoittaa säikeen lopussa olevaan postauslaatikkoon, jolloin luodaan viesti vailla ``vanhempiviestiä''. Kuva~\ref{fig:mainview} sivulla~\pageref{fig:mainview} demoaa \textbf{multilog}:n päänäkymää; kuva~\ref{fig:profileview} (sivu~\pageref{fig:profileview}) puolestaan demoaa profiilinäkymää ja, lopulta,~\ref{fig:threadview} (sivu~\pageref{fig:threadview}) näyttää suurinpiirtein sen, miltä säienäkymä tulee näyttää.
 \begin{figure}
   \caption{Päänäkymä}
   \centering
   \includegraphics[width=\textwidth, keepaspectratio]{UIMainPage}
+  \label{fig:mainview}
 \end{figure}
 
 \begin{figure}
   \caption{Profiilinäkymä}
   \centering
   \includegraphics[width=\textwidth, keepaspectratio]{UIAccountView}
+  \label{fig:profileview}
 \end{figure}
+
 \begin{figure}
   \caption{Säienäkymä}
   \centering
   \includegraphics[width=\textwidth, keepaspectratio]{UIThreadView}
+  \label{fig:threadview}
 \end{figure}
 \end{document}
