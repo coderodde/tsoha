@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: 'Teknik';
+    font-family: 'Verdana';
     font-weight: bold;
     font-style: normal;
 }
@@ -100,4 +100,80 @@ body {
     border: 1px solid;
     border-color: #edeca7;
     border-radius: 10px;
+}
+
+.post_info {
+    font-size: 12pt;
+}
+
+.post_text {
+    font-size: 10pt;
+    font-weight: normal;
+    font-style: normal;
+}
+
+.avatar {
+    position: relative;
+    right: 0px;
+}
+
+.user_info {
+    margin-left: auto;
+    margin-right: auto;
+    width: 650px;
+    height: 400px;
+}
+
+.user_info_text {
+    font-weight: normal;
+    font-size: 10pt;
+    font-style: normal;
+}
+
+#account_name_div {
+    font-size: 14pt;
+    font-style: normal;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+}
+
+.info_table {
+    table-layout: fixed;
+    width: 600px;
+}
+
+.info_td {
+    width: 200px;
+}
+
+.info_map_table {
+    table-layout: fixed;
+    width: 400px;
+}
+
+.info_map_td {
+    width: 200px;
+}
+
+#search_div {
+    padding: 20px;
+    margin: 0;
+}
+
+.topic_container {
+    padding: 10px;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background: #c4dcf9;
+    border: 2px solid #2894f7;
+}
+
+.topic_item {
+    padding: 6px;
+    border-radius: 6px;
+    border: solid 1px #edeca7;
+    background-color: #fafaea;
 }
