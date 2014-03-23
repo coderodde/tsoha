@@ -22,7 +22,7 @@ import net.coderodde.multilog.model.DB;
  */
 public class ListTest extends HttpServlet {
 
-    private static final String SELECT_ALL_USERS = "SELECT (username, email) FROM users;";
+    private static final String SELECT_ALL_USERS = "SELECT username, email FROM users;";
 
     /**
      * Processes requests for both HTTP
