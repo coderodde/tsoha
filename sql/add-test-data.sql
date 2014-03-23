@@ -3,8 +3,8 @@
 -- Creates users.
 INSERT INTO users(user_id,
                   username,
- 	          salt,
-	          passwd_hash,
+ 	              salt,
+	              passwd_hash,
                   first_name,
                   last_name,
                   email,
@@ -32,11 +32,11 @@ INSERT INTO users(user_id,
                   first_name,
                   last_name,
                   email,
-	          show_email,
+	              show_email,
                   description,
                   user_type,
                   created_at,
-		  updated_at)
+		          updated_at)
 VALUES
 (2,
  'modde',
@@ -58,11 +58,11 @@ INSERT INTO users(user_id,
                   first_name,
                   last_name,
                   email,
-	          show_email,
+	              show_email,
                   description,
                   user_type,
                   created_at,
-		  updated_at)
+		          updated_at)
 VALUES
 (3,
  'User',
@@ -102,7 +102,7 @@ VALUES
 -- Creates threads.
 INSERT INTO threads (thread_id,
                      topic_id,
-	             thread_name,
+	                 thread_name,
                      created_at,
                      updated_at)
 VALUES
@@ -114,7 +114,7 @@ VALUES
 
 INSERT INTO threads (thread_id,
                      topic_id,
-	             thread_name,
+	                 thread_name,
                      created_at,
                      updated_at)
 VALUES
@@ -126,7 +126,7 @@ VALUES
 
 INSERT INTO threads (thread_id,
                      topic_id,
-	             thread_name,
+	                 thread_name,
                      created_at,
                      updated_at)
 VALUES

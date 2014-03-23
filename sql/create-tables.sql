@@ -36,12 +36,13 @@ CREATE TABLE threads (
 
 -- Create the post table.
 CREATE TABLE posts (
-  post_id    BIGSERIAL PRIMARY KEY,
-  thread_id  BIGSERIAL REFERENCES threads(thread_id),
-  user_id    BIGSERIAL REFERENCES users(user_id),
-  post_text  TEXT NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE NOT NULL,
-  updated_at TIMESTAMP WITH TIME ZONE NOT NULL);
+  post_id     BIGSERIAL PRIMARY KEY,
+  thread_id   BIGSERIAL REFERENCES threads(thread_id),
+  user_id     BIGSERIAL REFERENCES users(user_id),
+  post_text   TEXT NOT NULL,
+  parent_post BIGSERIAL, -- Set if this post is a reply..
+  created_at  TIMESTAMP WITH TIME ZONE NOT NULL,
+  updated_at  TIMESTAMP WITH TIME ZONE NOT NULL);
 
 -- Create the table containing info about the messages that users have 'read'.
 CREATE TABLE message_reads (
