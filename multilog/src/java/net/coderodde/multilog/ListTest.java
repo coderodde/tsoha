@@ -20,7 +20,7 @@ import net.coderodde.multilog.model.DB;
  *
  * @author rodionefremov
  */
-public class ConnectionTest extends HttpServlet {
+public class ListTest extends HttpServlet {
 
     private static final String SELECT_ALL_USERS = "SELECT (username, email) FROM users";
 
