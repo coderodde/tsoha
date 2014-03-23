@@ -1,3 +1,5 @@
+package net.coderodde.multilog;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,12 +14,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.coderodde.multilog.model.DB;
 
 /**
  *
  * @author rodionefremov
  */
-public class ArticleServlet extends HttpServlet {
+public class ConnectionTest extends HttpServlet {
+
+    private static final String SELECT_ALL_USERS = "SELECT (username, email) FROM users";
 
     /**
      * Processes requests for both HTTP
@@ -37,12 +42,12 @@ public class ArticleServlet extends HttpServlet {
         /* TODO output your page here. You may use following sample code. */
         out.println("<html>");
         out.println("<head>");
-        out.println("<title>Servlet ArticleServlet</title>");
+        out.println("<title>ConnectionTest</title>");
         out.println("</head>");
         out.println("<body>");
-        out.println("<h1>Servlet ArticleServlet at " + request.getContextPath() + "</h1>");
+        out.println("<h1>Servlet ConnectionTest at " + request.getContextPath() + "</h1>");
 
-        out.println(getArticlesFromDB());
+        out.println(getUsersFromDB());
 
         try {
             out.println("</body>");
@@ -52,35 +57,25 @@ public class ArticleServlet extends HttpServlet {
         }
     }
 
-    protected String getArticlesFromDB() {
-        InitialContext ic = null;
-        DataSource ds = null;
-
-        try {
-            ic = new InitialContext();
-            ds = (DataSource) ic.lookup("java:/comp/env/jdbc/mlogDB");
-        } catch (NamingException ne) {
-            return "NamingException: " + ne.getMessage();
-        }
-
+    protected String getUsersFromDB() {
         Connection conn = null;
 
         try {
-            conn = ds.getConnection();
+            conn = DB.getConnection();
+        } catch (NamingException ne) {
+            return ne.getMessage();
         } catch (SQLException sqle) {
-            return "SQLException: " + sqle.getMessage();
+            return "SQLException 1: " + sqle.getMessage();
         }
 
         Statement statement = null;
 
         try {
             statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM article;");
-
-
-
+            ResultSet rs = statement.executeQuery(SELECT_ALL_USERS);
             String resultText = getResults(rs);
             statement.close();
+            conn.close();
             return resultText;
         } catch (SQLException sqle) {
             try {
@@ -89,22 +84,21 @@ public class ArticleServlet extends HttpServlet {
                 // ignore.
             }
 
-            return "SQLException: " + sqle.getMessage();
+            return "SQLException 2: " + sqle.getMessage();
         }
     }
 
     String getResults(ResultSet rs) {
         StringBuilder sb = new StringBuilder(8192);
-        sb.append("<table>\n");
+        sb.append("<table>\n")
+          .append("<th><td>Username</td><td>email</td></th>");
 
         try {
             while (rs.next()) {
                 sb.append("<tr><td>")
+                  .append(rs.getString(1))
+                  .append("</td><td>")
                   .append(rs.getString(2))
-                  .append("</td><td>")
-                  .append(rs.getString(3))
-                  .append("</td><td>")
-                  .append(rs.getDate(4))
                   .append("</td></tr>\n");
             }
         } catch (SQLException sqle) {
@@ -153,6 +147,6 @@ public class ArticleServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This is a simple DB-connection test.";
     }// </editor-fold>
 }

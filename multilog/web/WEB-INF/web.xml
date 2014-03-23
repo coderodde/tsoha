@@ -4,9 +4,17 @@
         <servlet-name>ArticleServlet</servlet-name>
         <servlet-class>ArticleServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConnectionTest</servlet-name>
+        <servlet-class>net.coderodde.multilog.ConnectionTest</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ArticleServlet</servlet-name>
         <url-pattern>/ArticleServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConnectionTest</servlet-name>
+        <url-pattern>/ConnectionTest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
