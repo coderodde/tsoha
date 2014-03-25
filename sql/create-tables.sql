@@ -16,8 +16,10 @@ CREATE TABLE users (
   show_email     BOOLEAN DEFAULT TRUE,
   description    TEXT,
   user_type      e_user_type DEFAULT 'User',
+  ban_until      TIMESTAMP WITH TIME ZONE,
   created_at     TIMESTAMP WITH TIME ZONE NOT NULL,
-  updated_at     TIMESTAMP WITH TIME ZONE NOT NULL);
+  updated_at     TIMESTAMP WITH TIME ZONE NOT NULL,
+  removed        BOOLEAN DEFAULT FALSE);
 
 -- Creates the topic table.
 CREATE TABLE topics (

@@ -8,9 +8,39 @@ package net.coderodde.multilog.model;
  */
 public class User {
 
-    private long id;
+    /**
+     * The name of this user.
+     */
     private String username;
+
+    /**
+     * The user category of this user.
+     */
     private UserType userType;
-    private String password;
-    private String salt;
+
+    /**
+     * The first name of this user.
+     */
+    private String firstName;
+
+    /**
+     * The last name of this user.
+     */
+    private String lastName;
+
+    /**
+     * The e-mail address of this user.
+     */
+    private String email;
+
+    /**
+     * If set to <code>true</code>, the first and the last names are displayed
+     * on profile page.
+     */
+    private boolean showRealName;
+
+    /**
+     * If set to <code>true</code>
+     */
+    private boolean showEmail;
 }
