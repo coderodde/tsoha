@@ -1,3 +1,5 @@
+
+
 package net.coderodde.multilog.model;
 
 /**
