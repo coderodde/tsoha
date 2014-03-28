@@ -1,5 +1,3 @@
-
-
 package net.coderodde.multilog.model;
 
 /**
@@ -45,4 +43,38 @@ public class User {
      * If set to <code>true</code>
      */
     private boolean showEmail;
+
+    public User setUsername(final String username) {
+        this.username = username;
+        return this;
+    }
+
+    public User setFirstName(final String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    public User setLastName(final String lastName) {
+        this.lastName = lastName;
+        return this;
+    }
+
+    public User setEmail(final String email) {
+        this.email = email;
+        return this;
+    }
+
+    public User setShowEmail(final boolean showEmail) {
+        this.showEmail = showEmail;
+        return this;
+    }
+
+    public User setShowRealName(final boolean showRealName) {
+        this.showRealName = showRealName;
+        return this;
+    }
+
+    public User end() {
+        return this;
+    }
 }
