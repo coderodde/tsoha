@@ -32,6 +32,11 @@ public class Config {
          * The key name in a session for the password.
          */
         public static final String PASSWORD = "password";
+
+        /**
+         * The key for signed in user.
+         */
+        public static final String SIGNED_IN_USER_ATTRIBUTE = "signed_in";
     }
 
     /**
