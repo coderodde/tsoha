@@ -1,12 +1,13 @@
 package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import net.coderodde.multilog.Config;
+import net.coderodde.multilog.model.User;
 
 /**
  *
@@ -29,16 +30,36 @@ public class HomeServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         if (session == null) {
-            request.setAttribute("right_left", "Sign out (ya)");
-            request.setAttribute("right_left_url", "http://www.ya.ru");
-
-            request.setAttribute("right_right", "Account (yandex)");
-            request.setAttribute("right_right_url", "http://www.yandex.ru");
+            prepareNavibarForUnsignedUser(request);
         } else {
+            User user = (User) session.getAttribute(Config.
+                                                    SESSION_MAGIC.
+                                                    SIGNED_IN_USER_ATTRIBUTE);
 
+            if (user == null) {
+                prepareNavibarForUnsignedUser(request);
+            } else {
+                prepareNavibarForSingedUser(request, user);
+            }
         }
 
         request.getRequestDispatcher("home.jsp").forward(request, response);
+    }
+
+    private void prepareNavibarForUnsignedUser
+            (final HttpServletRequest request) {
+            request.setAttribute("right_left", "Sign in");
+            request.setAttribute("right_left_url", "http://www.ya.ru");
+            request.setAttribute("right_right", "Sign up");
+            request.setAttribute("right_right_url", "http://www.yandex.ru");
+    }
+
+    private void prepareNavibarForSingedUser
+            (final HttpServletRequest request, final User user) {
+        request.setAttribute("right_left", "Sign out");
+        request.setAttribute("right_left_url", "http://www.ya.ru");
+        request.setAttribute("right_right", "Account");
+        request.setAttribute("right_right_url", "http://www.yandex.ru");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

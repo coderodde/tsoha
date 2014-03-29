@@ -24,17 +24,17 @@ public class Config {
     public static final class SESSION_MAGIC {
 
         /**
-         * The key name in a session for user name.
+         * The key name in a session for user name. "username".
          */
         public static final String USERNAME = "username";
 
         /**
-         * The key name in a session for the password.
+         * The key name in a session for the password. "password".
          */
         public static final String PASSWORD = "password";
 
         /**
-         * The key for signed in user.
+         * The key for signed in user. "singed_in".
          */
         public static final String SIGNED_IN_USER_ATTRIBUTE = "signed_in";
     }
