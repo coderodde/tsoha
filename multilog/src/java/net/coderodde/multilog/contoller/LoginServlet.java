@@ -2,12 +2,16 @@ package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import net.coderodde.multilog.Config;
+import net.coderodde.multilog.model.DB;
+import net.coderodde.multilog.model.User;
 
 /**
  *
@@ -17,36 +21,8 @@ import net.coderodde.multilog.Config;
 public class LoginServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {
-            out.close();
-        }
-    }
-
-    /**
-     * Handles the HTTP <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method. Basically, shows a message
+     * discouraging authentication through <tt>GET</tt> - method.
      *
      * @param request servlet request.
      * @param response servlet response.
@@ -58,7 +34,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.getOutputStream().println(
-                "<h1>Please don't use GET method.</h1>");
+              "<h1>Please don't use GET method for signing in multilog.</h1>");
     }
 
     /**
@@ -71,21 +47,91 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs.
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(final HttpServletRequest request,
+                          final HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession hs = request.getSession();
-        String user = (String) hs.getAttribute(Config.SESSION_MAGIC.USERNAME);
+        String username = request.getParameter(Config.SESSION_MAGIC.USERNAME);
+        String password = request.getParameter(Config.SESSION_MAGIC.PASSWORD);
 
-        if (user == null) {
-            response.sendRedirect("index.jsp");
+        System.err.println("[DEBUG] U: " + username + ", P: " + password);
+
+        if (username == null || password == null) {
+            System.err.println("[DEBUG] username or password is null.");
+            request.getRequestDispatcher("signin.jsp")
+                   .forward(request, response);
         }
 
-        String passwd =
-                (String) hs.getAttribute(Config.SESSION_MAGIC.PASSWORD);
+        User user = null;
+
+        try {
+            user = DB.getDatabase().getUser(username, password);
+        } catch (NamingException ne) {
+            System.err.println(Config.ERROR_BADGE + " NamingException happened.");
+            ne.printStackTrace(System.err);
+            request.getRequestDispatcher("signin.jsp")
+                   .forward(request, response);
+        } catch (SQLException sqle) {
+            System.err.println(Config.ERROR_BADGE + " SQLException happened");
+            sqle.printStackTrace(System.err);
+            request.getRequestDispatcher("signin.jsp")
+                   .forward(request, response);
+        }
+
+        if (user == null || user == DB.BAD_PASSWORD_USER) {
+            System.err.println(Config.ERROR_BADGE + " DB did not return user.");
+            request.getRequestDispatcher("signin.jsp")
+                   .forward(request, response);
+        }
+
+        HttpSession session = request.getSession();
+
+        session.setAttribute(Config.SESSION_MAGIC.SIGNED_IN_USER_ATTRIBUTE,
+                             user);
+
+        request.getRequestDispatcher("home").forward(request, response);
+
+//        HttpSession hs = request.getSession();
+//        String username =
+//                (String) hs.getAttribute(Config.SESSION_MAGIC.USERNAME);
+//
+//        if (username == null) {
+//            request.getRequestDispatcher("signin.jsp")
+//                   .forward(request, response);
+//        }
+//
+//        String password =
+//                (String) hs.getAttribute(Config.SESSION_MAGIC.PASSWORD);
+//
+//        if (password == null) {
+//            request.getRequestDispatcher("signin.jsp")
+//                   .forward(request, response);
+//        }
+//
+//        User user = null;
+//
+//        try {
+//            user = DB.getDatabase().getUser(username, password);
+//        } catch (NamingException ne) {
+//            ne.printStackTrace(System.err);
+//            request.getRequestDispatcher("signin.jsp")
+//                   .forward(request, response);
+//        } catch (SQLException sqle) {
+//            sqle.printStackTrace(System.err);
+//            request.getRequestDispatcher("signin.jsp")
+//                   .forward(request, response);
+//        }
+//
+//        if (user == null || user == DB.BAD_PASSWORD_USER) {
+//            request.getRequestDispatcher("signin.jsp")
+//                   .forward(request, response);
+//        } else {
+//            request.getRequestDispatcher("home.jsp")
+//                   .forward(request, response);
+//        }
     }
 
     /**
-     * Returns a short description of the servlet.
+     * Returns a short description of this servlet.
      *
      * @return a servlet description.
      */

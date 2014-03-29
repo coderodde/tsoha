@@ -19,15 +19,30 @@ import net.coderodde.multilog.Config;
  */
 public class DB {
 
+
     /**
      * A sentinel value returned on wrong password.
      */
     public static final User BAD_PASSWORD_USER = new User();
 
     /**
+     * The database abstraction object as a singleton.
+     */
+    private static final DB db = new DB();
+
+    /**
      * The digest implementation.
      */
-    private final MessageDigest md;
+    private MessageDigest md;
+
+    /**
+     * Returns the database abstraction object.
+     *
+     * @return the database abstraction object.
+     */
+    public static final DB getDatabase() {
+        return db;
+    }
 
     /**
      * This static method attempts to establish a connection to the database
@@ -57,12 +72,14 @@ public class DB {
             return null;
         }
 
-        return new User().setEmail(rs.getString("email"))
+        return new User().setId(rs.getLong("user_id"))
+                         .setEmail(rs.getString("email"))
                          .setUsername(rs.getString("username"))
                          .setLastName(rs.getString("last_name"))
                          .setFirstName(rs.getString("first_name"))
                          .setShowEmail(rs.getBoolean("show_email"))
-                         .setShowRealName(rs.getBoolean("show_real_name"));
+                         .setShowRealName(rs.getBoolean("show_real_name"))
+                         .end();
     }
 
     /**
@@ -71,8 +88,12 @@ public class DB {
      * @throws NoSuchAlgorithmException in case there is no support for
      * SHA-256 - algorithm (should not happen).
      */
-    public DB() throws NoSuchAlgorithmException {
-        this.md = MessageDigest.getInstance("SHA-256");
+    private DB() {
+        try {
+            this.md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException nsae) {
+            nsae.printStackTrace(System.err);
+        }
     }
 
     /**
@@ -101,16 +122,16 @@ public class DB {
         String resultHash = sb.toString();
         return resultHash.equals(passwordHash);
     }
-    
+
     /**
      * Retrieves a user from a database by user name and password.
      *
      * @param username the user name.
      * @param password the password.
      *
-     * @return return the user object, or <code>null</code> if the query did not
-     * return any rows. (In case the username exists, but the password failed,
-     * returns <code>BAD_PASSWORD_USER</code>.)
+     * @return returns the user object, or <code>null</code> if the query did
+     * not return any rows. (In case the username exists, but the password
+     * failed, returns <code>BAD_PASSWORD_USER</code>.)
      *
      * @throws NamingException
      * @throws SQLException

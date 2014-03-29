@@ -49,7 +49,7 @@ public class HomeServlet extends HttpServlet {
     private void prepareNavibarForUnsignedUser
             (final HttpServletRequest request) {
             request.setAttribute("right_left", "Sign in");
-            request.setAttribute("right_left_url", "http://www.ya.ru");
+            request.setAttribute("right_left_url", "signin.jsp");
             request.setAttribute("right_right", "Sign up");
             request.setAttribute("right_right_url", "http://www.yandex.ru");
     }

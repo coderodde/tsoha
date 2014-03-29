@@ -27,7 +27,7 @@
 
                 <table class="info_table">
                     <tr>
-                        <td class="info_td"><img src="../img/loldog.jpeg" width="200px" height="200px"></td>
+                        <td class="info_td"><img src="img/loldog.jpeg" width="200px" height="200px"></td>
                         <td class="info_td">
                             <table class="info_map_table">
                                 <tr>

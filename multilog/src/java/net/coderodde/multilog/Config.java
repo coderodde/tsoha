@@ -19,6 +19,11 @@ public class Config {
             "java:/comp/env/jdbc/mlogDB";
 
     /**
+     * For the sake of better server logs.
+     */
+    public static final String ERROR_BADGE = "[Error] ";
+
+    /**
      * Session related magic data.
      */
     public static final class SESSION_MAGIC {
