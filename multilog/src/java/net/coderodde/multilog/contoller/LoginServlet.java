@@ -57,8 +57,10 @@ public class LoginServlet extends HttpServlet {
 
         if (username == null || password == null) {
             System.err.println("[DEBUG] username or password is null.");
+            request.setAttribute("notice", "Line 58");
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
+            return;
         }
 
         User user = null;
@@ -68,19 +70,25 @@ public class LoginServlet extends HttpServlet {
         } catch (NamingException ne) {
             System.err.println(Config.ERROR_BADGE + " NamingException happened.");
             ne.printStackTrace(System.err);
+            request.setAttribute("notice", "Line 70");
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
+            return;
         } catch (SQLException sqle) {
             System.err.println(Config.ERROR_BADGE + " SQLException happened");
             sqle.printStackTrace(System.err);
+            request.setAttribute("notice", "Line 77");
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
+            return;
         }
 
         if (user == null || user == DB.BAD_PASSWORD_USER) {
             System.err.println(Config.ERROR_BADGE + " DB did not return user.");
+            request.setAttribute("notice", "Line 86");
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
+            return;
         }
 
         HttpSession session = request.getSession();
@@ -89,6 +97,8 @@ public class LoginServlet extends HttpServlet {
                              user);
 
         request.getRequestDispatcher("home").forward(request, response);
+            request.setAttribute("notice", "Success!");
+        return;
 
 //        HttpSession hs = request.getSession();
 //        String username =

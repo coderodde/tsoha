@@ -16,13 +16,16 @@
 
             <div id="navibar">
             </div>
+
             <hr/>
+
             <h2>Sign in:</h2>
             <form action="login" method="POST">
                 User name: <input type="text"     name="<%= Config.SESSION_MAGIC.USERNAME %>"><br>
                 Password:  <input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD %>"><br>
                 <input type="submit" value="Sign in!">
             </form>
+                <p>${notice}</p>
         </div>
     </body>
 </html>
