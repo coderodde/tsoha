@@ -53,6 +53,6 @@ public class Config {
          * The template for fetching the user by a name and a password.
          */
         public static final String FETCH_USER_BY_NAME =
-                "SELECT * FROM users WHERE usename IS '?';";
+                "SELECT * FROM users WHERE username = '?';";
     }
 }
