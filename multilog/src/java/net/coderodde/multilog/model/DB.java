@@ -1,5 +1,6 @@
 package net.coderodde.multilog.model;
 
+import java.io.Closeable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -149,26 +150,30 @@ public class DB {
 
         if (rs.next() == false) {
             // No rows with user name 'username'.
+            rs.close();
+            ps.close();
+            conn.close();
             return null;
         }
 
         if (checkPassword(password,
                           rs.getString("salt"),
                           rs.getString("passwd_hash")) == false) {
+            rs.close();
+            ps.close();
+            conn.close();
             return BAD_PASSWORD_USER;
         }
 
         // Querying and wrapping.
-        return loadUser(ps.executeQuery());
-    }
+        User user = loadUser(ps.executeQuery());
 
-    public static void main(String... args) throws Exception {
-        DB db = new DB();
+        // Closing resources.
+        rs.close();
+        ps.close();
+        conn.close();
 
-        boolean b = db.checkPassword("ExploringMu17110g",
-                         "abcdefghhgfedcbaabcdefghhgfedcba",
-                         "f13dc67158d24876c62ff4dd3694c138a12f0e34f0999b01eb8f8764ab8f00c0");
-
-        System.out.println(b);
+        // Returning the signed in user.
+        return user;
     }
 }
