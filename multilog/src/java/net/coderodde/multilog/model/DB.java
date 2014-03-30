@@ -12,6 +12,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import net.coderodde.multilog.Config;
+import static net.coderodde.multilog.Utils.closeResources;
 
 /**
  *
@@ -150,18 +151,14 @@ public class DB {
 
         if (rs.next() == false) {
             // No rows with user name 'username'.
-            rs.close();
-            ps.close();
-            conn.close();
+            closeResources(conn, ps, rs);
             return null;
         }
 
         if (checkPassword(password,
                           rs.getString("salt"),
                           rs.getString("passwd_hash")) == false) {
-            rs.close();
-            ps.close();
-            conn.close();
+            closeResources(conn, ps, rs);
             return BAD_PASSWORD_USER;
         }
 
@@ -169,9 +166,7 @@ public class DB {
         User user = loadUser(ps.executeQuery());
 
         // Closing resources.
-        rs.close();
-        ps.close();
-        conn.close();
+        closeResources(conn, ps, rs);
 
         // Returning the signed in user.
         return user;

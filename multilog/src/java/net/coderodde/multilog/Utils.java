@@ -1,11 +1,15 @@
 package net.coderodde.multilog;
 
 import java.security.SecureRandom;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Random;
 
 /**
  * This class provides utilities for multilog.
- * 
+ *
  * @author Rodion Efremov
  */
 public class Utils {
@@ -16,13 +20,41 @@ public class Utils {
         r.nextBytes(salt);
         return salt;
     }
+
+    public static final void closeResources(final Connection connection,
+                                            final Statement statement,
+                                            final ResultSet resultSet) {
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException sqle) {
+
+            }
+        }
+
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException sqle) {
+
+            }
+        }
+
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException sqle) {
+
+            }
+        }
+    }
     
     public static void main(String... args) {
         int i = 32;
-        
+
         do {
             char c = (char) i;
-            
+
             System.out.printf("%3d %c\n", i, c);
             i++;
         } while (i < 128);
