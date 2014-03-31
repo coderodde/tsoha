@@ -1,7 +1,6 @@
 package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -53,10 +52,7 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter(Config.SESSION_MAGIC.USERNAME);
         String password = request.getParameter(Config.SESSION_MAGIC.PASSWORD);
 
-        System.err.println("[DEBUG] U: " + username + ", P: " + password);
-
         if (username == null || password == null) {
-            System.err.println("[DEBUG] username or password is null.");
             request.setAttribute("notice", "Line 58");
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
@@ -68,14 +64,12 @@ public class LoginServlet extends HttpServlet {
         try {
             user = DB.getDatabase().getUser(username, password);
         } catch (NamingException ne) {
-            System.err.println(Config.ERROR_BADGE + " NamingException happened.");
             ne.printStackTrace(System.err);
             request.setAttribute("notice", "Line 70");
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
             return;
         } catch (SQLException sqle) {
-            System.err.println(Config.ERROR_BADGE + " SQLException happened");
             sqle.printStackTrace(System.err);
             request.setAttribute("notice", "Line 77");
             request.getRequestDispatcher("signin.jsp")
@@ -84,7 +78,6 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (user == null || user == DB.BAD_PASSWORD_USER) {
-            System.err.println(Config.ERROR_BADGE + " DB did not return user.");
             request.setAttribute("notice", "Line 86");
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
@@ -96,48 +89,8 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute(Config.SESSION_MAGIC.SIGNED_IN_USER_ATTRIBUTE,
                              user);
 
+        request.setAttribute("notice", "Success!");
         request.getRequestDispatcher("home").forward(request, response);
-            request.setAttribute("notice", "Success!");
-        return;
-
-//        HttpSession hs = request.getSession();
-//        String username =
-//                (String) hs.getAttribute(Config.SESSION_MAGIC.USERNAME);
-//
-//        if (username == null) {
-//            request.getRequestDispatcher("signin.jsp")
-//                   .forward(request, response);
-//        }
-//
-//        String password =
-//                (String) hs.getAttribute(Config.SESSION_MAGIC.PASSWORD);
-//
-//        if (password == null) {
-//            request.getRequestDispatcher("signin.jsp")
-//                   .forward(request, response);
-//        }
-//
-//        User user = null;
-//
-//        try {
-//            user = DB.getDatabase().getUser(username, password);
-//        } catch (NamingException ne) {
-//            ne.printStackTrace(System.err);
-//            request.getRequestDispatcher("signin.jsp")
-//                   .forward(request, response);
-//        } catch (SQLException sqle) {
-//            sqle.printStackTrace(System.err);
-//            request.getRequestDispatcher("signin.jsp")
-//                   .forward(request, response);
-//        }
-//
-//        if (user == null || user == DB.BAD_PASSWORD_USER) {
-//            request.getRequestDispatcher("signin.jsp")
-//                   .forward(request, response);
-//        } else {
-//            request.getRequestDispatcher("home.jsp")
-//                   .forward(request, response);
-//        }
     }
 
     /**

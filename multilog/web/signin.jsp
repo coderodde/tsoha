@@ -19,13 +19,17 @@
 
             <hr/>
 
-            <h2>Sign in:</h2>
-            <form action="login" method="POST">
-                User name: <input type="text"     name="<%= Config.SESSION_MAGIC.USERNAME %>"><br>
-                Password:  <input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD %>"><br>
-                <input type="submit" value="Sign in!">
-            </form>
-                <p>${notice}</p>
+            <div id="sign_in_div">
+                <h2>Sign in:</h2>
+                <form action="login" method="POST">
+                    <table>
+                        <tr><td>User name:</td><td><input type="text" name="<%= Config.SESSION_MAGIC.USERNAME %>"</td></tr>
+                        <tr><td>Password: </td><td><input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD %>"</td></tr>
+                        <tr><td><input type="submit" value="Sign in!"></td><td></td></tr>
+                    </table>
+                </form>
+                <p style="color: red;">${notice}</p>
+            </div>
         </div>
     </body>
 </html>

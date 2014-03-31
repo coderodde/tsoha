@@ -16,6 +16,10 @@
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>net.coderodde.multilog.contoller.HomeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SignoutServlet</servlet-name>
+        <servlet-class>net.coderodde.multilog.contoller.SignoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ArticleServlet</servlet-name>
         <url-pattern>/ArticleServlet</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignoutServlet</servlet-name>
+        <url-pattern>/signout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

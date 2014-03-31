@@ -46,19 +46,19 @@ public class HomeServlet extends HttpServlet {
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
-    private void prepareNavibarForUnsignedUser
-            (final HttpServletRequest request) {
-            request.setAttribute("right_left", "Sign in");
-            request.setAttribute("right_left_url", "signin.jsp");
-            request.setAttribute("right_right", "Sign up");
-            request.setAttribute("right_right_url", "http://www.yandex.ru");
+    static void prepareNavibarForUnsignedUser
+        (final HttpServletRequest request) {
+        request.setAttribute("right_left", "Sign in");
+        request.setAttribute("right_left_url", "signin.jsp");
+        request.setAttribute("right_right", "Sign up");
+        request.setAttribute("right_right_url", "http://www.yandex.ru");
     }
 
-    private void prepareNavibarForSingedUser
-            (final HttpServletRequest request, final User user) {
+    static void prepareNavibarForSingedUser
+        (final HttpServletRequest request, final User user) {
         request.setAttribute("right_left", "Sign out");
         request.setAttribute("right_left_url", "http://www.ya.ru");
-        request.setAttribute("right_right", "Account");
+        request.setAttribute("right_right", user.getUsername());
         request.setAttribute("right_right_url", "http://www.yandex.ru");
     }
 

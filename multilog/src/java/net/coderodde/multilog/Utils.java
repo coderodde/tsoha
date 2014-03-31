@@ -48,15 +48,4 @@ public class Utils {
             }
         }
     }
-    
-    public static void main(String... args) {
-        int i = 32;
-
-        do {
-            char c = (char) i;
-
-            System.out.printf("%3d %c\n", i, c);
-            i++;
-        } while (i < 128);
-    }
 }
