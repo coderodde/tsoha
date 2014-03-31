@@ -10,23 +10,26 @@ import net.coderodde.multilog.Config;
 import net.coderodde.multilog.model.User;
 
 /**
+ * This servlet customizes the home view of multilog.
  *
- * @author rodionefremov
+ * @author Rodion Efremov
+ * @version 0.1
  */
 public class HomeServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @param request servlet request.
+     * @param response servlet response.
+     *
+     * @throws ServletException if a servlet-specific error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // false as return null, if no session.
         HttpSession session = request.getSession(false);
 
         if (session == null) {
@@ -46,6 +49,11 @@ public class HomeServlet extends HttpServlet {
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
+    /**
+     * Sets up the request for unsigned users.
+     *
+     * @param request the request object.
+     */
     static void prepareNavibarForUnsignedUser
         (final HttpServletRequest request) {
         request.setAttribute("right_left", "Sign in");
@@ -54,6 +62,12 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("right_right_url", "http://www.yandex.ru");
     }
 
+    /**
+     * Sets up the request for a signed in user.
+     *
+     * @param request the request object.
+     * @param user the user object.
+     */
     static void prepareNavibarForSingedUser
         (final HttpServletRequest request, final User user) {
         request.setAttribute("right_left", "Sign out");
@@ -63,13 +77,13 @@ public class HomeServlet extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP
-     * <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @param request servlet request.
+     * @param response servlet response.
+     *
+     * @throws ServletException if a servlet-specific error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -78,13 +92,13 @@ public class HomeServlet extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP
-     * <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @param request servlet request.
+     * @param response servlet response.
+     *
+     * @throws ServletException if a servlet-specific error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

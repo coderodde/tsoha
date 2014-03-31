@@ -1,7 +1,6 @@
 package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -63,6 +62,7 @@ public class SignoutServlet extends HttpServlet {
      *
      * @param request servlet request.
      * @param response servlet response.
+     *
      * @throws ServletException if a servlet-specific error occurs.
      * @throws IOException if an I/O error occurs.
      */
@@ -75,7 +75,7 @@ public class SignoutServlet extends HttpServlet {
     /**
      * Returns a short description of the servlet.
      *
-     * @return a String containing servlet description
+     * @return a String containing servlet description.
      */
     @Override
     public String getServletInfo() {

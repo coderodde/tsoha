@@ -91,9 +91,11 @@ public class Topic {
     }
 
     /**
-     * Syntax sugar.
+     * Syntactic sugar.
+     *
+     * @return this.
      */
-    public void end() {
-
+    public Topic end() {
+        return this;
     }
 }

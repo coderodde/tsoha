@@ -13,6 +13,8 @@ import net.coderodde.multilog.model.DB;
 import net.coderodde.multilog.model.User;
 
 /**
+ * This servlet authenticates the users, and upon successful authentication
+ * creates a session for the user.
  *
  * @author Rodion Efremov
  * @version 0.1
@@ -33,11 +35,11 @@ public class SigninServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.getOutputStream().println(
-              "<h1>Please don't use GET method for signing in multilog.</h1>");
+              "Please don't use GET method for signing in multilog.");
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method containing the signing data.
      *
      * @param request servlet request.
      * @param response servlet response.
@@ -82,14 +84,14 @@ public class SigninServlet extends HttpServlet {
         } catch (NamingException ne) {
             ne.printStackTrace(System.err);
             request.setAttribute("notice",
-                                 "DB failed at line 81: " + ne.getMessage());
+                                 "DB failed at line 83: " + ne.getMessage());
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
             return;
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
             request.setAttribute("notice",
-                                 "DB failed at line 81: " + sqle.getMessage());
+                                 "DB failed at line 83: " + sqle.getMessage());
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
             return;

@@ -116,9 +116,11 @@ public class Thread {
     }
 
     /**
-     * Syntax sugar.
+     * Syntactic sugar.
+     *
+     * @return this.
      */
-    public void end() {
-
+    public Thread end() {
+        return this;
     }
 }

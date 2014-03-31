@@ -203,7 +203,7 @@ public class User {
     }
 
     /**
-     * Syntactic sugarrrr.
+     * Syntactic sugar.
      *
      * @return itself.
      */

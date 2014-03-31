@@ -1,7 +1,5 @@
 package net.coderodde.multilog.model;
 
-import java.io.Closeable;
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -15,6 +13,7 @@ import net.coderodde.multilog.Config;
 import static net.coderodde.multilog.Utils.closeResources;
 
 /**
+ * This class defines the abstraction layer upon a database.
  *
  * @author Rodion Efremov
  * @version 0.1
@@ -48,7 +47,7 @@ public class DB {
 
     /**
      * This static method attempts to establish a connection to the database
-     * and, upon success, returns it.
+     * and, upon success, returns it. Don't forget to close it.
      *
      * @return the connection to the database.
      * @throws NamingException

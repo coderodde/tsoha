@@ -97,44 +97,48 @@ public class Post {
         return parentPost;
     }
 
-
     /**
-     * Sets the
-     * @param
-     * @return this for chaining.
+     * Sets the user of this post.
+     *
+     * @param user the user of this post.
+     *
+     * @return itself for chaining.
      */
     public Post setUser(final User user) {
         this.user = user;
         return this;
     }
 
-
     /**
-     * Sets the
-     * @param
-     * @return this for chaining.
+     * Sets the thread of this post.
+     *
+     * @param thread the thread of this post.
+     *
+     * @return itself for chaining.
      */
     public Post setThread(final Thread thread) {
         this.thread = thread;
         return this;
     }
 
-
     /**
-     * Sets the
-     * @param
-     * @return this for chaining.
+     * Sets the text of this post.
+     *
+     * @param text the text of this post.
+     *
+     * @return itself for chaining.
      */
     public Post setText(final String text) {
         this.text = text;
         return this;
     }
 
-
     /**
-     * Sets the
-     * @param
-     * @return this for chaining.
+     * Sets the creation timestamp.
+     *
+     * @param createdAt the creation timestamp.
+     *
+     * @return itself for chaining.
      */
     public Post setCreatedAtTimestamp(final Timestamp createdAt) {
         this.createdAt = createdAt;
@@ -143,8 +147,10 @@ public class Post {
 
 
     /**
-     * Sets the
-     * @param
+     * Sets the update timestamp.
+     *
+     * @param updateAt update timestamp.
+     *
      * @return this for chaining.
      */
     public Post setUpdatedAtTimestamp(Timestamp updatedAt) {
@@ -153,12 +159,23 @@ public class Post {
     }
 
     /**
-     * Sets the
-     * @param
+     * Sets the parent post of this post.
+     *
+     * @param parentPost the parent post.
+     *
      * @return this for chaining.
      */
     public Post setParentPost(final Post parentPost) {
         this.parentPost = parentPost;
+        return this;
+    }
+
+    /**
+     * Syntactic sugar.
+     *
+     * @return this.
+     */
+    public Post end() {
         return this;
     }
 }
