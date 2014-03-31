@@ -17,7 +17,7 @@ import net.coderodde.multilog.model.User;
  * @author Rodion Efremov
  * @version 0.1
  */
-public class LoginServlet extends HttpServlet {
+public class SigninServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method. Basically, shows a message
@@ -53,7 +53,23 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter(Config.SESSION_MAGIC.PASSWORD);
 
         if (username == null || password == null) {
-            request.setAttribute("notice", "Line 58");
+            StringBuilder sb = new StringBuilder(1024);
+            int c = 0;
+
+            if (username == null) {
+                sb.append("User name is missing.");
+                c++;
+            }
+
+            if (password == null) {
+                if (c == 1) {
+                    sb.append("<br>");
+                }
+
+                sb.append("Password is missing.");
+            }
+
+            request.setAttribute("notice", sb.toString());
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
             return;
@@ -65,31 +81,32 @@ public class LoginServlet extends HttpServlet {
             user = DB.getDatabase().getUser(username, password);
         } catch (NamingException ne) {
             ne.printStackTrace(System.err);
-            request.setAttribute("notice", "Line 70");
+            request.setAttribute("notice",
+                                 "DB failed at line 81: " + ne.getMessage());
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
             return;
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
-            request.setAttribute("notice", "Line 77");
+            request.setAttribute("notice",
+                                 "DB failed at line 81: " + sqle.getMessage());
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
             return;
         }
 
         if (user == null || user == DB.BAD_PASSWORD_USER) {
-            request.setAttribute("notice", "Line 86");
+            request.setAttribute("notice", "Authentication failed!");
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
             return;
         }
 
         HttpSession session = request.getSession();
-
         session.setAttribute(Config.SESSION_MAGIC.SIGNED_IN_USER_ATTRIBUTE,
                              user);
-
-        request.setAttribute("notice", "Success!");
+        request.setAttribute("notice",
+                             "Signed in as " + user.getUsername() + "!");
         request.getRequestDispatcher("home").forward(request, response);
     }
 
