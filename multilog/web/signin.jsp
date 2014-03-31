@@ -21,7 +21,7 @@
 
             <div id="sign_in_div">
                 <h2>Sign in:</h2>
-                <form action="login" method="POST">
+                <form action="signin" method="POST">
                     <table>
                         <tr><td>User name:</td><td><input type="text" name="<%= Config.SESSION_MAGIC.USERNAME %>"</td></tr>
                         <tr><td>Password: </td><td><input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD %>"</td></tr>
