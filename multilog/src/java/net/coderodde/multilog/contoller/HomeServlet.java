@@ -57,7 +57,7 @@ public class HomeServlet extends HttpServlet {
     static void prepareNavibarForSingedUser
         (final HttpServletRequest request, final User user) {
         request.setAttribute("right_left", "Sign out");
-        request.setAttribute("right_left_url", "http://www.ya.ru");
+        request.setAttribute("right_left_url", "signout");
         request.setAttribute("right_right", user.getUsername());
         request.setAttribute("right_right_url", "http://www.yandex.ru");
     }
