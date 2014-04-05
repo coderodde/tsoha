@@ -21,7 +21,7 @@
             <div class="topic_container">
                 <h2>Topics</h2>
                 <c:forEach var="topic" items="${requestScope.topicList}">
-                    <div class="topic_item" onclick="window.location='https://www.google.fi'">${topic.name} <span class="float_right topic_entry_time_text">U: ${topic.updatedAt} C: ${topic.createdAt}</span></div>
+                    <div class="topic_item" onclick="window.location='topic?id=${topic.id}'">${topic.name} <span class="float_right topic_entry_time_text">U: ${topic.updatedAt} C: ${topic.createdAt}</span></div>
                 </c:forEach>
             </div>
         </div>

@@ -46,20 +46,22 @@ public class TopicServlet extends HttpServlet {
 
             if (id != -1) {
                 if (serveParticularThread(id, request)) {
-                    request.getRequestDispatcher("threadview.jsp").forward(request, response);
+                    request.getRequestDispatcher("threadview.jsp")
+                           .forward(request, response);
                     return;
                 }
             }
         }
 
         // If here, show all topics.
+        List<Topic> topicList = Topic.getAllTopics();
+//
+//        List<Topic> shit = new ArrayList<Topic>();
+//
+//        shit.add(new Topic().setName("Maths").setCreatedAtTimestamp(new Timestamp(System.currentTimeMillis() + 1000000)));
+//        shit.add(new Topic().setName("Computer science").setCreatedAtTimestamp(new Timestamp(System.currentTimeMillis())).setUpdatedAtTimestamp(new Timestamp(System.currentTimeMillis() + 500000)));
 
-        List<Topic> shit = new ArrayList<Topic>();
-
-        shit.add(new Topic().setName("Maths").setCreatedAtTimestamp(new Timestamp(System.currentTimeMillis() + 1000000)));
-        shit.add(new Topic().setName("Computer science").setCreatedAtTimestamp(new Timestamp(System.currentTimeMillis())).setUpdatedAtTimestamp(new Timestamp(System.currentTimeMillis() + 500000)));
-
-        request.setAttribute("topicList", shit);
+        request.setAttribute("topicList", topicList);
         request.getRequestDispatcher("topicview.jsp").forward(request, response);
     }
 
