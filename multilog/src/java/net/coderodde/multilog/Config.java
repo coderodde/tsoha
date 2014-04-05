@@ -42,6 +42,11 @@ public class Config {
          * The key for signed in user. "singed_in".
          */
         public static final String SIGNED_IN_USER_ATTRIBUTE = "signed_in";
+
+        /**
+         * The key for IDs passed to different views.
+         */
+        public static final String ID = "id";
     }
 
     /**

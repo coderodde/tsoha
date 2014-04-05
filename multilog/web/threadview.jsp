@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>multilog | root</title>
+        <title>multilog</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/multilog.css">
         <link rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/teknik" type="text/css"/>
@@ -24,10 +24,10 @@
             </div>
             <hr/>
 
-            <div class="topic_container">
-                <h2>Topics</h2>
-                <c:forEach var="topic" items="${requestScope.topicList}">
-                    <div class="topic_item" onclick="window.location='https://www.google.fi'">${topic.name} <span class="float_right topic_entry_time_text">U: ${topic.updatedAt} C: ${topic.createdAt}</span></div>
+            <div class="thread_container">
+                <h2>Threads on ${topic_name}</h2>
+                <c:forEach var="thread" items="${requestScope.threadList}" >
+                    <div class="thread_item" onclick="window.location='www.google.fi'">${thread.name}</div>
                 </c:forEach>
             </div>
         </div>

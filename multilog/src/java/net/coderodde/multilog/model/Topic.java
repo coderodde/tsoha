@@ -40,13 +40,17 @@ public class Topic {
     private Timestamp updatedAt;
 
     public static final Topic getTopicById(final long id) {
-        Connection conn = DB.getConnection();
-
-        if (conn == null) {
-            return null;
-        }
-
-        return null;
+        return new Topic().setId(id)
+                          .setName("Funkify topic")
+                          .setCreatedAtTimestamp(new Timestamp(System.currentTimeMillis()))
+                          .setUpdatedAtTimestamp(new Timestamp(System.currentTimeMillis() + 1000000));
+//        Connection conn = DB.getConnection();
+//
+//        if (conn == null) {
+//            return null;
+//        }
+//
+//        return null;
     }
 
     public static final List<Topic> getAllTopics() {
@@ -139,6 +143,14 @@ public class Topic {
      */
     public Timestamp getUpdatedAt() {
         return updatedAt;
+    }
+
+    public List<Thread> getThreads() {
+        List<Thread> threadList = new ArrayList<Thread>(3);
+        threadList.add(new Thread().setName("Algorithms"));
+        threadList.add(new Thread().setName("Data structures"));
+        threadList.add(new Thread().setName("Theory"));
+        return threadList;
     }
 
     /**
