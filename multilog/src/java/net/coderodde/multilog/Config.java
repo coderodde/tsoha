@@ -60,7 +60,16 @@ public class Config {
         public static final String FETCH_USER_BY_NAME =
                 "SELECT * FROM users WHERE username = ?;";
 
+        /**
+         * The query to get all available topics.
+         */
         public static final String FETCH_ALL_TOPICS =
                 "SELECT * FROM topics;";
+
+        /**
+         * The template for getting a topic by its ID.
+         */
+        public static final String FETCH_TOPIC_BY_ID =
+                "SELECT * FROM topics WHERE topic_id = ?;";
     }
 }

@@ -73,6 +73,16 @@ public class DB {
         }
     }
 
+    public static final PreparedStatement getPreparedStatement
+            (final Connection connection, final String sql) {
+        try {
+            return connection.prepareStatement(sql);
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            return null;
+        }
+    }
+
     /**
      * Loads the user object from the result set. (Assumes that there were no
      * <code>next()</code> calls upon the result set.)

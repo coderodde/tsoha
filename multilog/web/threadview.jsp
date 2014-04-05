@@ -14,14 +14,8 @@
                 <img id="logo" src="img/multilogo.png" />
             </div>
 
-            <div id="navibar">
-                <ul id="navilist" class="no_bullets">
-                    <li class="list-left-item navibar-item"><div onclick="window.location='search.html'">Search</div></li>
-                    <li class="list-left-item navibar-item"><div onclick="window.location='browse.html'">Browse</div></li>
-                    <li class="list-right-item navibar-item"><div onclick="window.location='https://www.google.fi'">Sign out</div></li>
-                    <li class="list-right-item navibar-item"><div onclick="window.location='home.html'">Account</div></li>
-                </ul>
-            </div>
+            <%@ include file="navibar.jspf" %>
+
             <hr/>
 
             <div class="thread_container">

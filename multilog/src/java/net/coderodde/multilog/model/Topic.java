@@ -1,6 +1,7 @@
 package net.coderodde.multilog.model;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -40,17 +41,38 @@ public class Topic {
     private Timestamp updatedAt;
 
     public static final Topic getTopicById(final long id) {
-        return new Topic().setId(id)
-                          .setName("Funkify topic")
-                          .setCreatedAtTimestamp(new Timestamp(System.currentTimeMillis()))
-                          .setUpdatedAtTimestamp(new Timestamp(System.currentTimeMillis() + 1000000));
-//        Connection conn = DB.getConnection();
+//        return new Topic().setId(id)
+//                          .setName("Funkify topic")
+//                          .setCreatedAtTimestamp(new Timestamp(System.currentTimeMillis()))
+//                          .setUpdatedAtTimestamp(new Timestamp(System.currentTimeMillis() + 1000000));
+        Connection conn = DB.getConnection();
 //
-//        if (conn == null) {
-//            return null;
-//        }
-//
-//        return null;
+        if (conn == null) {
+            return null;
+        }
+
+        PreparedStatement ps =
+                DB.getPreparedStatement(conn,
+                                        Config.SQL_MAGIC.FETCH_TOPIC_BY_ID);
+
+        if (ps == null) {
+            closeResources(conn, null, null);
+        }
+
+        ResultSet rs = null;
+
+        try {
+            ps.setLong(1, id);
+            rs = ps.executeQuery();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(conn, ps, rs);
+            return null;
+        }
+
+        Topic topic = extractTopic(rs);
+        closeResources(conn, ps, rs);
+        return topic;
     }
 
     public static final List<Topic> getAllTopics() {
@@ -82,6 +104,25 @@ public class Topic {
         return topicList;
     }
 
+    private static final Topic extractTopic(ResultSet rs) {
+        try {
+            if (rs.next() == false) {
+                return null;
+            }
+
+            Topic topic = new Topic();
+
+            return topic.setId(rs.getLong("topic_id"))
+                        .setName(rs.getString("topic_name"))
+                        .setCreatedAtTimestamp(rs.getTimestamp("created_at"))
+                        .setUpdatedAtTimestamp(rs.getTimestamp("updated_at"))
+                        .end();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            return null;
+        }
+    }
+
     private static final List<Topic> extractTopics(final ResultSet rs) {
         List<Topic> topicList = new ArrayList<Topic>();
 
@@ -96,8 +137,8 @@ public class Topic {
                 Topic t = new Topic().setId(ID)
                                      .setName(NAME)
                                      .setCreatedAtTimestamp(CREATED_AT)
-                                     .setUpdatedAtTimestamp(UPDATED_AT);
-
+                                     .setUpdatedAtTimestamp(UPDATED_AT)
+                                     .end();
                 topicList.add(t);
             }
         } catch (SQLException sqle) {
