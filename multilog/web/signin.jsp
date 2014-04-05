@@ -14,7 +14,7 @@
                 <img id="logo" src="img/multilogo.png" />
             </div>
 
-            <%@ include file="/common/navibar.jspf" %>
+            <%@ include file="navibar.jspf" %>
 
             <hr/>
 
