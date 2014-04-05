@@ -1,5 +1,5 @@
-<%@page import="net.coderodde.multilog.Config"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="net.coderodde.multilog.Config"%>
 <!DOCTYPE html>
 <html>
     <head>
