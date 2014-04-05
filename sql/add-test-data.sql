@@ -77,6 +77,30 @@ VALUES
  NOW(),
  NOW());
 
+INSERT INTO users(user_id,
+                  username,
+                  salt,
+                  passwd_hash,
+                  first_name,
+                  last_name,
+                  email,
+                  description,
+                  user_type,
+                  created_at,
+                  updated_at)
+VALUES
+(4,
+ 'MC_Admin',
+ 'abcdef01234567890123456789abcdef',
+ '508c034de43bf77e535af1e2b18d4624541309ba8525a0961edaea3cb71d5e00',
+ 'George',
+ 'Phunkeeh',
+ 'phunkeeh@gaymail.com',
+ 'Hello, glad to be an admin.',
+ 'Admin',
+ NOW(),
+ NOW());
+
 -- Creates topics.
 INSERT INTO topics (topic_id,
                     topic_name,
