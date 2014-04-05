@@ -187,10 +187,60 @@ public class Topic {
     }
 
     public List<Thread> getThreads() {
-        List<Thread> threadList = new ArrayList<Thread>(3);
-        threadList.add(new Thread().setName("Algorithms"));
-        threadList.add(new Thread().setName("Data structures"));
-        threadList.add(new Thread().setName("Theory"));
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return null;
+        }
+
+        PreparedStatement ps =
+                DB.getPreparedStatement(connection,
+                                        Config.
+                                        SQL_MAGIC.
+                                        FETCH_THREADS_BY_TOPIC_ID);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+            return null;
+        }
+
+        ResultSet rs = null;
+        List<Thread> threadList = null;
+
+        try {
+            ps.setLong(1, getId());
+            rs = ps.executeQuery();
+            threadList = extractAllThreads(rs);
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, rs);
+            return null;
+        }
+
+        closeResources(connection, ps, rs);
+        return threadList;
+    }
+
+    private static final List<Thread> extractAllThreads(ResultSet rs) {
+        List<Thread> threadList = new ArrayList<Thread>();
+
+        try {
+            while (rs.next()) {
+                Thread t = new Thread();
+                t.setId(rs.getLong("thread_id"))
+                 .setTopicId(rs.getLong("topic_id"))
+                 .setName(rs.getString("thread_name"))
+                 .setCreatedAtTimestamp(rs.getTimestamp("created_at"))
+                 .setUpdatedAtTimestamp(rs.getTimestamp("updated_at"))
+                 .end();
+
+                threadList.add(t);
+            }
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            return null;
+        }
+
         return threadList;
     }
 

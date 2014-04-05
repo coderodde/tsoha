@@ -71,5 +71,11 @@ public class Config {
          */
         public static final String FETCH_TOPIC_BY_ID =
                 "SELECT * FROM topics WHERE topic_id = ?;";
+
+        /**
+         * The template for getting all the threads with a specified topic ID.
+         */
+        public static final String FETCH_THREADS_BY_TOPIC_ID =
+                "SELECT * FROM threads WHERE topic_id = ?;";
     }
 }

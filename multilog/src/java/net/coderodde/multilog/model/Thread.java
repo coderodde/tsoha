@@ -11,6 +11,16 @@ import java.sql.Timestamp;
 public class Thread {
 
     /**
+     * This field holds the ID of this thread.
+     */
+    private long id;
+
+    /**
+     * This field holds the ID of the topic this thread belongs to.
+     */
+    private long topicId;
+
+    /**
      * This field holds the name of this thread.
      */
     private String name;
@@ -30,6 +40,24 @@ public class Thread {
      * Basically this is updated every time a thread get a new post.
      */
     private Timestamp updatedAt;
+
+    /**
+     * Returns the ID of this thread.
+     *
+     * @return the ID of this thread.
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Returns the ID of the topic this thread belongs to.
+     *
+     * @return the ID of a topic.
+     */
+    public long getTopicId() {
+        return topicId;
+    }
 
     /**
      * Returns the name of this thread.
@@ -65,6 +93,30 @@ public class Thread {
      */
     public Timestamp getUpdatedAtTimestamp() {
         return updatedAt;
+    }
+
+    /**
+     * Sets the ID of this thread.
+     *
+     * @param id the ID to set.
+     *
+     * @return itself for chaining.
+     */
+    public Thread setId(final long id) {
+        this.id = id;
+        return this;
+    }
+
+    /**
+     * Sets the ID of the topic this thread belongs to.
+     *
+     * @param topicId the topic ID to set.
+     *
+     * @return itself for chaining.
+     */
+    public Thread setTopicId(final long topicId) {
+        this.topicId = topicId;
+        return this;
     }
 
     /**
