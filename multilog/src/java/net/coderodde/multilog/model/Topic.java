@@ -127,7 +127,7 @@ public class Topic {
      *
      * @return the creation timestamp.
      */
-    public Timestamp getCreatedAtTimestamp() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
@@ -137,7 +137,7 @@ public class Topic {
      *
      * @return the timestamp this topic was updated the previous time.
      */
-    public Timestamp getUpdatedAtTimestamp() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 

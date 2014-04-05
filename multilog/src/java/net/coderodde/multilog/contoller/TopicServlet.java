@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.Topic;
+import java.sql.Timestamp;
 
 /**
  * This servlet processes the topic-related views.
@@ -34,8 +35,8 @@ public class TopicServlet extends HttpServlet {
 
         List<Topic> shit = new ArrayList<Topic>();
 
-        shit.add(new Topic().setName("Maths"));
-        shit.add(new Topic().setName("CSYO"));
+        shit.add(new Topic().setName("Maths").setCreatedAtTimestamp(new Timestamp(System.currentTimeMillis() + 1000000)));
+        shit.add(new Topic().setName("CSYO").setCreatedAtTimestamp(new Timestamp(System.currentTimeMillis())).setUpdatedAtTimestamp(new Timestamp(System.currentTimeMillis() + 500000)));
 
         request.setAttribute("topicList", shit);
 

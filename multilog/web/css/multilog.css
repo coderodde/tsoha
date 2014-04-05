@@ -85,6 +85,16 @@ body {
     float: right;
 }
 
+.float_right {
+    float: right;
+}
+
+.topic_entry_time_text {
+    font-family: sans-serif;
+    font-size: 10pt;
+    font-weight: normal;
+}
+
 .post_list_container {
     background-color: #c4dcf9;
     padding: 10px;
@@ -175,6 +185,7 @@ body {
 }
 
 .topic_item {
+    margin: 5px;
     padding: 6px;
     border-radius: 6px;
     border: solid 1px #edeca7;
