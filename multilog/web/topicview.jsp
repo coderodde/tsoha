@@ -1,15 +1,17 @@
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
         <title>multilog | root</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="../css/multilog.css">
+        <link rel="stylesheet" type="text/css" href="css/multilog.css">
         <link rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/teknik" type="text/css"/>
     </head>
     <body>
         <div id="main-content">
             <div id="header">
-                <img id="logo" src="../img/multilogo.png" />
+                <img id="logo" src="img/multilogo.png" />
             </div>
 
             <div id="navibar">
@@ -24,6 +26,9 @@
 
             <div class="topic_container">
                 <h2>Topics</h2>
+                <c:forEach var="topic" items="${requestScope.topicList}">
+                    <c:out value="${topic.name}" />
+                </c:forEach>
                 <div class="topic_item" onclick="window.location='topic.html'">Computer science</div>
             </div>
         </div>

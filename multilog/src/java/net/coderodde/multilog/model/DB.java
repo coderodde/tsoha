@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -53,10 +54,23 @@ public class DB {
      * @throws NamingException
      * @throws SQLException
      */
-    public static final Connection getConnection() throws NamingException,
-                                                          SQLException {
-        return ((DataSource) new InitialContext()
-                 .lookup(Config.DATABASE_LOOKUP_NAME)).getConnection();
+    public static final Connection getConnection() {
+        try {
+            return ((DataSource) new InitialContext()
+                     .lookup(Config.DATABASE_LOOKUP_NAME)).getConnection();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            return null;
+        }
+    }
+
+    public static final Statement getStatement(final Connection connection) {
+        try {
+            return connection.createStatement();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            return null;
+        }
     }
 
     /**

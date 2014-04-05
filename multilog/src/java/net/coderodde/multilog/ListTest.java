@@ -58,14 +58,10 @@ public class ListTest extends HttpServlet {
     }
 
     protected String getUsersFromDB() {
-        Connection conn = null;
+        Connection conn = DB.getConnection();
 
-        try {
-            conn = DB.getConnection();
-        } catch (NamingException ne) {
-            return ne.getMessage();
-        } catch (SQLException sqle) {
-            return "SQLException 1: " + sqle.getMessage();
+        if (conn == null) {
+            return "Connection failed.";
         }
 
         Statement statement = null;
@@ -74,6 +70,7 @@ public class ListTest extends HttpServlet {
             statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(SELECT_ALL_USERS);
             String resultText = getResults(rs);
+            rs.close();
             statement.close();
             conn.close();
             return resultText;

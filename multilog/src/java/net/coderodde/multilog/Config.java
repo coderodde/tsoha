@@ -54,5 +54,8 @@ public class Config {
          */
         public static final String FETCH_USER_BY_NAME =
                 "SELECT * FROM users WHERE username = ?;";
+
+        public static final String FETCH_ALL_TOPICS =
+                "SELECT * FROM topics;";
     }
 }
