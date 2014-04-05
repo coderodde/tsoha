@@ -14,6 +14,7 @@
             </div>
 
             <%@ include file="navibar.jspf" %>
+            
             <hr/>
         </div>
     </body>
