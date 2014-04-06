@@ -88,7 +88,7 @@ public class SignupServlet extends HttpServlet {
         final String showEmail =
                 request.getParameter(Config.SESSION_MAGIC.SHOW_EMAIL);
 
-        if (username == null) {
+        if (username == null || username.isEmpty()) {
             saveIntermediateData(request,
                                  username,
                                  password,
@@ -145,7 +145,7 @@ public class SignupServlet extends HttpServlet {
             return;
         }
 
-        if (password == null) {
+        if (password == null || password.isEmpty()) {
             saveIntermediateData(request,
                                  username,
                                  password,
@@ -181,7 +181,7 @@ public class SignupServlet extends HttpServlet {
             return;
         }
 
-        if (passwordConfirmation == null) {
+        if (passwordConfirmation == null || passwordConfirmation.isEmpty()) {
             saveIntermediateData(request,
                                  username,
                                  password,
@@ -238,7 +238,7 @@ public class SignupServlet extends HttpServlet {
             return;
         }
 
-        if (email == null) {
+        if (email == null || email.isEmpty()) {
             saveIntermediateData(request,
                                  username,
                                  password,
@@ -269,11 +269,12 @@ public class SignupServlet extends HttpServlet {
 
             request.setAttribute("bad_email", "Invalid email address.");
             request.setAttribute("su_error_email", "su_error");
-            request.getRequestDispatcher("signup.jsp");
+            request.getRequestDispatcher("signup.jsp")
+                   .forward(request, response);
             return;
         }
 
-        request.getRequestDispatcher("topic").forward(request, response);
+        request.getRequestDispatcher("signin.jsp").forward(request, response);
     }
 
     private static final void saveIntermediateData(
@@ -292,8 +293,18 @@ public class SignupServlet extends HttpServlet {
         request.setAttribute("im_first", firstName);
         request.setAttribute("im_last", lastName);
         request.setAttribute("im_email", email);
-        request.setAttribute("im_show_name", showName);
-        request.setAttribute("im_show_email", showEmail);
+
+        if (showName == null || !showName.equals("on")) {
+            request.setAttribute("im_show_name", "");
+        } else {
+            request.setAttribute("im_show_name", "checked");
+        }
+
+        if (showEmail == null || !showEmail.equals("on")) {
+            request.setAttribute("im_show_email", "");
+        } else {
+            request.setAttribute("im_show_email", "checked");
+        }
     }
 
     /**

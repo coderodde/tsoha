@@ -33,7 +33,6 @@
                         <tr> <td> <input type="submit" value="Sign up!"> </td> <td>                                                                                                           </td> <td>                                                           </td> </tr>
                     </table>
                 </form>
-                <p style="color: red;">${notice}</p>
             </div>
 
             <div>
