@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: 'Verdana';
+    font-family: 'teknik';
     font-weight: bold;
     font-style: normal;
 }
@@ -231,12 +231,12 @@ body {
     margin-right: auto;
 }
 
-#sign_in_div {
+#sign_in_div, #sign_up_div {
     padding: 10px;
     margin-bottom: 10px;
     margin-left: auto;
     margin-right: auto;
-    width: 250px;
-    font: 10pt Verdana;
+    width: 350px;
+    font: 10pt teknik;
     border: 1px solid black;
 }

@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import net.coderodde.multilog.model.User;
 
 /**
  * This class provides utilities for multilog.
@@ -13,6 +16,26 @@ import java.util.Random;
  * @author Rodion Efremov
  */
 public class Utils {
+
+    /**
+     * This static method returns the current signed in user if there is one.
+     *
+     * @param request the servlet request object.
+     *
+     * @return the user who is currently having a session, <code>null</code> if
+     * there is no such.
+     */
+    public static final User getSignedUser(final HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            return null;
+        }
+
+        return (User) session.getAttribute(Config.
+                                           SESSION_MAGIC.
+                                           SIGNED_IN_USER_ATTRIBUTE);
+    }
 
     public final static byte[] generateRandomSalt() {
         final Random r = new SecureRandom();

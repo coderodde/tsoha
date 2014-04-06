@@ -24,6 +24,10 @@
         <servlet-name>TopicServlet</servlet-name>
         <servlet-class>net.coderodde.multilog.contoller.TopicServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SignupController</servlet-name>
+        <servlet-class>net.coderodde.multilog.contoller.SignupServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ArticleServlet</servlet-name>
         <url-pattern>/ArticleServlet</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>TopicServlet</servlet-name>
         <url-pattern>/topic</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignupController</servlet-name>
+        <url-pattern>/signup</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -34,9 +34,40 @@ public class Config {
         public static final String USERNAME = "username";
 
         /**
-         * The key name in a session for the password. "password".
+         * The key name in a session for the password.
          */
         public static final String PASSWORD = "password";
+
+        /**
+         * The key name in a session for the password confirmation.
+         */
+        public static final String PASSWORD_CONFIRMATION =
+                "password_confirmation";
+
+        /**
+         * First name attribute key.
+         */
+        public static final String FIRST_NAME = "first_name";
+
+        /**
+         * Last name attribute key.
+         */
+        public static final String LAST_NAME = "last_name";
+
+        /**
+         * Email attribute key.
+         */
+        public static final String EMAIL = "email";
+
+        /**
+         * Show real name attribute key.
+         */
+        public static final String SHOW_REAL_NAME = "show_real_name";
+
+        /**
+         * Show email attribute key.
+         */
+        public static final String SHOW_EMAIL = "show_email";
 
         /**
          * The key for signed in user. "singed_in".

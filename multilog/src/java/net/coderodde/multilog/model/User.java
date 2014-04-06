@@ -1,5 +1,12 @@
 package net.coderodde.multilog.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import net.coderodde.multilog.Config;
+import static net.coderodde.multilog.Utils.closeResources;
+
 /**
  * This class implements a user type for <tt>multilog</tt>..
  *
@@ -48,6 +55,58 @@ public class User {
      * If set to <code>true</code>
      */
     private boolean showEmail;
+
+    public static final User getByUsername(final String username) {
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return null;
+        }
+
+        PreparedStatement ps =
+                DB.getPreparedStatement(connection,
+                                        Config.SQL_MAGIC.FETCH_USER_BY_NAME);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+        }
+
+        ResultSet rs = null;
+
+        try {
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, rs);
+            return null;
+        }
+
+        User user = extractUser(rs);
+        closeResources(connection, ps, rs);
+        return user;
+    }
+
+    private static final User extractUser(ResultSet rs) {
+        try {
+            if (rs.next() == false) {
+                return null;
+            }
+
+            User u = new User();
+            return u.setId(rs.getLong("user_id"))
+                    .setUsername(rs.getString("username"))
+                    .setEmail(rs.getString("email"))
+                    .setFirstName(rs.getString("first_name"))
+                    .setLastName(rs.getString("last_name"))
+                    .setShowEmail(rs.getBoolean("show_email"))
+                    .setShowRealName(rs.getBoolean("show_real_name"))
+                    .end();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            return null;
+        }
+    }
 
     /**
      * Returns the ID of this user.
