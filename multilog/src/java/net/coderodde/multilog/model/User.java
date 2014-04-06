@@ -52,9 +52,14 @@ public class User {
     private boolean showRealName;
 
     /**
-     * If set to <code>true</code>
+     * If set to <code>true</code>, the email is displayed on profile page.
      */
     private boolean showEmail;
+
+    /**
+     * The free-form description of a user.
+     */
+    private String description;
 
     public static final User getByUsername(final String username) {
         Connection connection = DB.getConnection();
@@ -176,6 +181,15 @@ public class User {
     }
 
     /**
+     * Returns the description of this user.
+     *
+     * @return the description of this user.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
      * Sets the ID of this user.
      *
      * @param id the ID to set.
@@ -258,6 +272,18 @@ public class User {
      */
     public User setShowRealName(final boolean showRealName) {
         this.showRealName = showRealName;
+        return this;
+    }
+
+    /**
+     * Sets the description for this user.
+     *
+     * @param description the description text.
+     *
+     * @return itself for chaining.
+     */
+    public User setDescription(final String description) {
+        this.description = description;
         return this;
     }
 

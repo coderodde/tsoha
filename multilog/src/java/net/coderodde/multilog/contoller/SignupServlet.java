@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.Config;
 import net.coderodde.multilog.Utils;
+import net.coderodde.multilog.model.User;
 
 /**
  * This servlet handles the sign up process.
@@ -48,7 +49,9 @@ public class SignupServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs.
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost
+            (final HttpServletRequest request,
+             final HttpServletResponse response)
             throws ServletException, IOException {
         if (Utils.getSignedUser(request) != null) {
             request.getRequestDispatcher("topic").forward(request, response);
@@ -58,8 +61,38 @@ public class SignupServlet extends HttpServlet {
         HomeServlet.prepareNavibarForUnsignedUser(request);
 
         // Try to sign up a new user.
-        String username =
+        final String username =
                 (String) request.getAttribute(Config.SESSION_MAGIC.USERNAME);
+
+        final User other = User.getByUsername(username);
+
+        if (other != null) {
+            // Once here, the username is already occupied.
+            request.setAttribute("bad_username", "Username already in use.");
+            request.getRequestDispatcher("singup.jsp")
+                   .forward(request, response);
+            return;
+        }
+
+        if (username.length() < Config.MINIMUM_USERNAME_LENGTH) {
+            request.setAttribute("bad_username",
+                                 "User name must be at least " +
+                                 Config.MINIMUM_USERNAME_LENGTH +
+                                 " characters long.");
+            request.getRequestDispatcher("signup.jsp")
+                   .forward(request, response);
+            return;
+        }
+
+        final String password =
+                (String) request.getAttribute(Config.SESSION_MAGIC.PASSWORD);
+
+        if (Utils.isValidPassword(password) == false) {
+            request.setAttribute("bad_password", "Invalid password.");
+            request.getRequestDispatcher("signup.jsp")
+                   .forward(request, response);
+            return;
+        }
     }
 
     /**

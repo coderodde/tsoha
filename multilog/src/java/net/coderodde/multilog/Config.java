@@ -13,6 +13,19 @@ public class Config {
     public static final int SALT_LENGTH = 32;
 
     /**
+     * Defines the minimum length of a username.
+     */
+    public static final int MINIMUM_USERNAME_LENGTH = 3;
+
+    /**
+     * The regular expression for email address validation.
+     * Stole this from
+     * http://stackoverflow.com/questions/16295329/email-address-validation-regex
+     */
+    public static final String EMAIL_REGEX =
+            "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@" +
+            "[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    /**
      * Defines the lookup name for JDBC.
      */
     public static final String DATABASE_LOOKUP_NAME =

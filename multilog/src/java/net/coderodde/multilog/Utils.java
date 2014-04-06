@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import net.coderodde.multilog.model.User;
@@ -16,6 +18,12 @@ import net.coderodde.multilog.model.User;
  * @author Rodion Efremov
  */
 public class Utils {
+
+    /**
+     * The regular expression pattern for matching email addresses.
+     */
+    private static final Pattern EMAIL_PATTERN =
+            Pattern.compile(Config.EMAIL_REGEX);
 
     /**
      * This static method returns the current signed in user if there is one.
@@ -35,6 +43,10 @@ public class Utils {
         return (User) session.getAttribute(Config.
                                            SESSION_MAGIC.
                                            SIGNED_IN_USER_ATTRIBUTE);
+    }
+
+    public static final boolean isValidPassword(final String password) {
+        return EMAIL_PATTERN.matcher(password).matches();
     }
 
     public final static byte[] generateRandomSalt() {
