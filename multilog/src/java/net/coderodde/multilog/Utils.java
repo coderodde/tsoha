@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,7 +19,13 @@ import net.coderodde.multilog.model.User;
 public class Utils {
 
     /**
-     * The regular expression pattern for matching email addresses.
+     * The regular expression pattern for matching valid usernames.
+     */
+    private static final Pattern USERNAME_PATTERN =
+            Pattern.compile(Config.USERNAME_REGEX);
+
+    /**
+     * The regular expression pattern for matching valid email addresses.
      */
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile(Config.EMAIL_REGEX);
@@ -45,8 +50,42 @@ public class Utils {
                                            SIGNED_IN_USER_ATTRIBUTE);
     }
 
+    public static final boolean isValidUsername(final String username) {
+        return USERNAME_PATTERN.matcher(username).matches();
+    }
+
+    public static final boolean isValidEmail(final String email) {
+        return EMAIL_PATTERN.matcher(email).matches();
+    }
+
     public static final boolean isValidPassword(final String password) {
-        return EMAIL_PATTERN.matcher(password).matches();
+        if (password.length() < Config.MINIMUM_PASSWORD_LENGTH) {
+            return false;
+        }
+
+        char[] passwd = password.toCharArray();
+
+        int lowercaseLetters = 0;
+        int uppercaseLetters = 0;
+        int digitCount = 0;
+
+        for (char c : passwd) {
+            if (Character.isWhitespace(c)) {
+                return false;
+            }
+
+            if (Character.isLowerCase(c)) {
+                ++lowercaseLetters;
+            } else if (Character.isUpperCase(c)) {
+                ++uppercaseLetters;
+            } else if (Character.isDigit(c)) {
+                ++digitCount;
+            }
+        }
+
+        return uppercaseLetters > 0
+                && lowercaseLetters > 2
+                && digitCount > 1;
     }
 
     public final static byte[] generateRandomSalt() {

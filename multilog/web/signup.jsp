@@ -22,18 +22,27 @@
                 <h2>Sign up</h2>
                 <form action="signup" method="POST">
                     <table style="width: 100%;">
-                        <tr> <td> User name:                             </td> <td> <input type="text" name="<%= Config.SESSION_MAGIC.USERNAME %>"                 </td> <td class="su_error"> ${bad_username}             </td> </tr>
-                        <tr> <td> Password:                              </td> <td> <input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD %>"             </td> <td class="su_error"> ${bad_password}             </td> </tr>
-                        <tr> <td> Password confirmation:                 </td> <td> <input type="password" name"<%= Config.SESSION_MAGIC.PASSWORD_CONFIRMATION %>" </td> <td class="su_error"> ${bad_password_confirmaion} </td> </tr>
-                        <tr> <td> Last name:                             </td> <td> <input type="text" name="<%= Config.SESSION_MAGIC.LAST_NAME %>">               </td> <td>                                              </td> </tr>
-                        <tr> <td> First name:                            </td> <td> <input type="text" name="<%= Config.SESSION_MAGIC.FIRST_NAME %>">              </td> <td>                                              </td> </tr>
-                        <tr> <td> E-mail:                                </td> <td> <input type="text" name="<%= Config.SESSION_MAGIC.EMAIL %>">                   </td> <td class="su_error"> ${bad_email}                </td> </tr>
-                        <tr> <td> Show real name:                        </td> <td> <input type="checkbox" name="<%= Config.SESSION_MAGIC.SHOW_REAL_NAME %>" >     </td> <td>                                              </td> </tr>
-                        <tr> <td> Show email:                            </td> <td> <input type="checkbox" name="<%= Config.SESSION_MAGIC.SHOW_EMAIL %>" >         </td> <td>                                              </td> </tr>
-                        <tr> <td> <input type="submit" value="Sign in!"> </td> <td>                                                                                 </td> <td>                                              </td> </tr>
+                        <tr> <td> User name:                             </td> <td> <input type="text" name="<%= Config.SESSION_MAGIC.USERNAME %>"                  value="${im_username}" > </td> <td class="${su_error_username}"> ${bad_username}            </td> </tr>
+                        <tr> <td> Password:                              </td> <td> <input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD %>"              value="${im_password}" > </td> <td class="${su_error_password}"> ${bad_password}            </td> </tr>
+                        <tr> <td> Password confirmation:                 </td> <td> <input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD_CONFIRMATION %>" value="${im_confirm}"  > </td> <td class="${su_error_confirm}"> ${bad_password_confirmaion} </td> </tr>
+                        <tr> <td> First name:                            </td> <td> <input type="text" name="<%= Config.SESSION_MAGIC.FIRST_NAME %>"                value="${im_first}"    > </td> <td>                                                         </td> </tr>
+                        <tr> <td> Last name:                             </td> <td> <input type="text" name="<%= Config.SESSION_MAGIC.LAST_NAME %>"                 value="${im_last}"     > </td> <td>                                                         </td> </tr>
+                        <tr> <td> E-mail:                                </td> <td> <input type="text" name="<%= Config.SESSION_MAGIC.EMAIL %>"                     value="${im_email}"    > </td> <td class="${su_error_email}"> ${bad_email}                  </td> </tr>
+                        <tr> <td> Show real name:                        </td> <td> <input type="checkbox" name="<%= Config.SESSION_MAGIC.SHOW_REAL_NAME %>"        ${im_show_name}        > </td> <td>                                                         </td> </tr>
+                        <tr> <td> Show email:                            </td> <td> <input type="checkbox" name="<%= Config.SESSION_MAGIC.SHOW_EMAIL %>"            ${im_show_email}       > </td> <td>                                                         </td> </tr>
+                        <tr> <td> <input type="submit" value="Sign up!"> </td> <td>                                                                                                           </td> <td>                                                         </td> </tr>
                     </table>
                 </form>
                 <p style="color: red;">${notice}</p>
+            </div>
+
+            <div>
+                <p>
+                    <ul>
+                        <li>The username must have between <%= Config.MINIMUM_USERNAME_LENGTH %> and <%= Config.MAXIMUM_USERNAME_LENGTH %> characters. Only alphanumeric characters allowed.</li>
+                        <li>The password must have at least <%= Config.MINIMUM_PASSWORD_LENGTH %> alphanumeric characters. At least one capital letter, three lower case letters and two digits required.</li>
+                    </ul>
+                </p>
             </div>
         </div>
     </body>

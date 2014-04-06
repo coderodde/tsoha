@@ -13,9 +13,20 @@ public class Config {
     public static final int SALT_LENGTH = 32;
 
     /**
-     * Defines the minimum length of a username.
+     * Defines the minimum username length.
      */
     public static final int MINIMUM_USERNAME_LENGTH = 3;
+
+    /**
+     * Defines the maximum username length.
+     */
+    public static final int MAXIMUM_USERNAME_LENGTH = 25;
+
+    /**
+     * Defines the minimum password length.
+     */
+    public static final int MINIMUM_PASSWORD_LENGTH = 10;
+
 
     /**
      * The regular expression for email address validation.
@@ -25,6 +36,17 @@ public class Config {
     public static final String EMAIL_REGEX =
             "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@" +
             "[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
+    /**
+     * The regular expression for username validation. The primary
+     * concern are white-space characters.
+     */
+    public static final String USERNAME_REGEX =  "^[_A-Za-z0-9]{" +
+                                                 MINIMUM_USERNAME_LENGTH +
+                                                 "," +
+                                                 MAXIMUM_USERNAME_LENGTH +
+                                                 "}$";
+
     /**
      * Defines the lookup name for JDBC.
      */
