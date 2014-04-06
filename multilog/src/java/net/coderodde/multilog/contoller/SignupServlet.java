@@ -70,7 +70,9 @@ public class SignupServlet extends HttpServlet {
                 request.getParameter(Config.SESSION_MAGIC.PASSWORD);
 
         final String passwordConfirmation =
-                request.getParameter(Config.SESSION_MAGIC.PASSWORD);
+                request.getParameter(Config.
+                                     SESSION_MAGIC.
+                                     PASSWORD_CONFIRMATION);
 
         final String email = request.getParameter(Config.SESSION_MAGIC.EMAIL);
 
@@ -120,7 +122,7 @@ public class SignupServlet extends HttpServlet {
             // Once here, the username is already occupied.
             request.setAttribute("bad_username", "Username already in use.");
             request.setAttribute("su_error_username", "su_error");
-            request.getRequestDispatcher("singup.jsp")
+            request.getRequestDispatcher("signup.jsp")
                    .forward(request, response);
             return;
         }
@@ -264,12 +266,14 @@ public class SignupServlet extends HttpServlet {
                                  email,
                                  showRealName,
                                  showEmail);
-            
+
             request.setAttribute("bad_email", "Invalid email address.");
             request.setAttribute("su_error_email", "su_error");
             request.getRequestDispatcher("signup.jsp");
             return;
         }
+
+        request.getRequestDispatcher("topic").forward(request, response);
     }
 
     private static final void saveIntermediateData(
