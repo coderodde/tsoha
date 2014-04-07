@@ -92,8 +92,11 @@ public class SignupServlet extends HttpServlet {
         final String description =
                 request.getParameter(Config.SESSION_MAGIC.DESCRIPTION);
 
-        final boolean bShowEmail = (showEmail.equalsIgnoreCase("on"));
-        final boolean bShowRealName = (showRealName.equalsIgnoreCase("on"));
+        final boolean bShowEmail = (showEmail != null &&
+                                    showEmail.equalsIgnoreCase("on"));
+
+        final boolean bShowRealName = (showRealName != null &&
+                                       showRealName.equalsIgnoreCase("on"));
 
         if (username == null || username.isEmpty()) {
             saveIntermediateData(request,
