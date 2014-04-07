@@ -21,7 +21,7 @@ VALUES
  'Efremov',
  'rodionef@cs.helsinki.fi',
  'Ima admin.',
- 'Admin',
+ 'ADMIN',
  NOW(),
  NOW());
 
@@ -47,7 +47,7 @@ VALUES
  'woody@multilog.com',
  FALSE,
  'Ima mod.',
- 'Mod',
+ 'MOD',
  NOW(),
  NOW());
 
@@ -73,7 +73,7 @@ VALUES
  'murkkis@multilog.com',
  FALSE,
  'Ima user.',
- 'User',
+ 'USER',
  NOW(),
  NOW());
 
@@ -97,7 +97,7 @@ VALUES
  'Phunkeeh',
  'phunkeeh@gaymail.com',
  'Hello, glad to be an admin.',
- 'Admin',
+ 'ADMIN',
  NOW(),
  NOW());
 
