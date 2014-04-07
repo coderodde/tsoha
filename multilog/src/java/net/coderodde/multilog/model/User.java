@@ -1,6 +1,5 @@
 package net.coderodde.multilog.model;
 
-import net.coderodde.multilog.Utils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import javax.servlet.http.HttpServletRequest;
 import net.coderodde.multilog.Config;
+import net.coderodde.multilog.Utils;
 import static net.coderodde.multilog.Utils.closeResources;
 
 /**
@@ -31,7 +31,7 @@ public class User {
     private String username;
 
     /**
-     * The user category of this user.
+     * The privilege category of this user.
      */
     private UserType userType;
 
@@ -80,11 +80,6 @@ public class User {
      * The user's hash through SHA256 of password and salt.
      */
     private String hash;
-
-    /**
-     * The user's privilege type.
-     */
-    private UserType type;
 
     /**
      * The user's creation timestamp.
@@ -193,7 +188,7 @@ public class User {
     }
 
     public UserType getUserType() {
-        return type;
+        return userType;
     }
 
     public Timestamp getCreatedAt() {
