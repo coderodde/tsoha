@@ -15,7 +15,7 @@ CREATE TABLE users (
   show_real_name BOOLEAN DEFAULT TRUE,
   show_email     BOOLEAN DEFAULT TRUE,
   description    TEXT,
-  user_type      e_user_type DEFAULT 'USER',
+  user_type      e_user_type DEFAULT 'USER' NOT NULL,
   image          BYTEA,
   ban_until      TIMESTAMP WITH TIME ZONE,
   created_at     TIMESTAMP WITH TIME ZONE NOT NULL,

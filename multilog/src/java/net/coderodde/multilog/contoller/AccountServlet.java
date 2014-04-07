@@ -31,9 +31,10 @@ public class AccountServlet extends HttpServlet {
 
         long targetId = -1;
         User who = null;
+        User current = User.getCurrentlySignedUser(request);
 
         if (idString == null || idString.isEmpty()) {
-            who = User.getCurrentlySignedUser(request);
+            who = current;
         } else {
             try {
                 targetId = Long.parseLong(idString);
@@ -46,6 +47,12 @@ public class AccountServlet extends HttpServlet {
         if (who == null) {
             request.getRequestDispatcher("home").forward(request, response);
             return;
+        }
+
+        if (current != null) {
+            HomeServlet.prepareNavibarForSingedUser(request, current);
+        } else {
+            HomeServlet.prepareNavibarForUnsignedUser(request);
         }
 
         request.setAttribute("username", who.getUsername());
@@ -69,9 +76,9 @@ public class AccountServlet extends HttpServlet {
         request.setAttribute("level", who.getUserType().toString());
         request.setAttribute("description", who.getDescription());
 
-        User current = User.getCurrentlySignedUser(request);
-
+        // Here 'who' is by no means 'null', but 'current' may be.
         if (current != who) {
+            // Hide the 'delete'- and 'update'-buttons.
             request.setAttribute("closeBegin", "<!--");
             request.setAttribute("closeEnd", "-->");
         }
