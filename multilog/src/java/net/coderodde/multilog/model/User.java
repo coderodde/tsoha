@@ -403,7 +403,7 @@ public class User {
             return new User().setId(rs.getLong("user_id"))
                              .setUsername(rs.getString("username"))
                              .setSalt(rs.getString("salt"))
-                             .setHash(rs.getString("hash"))
+                             .setHash(rs.getString("passwd_hash"))
                              .setFirstName(rs.getString("first_name"))
                              .setLastName(rs.getString("last_name"))
                              .setEmail(rs.getString("email"))
