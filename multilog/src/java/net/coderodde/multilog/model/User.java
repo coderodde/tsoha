@@ -398,7 +398,6 @@ public class User {
                 return null;
             }
 
-            User user = new User();
             return new User().setId(rs.getLong("user_id"))
                              .setUsername(rs.getString("username"))
                              .setSalt(rs.getString("salt"))

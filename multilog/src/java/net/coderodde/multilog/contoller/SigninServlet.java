@@ -1,15 +1,11 @@
 package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import net.coderodde.multilog.Config;
-import net.coderodde.multilog.model.DB;
 import net.coderodde.multilog.model.User;
 
 /**
@@ -59,16 +55,19 @@ public class SigninServlet extends HttpServlet {
         String username = request.getParameter(Config.SESSION_MAGIC.USERNAME);
         String password = request.getParameter(Config.SESSION_MAGIC.PASSWORD);
 
-        if (username == null || password == null) {
+        if (username == null
+                || password == null
+                || username.isEmpty()
+                || password.isEmpty()) {
             StringBuilder sb = new StringBuilder(1024);
             int c = 0;
 
-            if (username == null) {
+            if (username == null || username.isEmpty()) {
                 sb.append("User name is missing.");
                 c++;
             }
 
-            if (password == null) {
+            if (password == null || password.isEmpty()) {
                 if (c == 1) {
                     sb.append("<br>");
                 }
@@ -84,8 +83,8 @@ public class SigninServlet extends HttpServlet {
 
         User user = User.read(username);
 
-        if (user == null || user == User.BAD_PASSWORD_USER) {
-            request.setAttribute("notice", "Authentication failed!");
+        if (user == null) {
+            request.setAttribute("notice", "Authentication failed! user == null");
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
             return;
@@ -103,7 +102,7 @@ public class SigninServlet extends HttpServlet {
             return;
         }
 
-        request.setAttribute("notice", "Authentication failed!");
+        request.setAttribute("notice", "Authentication failed! bad passwd");
         request.getRequestDispatcher("signin").forward(request, response);
     }
 
