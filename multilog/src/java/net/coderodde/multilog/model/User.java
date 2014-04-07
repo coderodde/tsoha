@@ -492,23 +492,24 @@ public class User {
                                   .setShowEmail(rs.getBoolean("show_email"))
                                   .setDescription(rs.getString("description"))
                                   .setCreatedAt(rs.getTimestamp("created_at"))
-                                  .setUpdatedAt(rs.getTimestamp("updated_at"));
+                                  .setUpdatedAt(rs.getTimestamp("updated_at"))
+                                  .setUserType(UserType.valueOf(rs.getString("user_type")));
 
-            String type = rs.getString("user_type");
-
-            if (type == null || type.isEmpty()) {
-                throw new IllegalStateException("Gotcha! " + type);
-            }
-
-            if (type.equals(UserType.USER.toString())) {
-                user.setUserType(UserType.USER);
-            } else if (type.equals(UserType.MOD.toString())) {
-                user.setUserType(UserType.MOD);
-            } else if (type.equals(UserType.ADMIN.toString())) {
-                user.setUserType(UserType.ADMIN);
-            } else {
-                throw new IllegalStateException("Bad user type enumeration!");
-            }
+//            String type = rs.getString("user_type");
+//
+//            if (type == null || type.isEmpty()) {
+//                throw new IllegalStateException("Gotcha! " + type);
+//            }
+//
+//            if (type.equals(UserType.USER.toString())) {
+//                user.setUserType(UserType.USER);
+//            } else if (type.equals(UserType.MOD.toString())) {
+//                user.setUserType(UserType.MOD);
+//            } else if (type.equals(UserType.ADMIN.toString())) {
+//                user.setUserType(UserType.ADMIN);
+//            } else {
+//                throw new IllegalStateException("Bad user type enumeration!");
+//            }
 
             return user;
         } catch (SQLException sqle) {

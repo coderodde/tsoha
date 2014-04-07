@@ -11,24 +11,35 @@ public enum UserType {
     /**
      * The basic user.
      */
-    USER,
+    USER("User"),
 
     /**
      * Moderator.
      */
-    MOD,
+    MOD("Moderator"),
 
     /**
      * Administrator.
      */
-    ADMIN;
+    ADMIN("Administrator");
 
-    public static void main(String... args) {
+    private String text;
 
-        System.out.println(UserType.valueOf("ADMIN"));
-        System.out.println(UserType.valueOf("MOD"));
-        System.out.println(UserType.valueOf("USER"));
+    /**
+     * Initializes every enumeration constant to the textual names of roles.
+     *
+     * @param text the textual name of a type.
+     */
+    private UserType(final String text) {
+        this.text = text;
+    }
 
-        System.out.println(UserType.ADMIN.toString());
+    /**
+     * Returns the textual representation of a type.
+     *
+     * @return the textual representation.
+     */
+    public String toString() {
+        return text;
     }
 }
