@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +33,15 @@ public class Utils {
      */
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile(Config.EMAIL_REGEX);
+
+    private static final Random random = new Random();
+
+    private static final Map<Integer, Character> map =
+            new HashMap<Integer, Character>();
+
+    static {
+        loadMap();
+    }
 
     /**
      * The digest implementation.
@@ -141,6 +152,42 @@ public class Utils {
             } catch (SQLException sqle) {
 
             }
+        }
+    }
+
+    /**
+     * Creates a random password salt.
+     *
+     * @return a random password salt.
+     */
+    public static final String createSalt() {
+        char[] saltChars = new char[Config.SALT_LENGTH];
+
+        for (int i = 0; i != saltChars.length; ++i) {
+            saltChars[i] = map.get(random.nextInt(map.size()));
+        }
+
+        return new String(saltChars);
+    }
+
+    private static final void loadMap() {
+        char c = '0';
+        int i = 0;
+
+        for (; i != 10; ++i, ++c) {
+            map.put(i, c);
+        }
+
+        c = 'A';
+
+        for (; i != 36; ++i, ++c) {
+            map.put(i, c);
+        }
+
+        c = 'a';
+
+        for (; i != 62; ++i, ++c) {
+            map.put(i, c);
         }
     }
 

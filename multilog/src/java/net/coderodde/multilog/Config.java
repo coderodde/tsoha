@@ -113,6 +113,8 @@ public class Config {
          * The key for IDs passed to different views.
          */
         public static final String ID = "id";
+
+        public static final String DESCRIPTION = "description";
     }
 
     /**
@@ -143,5 +145,29 @@ public class Config {
          */
         public static final String FETCH_THREADS_BY_TOPIC_ID =
                 "SELECT * FROM threads WHERE topic_id = ?;";
+
+        public static final String CREATE_USER =
+                "INSERT INTO users (" +
+                "user_id," +
+                "username," +
+                "salt," +
+                "passwd_hash," +
+                "first_name," +
+                "last_name," +
+                "email," +
+                "description," +
+                "created_at," +
+                "updated_at) " +
+                "VALUES (" +
+                "(SELECT max(user_id) from users) + 1," +
+                "?," +                                      // user name.
+                "?," +                                      // salt.
+                "?," +                                      // passwd_hash.
+                "?," +                                      // first_name.
+                "?," +                                      // last_name.
+                "?," +                                      // email.
+                "?," +                                      // description.
+                "NOW(), NOW());";
+
     }
 }

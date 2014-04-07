@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.Config;
 import net.coderodde.multilog.Utils;
 import net.coderodde.multilog.model.User;
+import net.coderodde.multilog.model.UserType;
 
 /**
  * This servlet handles the sign up process.
@@ -88,6 +89,12 @@ public class SignupServlet extends HttpServlet {
         final String showEmail =
                 request.getParameter(Config.SESSION_MAGIC.SHOW_EMAIL);
 
+        final String description =
+                request.getParameter(Config.SESSION_MAGIC.DESCRIPTION);
+
+        final boolean bShowEmail = (showEmail.equalsIgnoreCase("on"));
+        final boolean bShowRealName = (showRealName.equalsIgnoreCase("on"));
+
         if (username == null || username.isEmpty()) {
             saveIntermediateData(request,
                                  username,
@@ -97,7 +104,8 @@ public class SignupServlet extends HttpServlet {
                                  lastName,
                                  email,
                                  showRealName,
-                                 showEmail);
+                                 showEmail,
+                                 description);
 
             request.setAttribute("bad_username", "Username is empty.");
             request.setAttribute("su_error_username", "su_error");
@@ -117,7 +125,8 @@ public class SignupServlet extends HttpServlet {
                                  lastName,
                                  email,
                                  showRealName,
-                                 showEmail);
+                                 showEmail,
+                                 description);
 
             // Once here, the username is already occupied.
             request.setAttribute("bad_username", "Username already in use.");
@@ -136,7 +145,8 @@ public class SignupServlet extends HttpServlet {
                                  lastName,
                                  email,
                                  showRealName,
-                                 showEmail);
+                                 showEmail,
+                                 description);
 
             request.setAttribute("bad_username", "Invalid username.");
             request.setAttribute("su_error_username", "su_error");
@@ -154,7 +164,8 @@ public class SignupServlet extends HttpServlet {
                                  lastName,
                                  email,
                                  showRealName,
-                                 showEmail);
+                                 showEmail,
+                                 description);
 
             request.setAttribute("bad_password", "Password is missing.");
             request.setAttribute("su_error_password", "su_error");
@@ -172,7 +183,8 @@ public class SignupServlet extends HttpServlet {
                                  lastName,
                                  email,
                                  showRealName,
-                                 showEmail);
+                                 showEmail,
+                                 description);
 
             request.setAttribute("bad_password", "Invalid password.");
             request.setAttribute("su_error_password", "su_error");
@@ -190,7 +202,8 @@ public class SignupServlet extends HttpServlet {
                                  lastName,
                                  email,
                                  showRealName,
-                                 showEmail);
+                                 showEmail,
+                                 description);
 
             request.setAttribute("bad_password_confirmation",
                                  "Password is missing.");
@@ -209,7 +222,8 @@ public class SignupServlet extends HttpServlet {
                                  lastName,
                                  email,
                                  showRealName,
-                                 showEmail);
+                                 showEmail,
+                                 description);
 
             request.setAttribute("bad_password_confirmation",
                                  "Invalid password.");
@@ -228,7 +242,8 @@ public class SignupServlet extends HttpServlet {
                                  lastName,
                                  email,
                                  showRealName,
-                                 showEmail);
+                                 showEmail,
+                                 description);
 
             request.setAttribute("bad_password_confirmation",
                                  "Confirmation and password differ.");
@@ -247,7 +262,8 @@ public class SignupServlet extends HttpServlet {
                                  lastName,
                                  email,
                                  showRealName,
-                                 showEmail);
+                                 showEmail,
+                                 description);
 
             request.setAttribute("bad_email", "Email address is missing.");
             request.setAttribute("su_error_email", "su_error");
@@ -265,7 +281,8 @@ public class SignupServlet extends HttpServlet {
                                  lastName,
                                  email,
                                  showRealName,
-                                 showEmail);
+                                 showEmail,
+                                 description);
 
             request.setAttribute("bad_email", "Invalid email address.");
             request.setAttribute("su_error_email", "su_error");
@@ -274,7 +291,27 @@ public class SignupServlet extends HttpServlet {
             return;
         }
 
-        request.getRequestDispatcher("home").forward(request, response);
+        // Once here, all form data is OK, so create a user.
+        boolean created = new User().setUsername(username)
+                                    .setPassword(password)
+                                    .setSalt(Utils.createSalt())
+                                    .setEmail(email)
+                                    .setFirstName(firstName)
+                                    .setLastName(lastName)
+                                    .setShowEmail(bShowEmail)
+                                    .setShowRealName(bShowRealName)
+                                    .setDescription(description)
+                                    .setUserType(UserType.USER)
+                                    .end()
+                                    .create();
+
+
+        if (created) {
+            request.getRequestDispatcher("home").forward(request, response);
+        } else {
+            request.setAttribute("notice", "Could not create a user.");
+            request.getRequestDispatcher("signup").forward(request, response);
+        }
     }
 
     private static final void saveIntermediateData(
@@ -286,7 +323,8 @@ public class SignupServlet extends HttpServlet {
             final String lastName,
             final String email,
             final String showName,
-            final String showEmail) {
+            final String showEmail,
+            final String description) {
         request.setAttribute("im_username", username);
         request.setAttribute("im_password", password);
         request.setAttribute("im_confirm", passwordConfirmation);
@@ -305,6 +343,8 @@ public class SignupServlet extends HttpServlet {
         } else {
             request.setAttribute("im_show_email", "checked");
         }
+
+        request.setAttribute("im_description", description);
     }
 
     /**

@@ -333,6 +333,46 @@ public class User {
         return this;
     }
 
+    public boolean create() {
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return false;
+        }
+
+        PreparedStatement ps = DB.getPreparedStatement(connection,
+                                                       Config.
+                                                       SQL_MAGIC.
+                                                       CREATE_USER);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+            return false;
+        }
+
+        ResultSet rs = null;
+
+        final String passwordHash = getHash(getPassword(), getSalt());
+
+        try {
+            ps.setString(1, getUsername());
+            ps.setString(2, getSalt());
+            ps.setString(3, passwordHash);
+            ps.setString(4, getFirstName());
+            ps.setString(5, getLastName());
+            ps.setString(6, getEmail());
+            ps.setString(7, description);
+            ps.executeUpdate();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, rs);
+            return false;
+        }
+
+        closeResources(connection, ps, rs);
+        return true;
+    }
+
     /**
      * Checks whether this user has valid password.
      *
@@ -341,24 +381,29 @@ public class User {
      */
     public boolean currentPasswordIsValid() {
         final String password = getPassword();
+        final String salt = getSalt();
 
-        if (password == null) {
+        if (password == null || salt == null) {
             return false;
         }
 
-        final String toHash = getPassword() + getSalt();
+        return getHash(password, salt).equals(this.getHash());
+    }
+
+    static final String getHash(final String password,
+                                        final String salt) {
+        final String toHash = password + salt;
         final byte[] bytes = Utils.getUtils()
                                   .getMessageDigest()
                                   .digest(toHash.getBytes());
-        final StringBuilder sb = new StringBuilder(1000);
+        final StringBuilder sb = new StringBuilder(64);
 
         for (int i = 0; i != bytes.length; ++i) {
             sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16)
                              .substring(1));
         }
 
-        final String resultHash = sb.toString();
-        return resultHash.equals(getHash());
+        return sb.toString();
     }
 
     public static final User read(final String username) {
