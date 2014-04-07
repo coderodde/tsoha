@@ -1,5 +1,7 @@
 package net.coderodde.multilog;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -29,6 +31,25 @@ public class Utils {
      */
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile(Config.EMAIL_REGEX);
+
+    /**
+     * The digest implementation.
+     */
+    private MessageDigest md;
+
+    private static final Utils utils = new Utils();
+
+    public Utils() {
+        try {
+            this.md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException nsae) {
+            nsae.printStackTrace(System.err);
+        }
+    }
+
+    public static final Utils getUtils() {
+        return utils;
+    }
 
     /**
      * This static method returns the current signed in user if there is one.
@@ -121,5 +142,9 @@ public class Utils {
 
             }
         }
+    }
+
+    public final MessageDigest getMessageDigest() {
+        return md;
     }
 }

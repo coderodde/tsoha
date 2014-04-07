@@ -274,7 +274,7 @@ public class SignupServlet extends HttpServlet {
             return;
         }
 
-        request.getRequestDispatcher("signin.jsp").forward(request, response);
+        request.getRequestDispatcher("home").forward(request, response);
     }
 
     private static final void saveIntermediateData(

@@ -1,5 +1,6 @@
 package net.coderodde.multilog.model;
 
+import net.coderodde.multilog.Utils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,8 @@ import static net.coderodde.multilog.Utils.closeResources;
  * @version 0.1
  */
 public class User {
+
+    public static final User BAD_PASSWORD_USER = new User();
 
     /**
      * The ID of this user. Same type as Postgres' BIGSERIAL.
@@ -61,6 +64,23 @@ public class User {
      */
     private String description;
 
+    /**
+     * The password text.
+     */
+    private String password;
+
+    /**
+     * The user's salt;
+     */
+    private String salt;
+
+    /**
+     * The user's hash through SHA256 of password and salt.
+     */
+    private String hash;
+
+    private UserType type;
+
     public static final User getByUsername(final String username) {
         Connection connection = DB.getConnection();
 
@@ -90,27 +110,6 @@ public class User {
         User user = extractUser(rs);
         closeResources(connection, ps, rs);
         return user;
-    }
-
-    private static final User extractUser(ResultSet rs) {
-        try {
-            if (rs.next() == false) {
-                return null;
-            }
-
-            User u = new User();
-            return u.setId(rs.getLong("user_id"))
-                    .setUsername(rs.getString("username"))
-                    .setEmail(rs.getString("email"))
-                    .setFirstName(rs.getString("first_name"))
-                    .setLastName(rs.getString("last_name"))
-                    .setShowEmail(rs.getBoolean("show_email"))
-                    .setShowRealName(rs.getBoolean("show_real_name"))
-                    .end();
-        } catch (SQLException sqle) {
-            sqle.printStackTrace(System.err);
-            return null;
-        }
     }
 
     /**
@@ -187,6 +186,22 @@ public class User {
      */
     public String getDescription() {
         return description;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public UserType getUserType() {
+        return type;
     }
 
     /**
@@ -287,6 +302,26 @@ public class User {
         return this;
     }
 
+    public User setPassword(final String password) {
+        this.password = password;
+        return this;
+    }
+
+    public User setSalt(final String salt) {
+        this.salt = salt;
+        return this;
+    }
+
+    public User setHash(final String hash) {
+        this.hash = hash;
+        return this;
+    }
+
+    public User setUserType(final UserType userType) {
+        this.userType = userType;
+        return this;
+    }
+
     /**
      * Syntactic sugar.
      *
@@ -294,5 +329,90 @@ public class User {
      */
     public User end() {
         return this;
+    }
+
+    /**
+     * Checks whether this user has valid password.
+     *
+     * @return <code>true</code> if the password is valid, <code>false</code>
+     * otherwise.
+     */
+    public boolean currentPasswordIsValid() {
+        final String password = getPassword();
+
+        if (password == null) {
+            return false;
+        }
+
+        final String toHash = getPassword() + getSalt();
+        final byte[] bytes = Utils.getUtils()
+                                  .getMessageDigest()
+                                  .digest(toHash.getBytes());
+        final StringBuilder sb = new StringBuilder(1000);
+
+        for (int i = 0; i != bytes.length; ++i) {
+            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16)
+                             .substring(1));
+        }
+
+        final String resultHash = sb.toString();
+        return resultHash.equals(getHash());
+    }
+
+    public static final User read(final String username) {
+        Connection conn = DB.getConnection();
+
+        if (conn == null) {
+            return null;
+        }
+
+        PreparedStatement ps = DB.getPreparedStatement(conn,
+                                                       Config.
+                                                       SQL_MAGIC.
+                                                       FETCH_USER_BY_NAME);
+
+        if (ps == null) {
+            closeResources(conn, null, null);
+            return null;
+        }
+
+        ResultSet rs = null;
+
+        try {
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(conn, ps, rs);
+            return null;
+        }
+
+        User user = extractUser(rs);
+        closeResources(conn, ps, rs);
+        return user;
+    }
+
+    private static final User extractUser(ResultSet rs) {
+        try {
+            if (rs.next() == false) {
+                return null;
+            }
+
+            User user = new User();
+            return new User().setId(rs.getLong("user_id"))
+                             .setUsername(rs.getString("username"))
+                             .setSalt(rs.getString("salt"))
+                             .setHash(rs.getString("hash"))
+                             .setFirstName(rs.getString("first_name"))
+                             .setLastName(rs.getString("last_name"))
+                             .setEmail(rs.getString("email"))
+                             .setShowRealName(rs.getBoolean("show_real_name"))
+                             .setShowEmail(rs.getBoolean("show_email"))
+                             .setDescription(rs.getString("description"))
+                             .setUserType(UserType.valueOf
+                                               (rs.getString("user_type")));
+        } catch (SQLException sqle) {
+            return null;
+        }
     }
 }

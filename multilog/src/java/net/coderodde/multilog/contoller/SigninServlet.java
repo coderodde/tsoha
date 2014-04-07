@@ -34,8 +34,13 @@ public class SigninServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.getOutputStream().println(
-              "Please don't use GET method for signing in multilog.");
+
+        // Kinda rough, but nevertheless log out the user once he/she is here.
+        request.getSession()
+               .removeAttribute(Config.SESSION_MAGIC.SIGNED_IN_USER_ATTRIBUTE);
+
+        HomeServlet.prepareNavibarForUnsignedUser(request);
+        request.getRequestDispatcher("signin.jsp").forward(request, response);
     }
 
     /**
@@ -77,39 +82,29 @@ public class SigninServlet extends HttpServlet {
             return;
         }
 
-        User user = null;
+        User user = User.read(username);
 
-        try {
-            user = DB.getDatabase().getUser(username, password);
-        } catch (NamingException ne) {
-            ne.printStackTrace(System.err);
-            request.setAttribute("notice",
-                                 "DB failed at line 83: " + ne.getMessage());
-            request.getRequestDispatcher("signin.jsp")
-                   .forward(request, response);
-            return;
-        } catch (SQLException sqle) {
-            sqle.printStackTrace(System.err);
-            request.setAttribute("notice",
-                                 "DB failed at line 83: " + sqle.getMessage());
-            request.getRequestDispatcher("signin.jsp")
-                   .forward(request, response);
-            return;
-        }
-
-        if (user == null || user == DB.BAD_PASSWORD_USER) {
+        if (user == null || user == User.BAD_PASSWORD_USER) {
             request.setAttribute("notice", "Authentication failed!");
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
             return;
         }
 
-        HttpSession session = request.getSession();
-        session.setAttribute(Config.SESSION_MAGIC.SIGNED_IN_USER_ATTRIBUTE,
-                             user);
-        request.setAttribute("notice",
-                             "Signed in as " + user.getUsername() + "!");
-        request.getRequestDispatcher("home").forward(request, response);
+        user.setPassword(password);
+
+        if (user.currentPasswordIsValid()) {
+            request.getSession().setAttribute(Config.
+                                              SESSION_MAGIC.
+                                              SIGNED_IN_USER_ATTRIBUTE, user);
+            request.setAttribute("notice",
+                                 "Signed in as " + user.getUsername() + "!");
+            request.getRequestDispatcher("home").forward(request, response);
+            return;
+        }
+
+        request.setAttribute("notice", "Authentication failed!");
+        request.getRequestDispatcher("signin").forward(request, response);
     }
 
     /**
