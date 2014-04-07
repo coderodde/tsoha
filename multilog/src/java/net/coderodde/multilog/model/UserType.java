@@ -28,5 +28,7 @@ public enum UserType {
         System.out.println(UserType.valueOf("ADMIN"));
         System.out.println(UserType.valueOf("MOD"));
         System.out.println(UserType.valueOf("USER"));
+
+        System.out.println(UserType.ADMIN.toString());
     }
 }

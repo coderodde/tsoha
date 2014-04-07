@@ -501,6 +501,10 @@ public class User {
 
             String type = rs.getString("user_type");
 
+            if (type == null || type.isEmpty()) {
+                throw new IllegalStateException("Gotcha! " + type);
+            }
+
             if (type.equals(UserType.USER.toString())) {
                 user.setUserType(UserType.USER);
             } else if (type.equals(UserType.MOD.toString())) {
