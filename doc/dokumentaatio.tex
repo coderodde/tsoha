@@ -16,6 +16,7 @@
 \usepackage{hyperref}
 \usepackage{tocloft}
 \usepackage{fancyvrb}
+\usepackage{float}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 
 \makeatletter
@@ -181,10 +182,17 @@ Kirjautuneen käyttäjän selatessa säikeen viestit, voi hän painaa postauksen
 \end{figure}
 \newpage
 \section{Järjestemän tietosisältö}
-\begin{figure}
+\begin{figure}[H]
   \caption{Entity relationship - kaavio}
   \centering
   \includegraphics[width=\textwidth, keepaspectratio]{ERDiagram}
   \label{fig:erdiagram}
 \end{figure}
+
+\section{Asennustiedot}
+Mikäli on saatavana palvelinkone, jossa on Apache Tomcat 6 - sovelluspalvelin (muista versioista ei tietoa) ja PostgreSQL 8.4 (ei tietoa muista versiosta täälläkään), niin \textbf{multilog} - sovelluksen pystyy asentaa vain kopiomalla \textbf{multilog.war} webarkiston kansioon \textbf{\textasciitilde/tomcat/webapps}. (Kannattaa odottaa viitisen sekuntia, jotta Tomcat ottaa sovelluksen käyttöön.)
+
+\section{Käynnistys- /käyttöohje}
+Sovelluksen pääsivu on osoitteessa \url{http://t-rodionef.users.cs.helsinki.fi/multilog/}.
+Tässä vaiheessa sovelluksessa voi luoda (alimman etuoikeustason) tunnukset kohdasta ``Sign up''.
 \end{document}
