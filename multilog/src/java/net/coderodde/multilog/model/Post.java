@@ -38,7 +38,7 @@ public class Post {
     private Timestamp updatedAt;
 
     /**
-     * If not null, points to the post being replied by this post.
+     * If not <code>null</code>, points to the post being replied by this post.
      */
     private Post parentPost;
 

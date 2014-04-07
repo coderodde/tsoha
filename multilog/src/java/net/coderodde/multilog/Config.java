@@ -54,17 +54,12 @@ public class Config {
             "java:/comp/env/jdbc/mlogDB";
 
     /**
-     * For the sake of better server logs.
-     */
-    public static final String ERROR_BADGE = "[Error] ";
-
-    /**
      * Session related magic data.
      */
     public static final class SESSION_MAGIC {
 
         /**
-         * The key name in a session for user name. "username".
+         * The key name in a session for user name.
          */
         public static final String USERNAME = "username";
 
@@ -105,7 +100,7 @@ public class Config {
         public static final String SHOW_EMAIL = "show_email";
 
         /**
-         * The key for signed in user. "singed_in".
+         * The key for signed in user.
          */
         public static final String SIGNED_IN_USER_ATTRIBUTE = "signed_in";
 
@@ -114,6 +109,9 @@ public class Config {
          */
         public static final String ID = "id";
 
+        /**
+         * The key for description attribute.
+         */
         public static final String DESCRIPTION = "description";
     }
 
@@ -123,11 +121,14 @@ public class Config {
     public static final class SQL_MAGIC {
 
         /**
-         * The template for fetching the user by a name and a password.
+         * The template for fetching a user by username.
          */
         public static final String FETCH_USER_BY_NAME =
                 "SELECT * FROM users WHERE username = ?;";
 
+        /**
+         * The template for fetching a user by ID.
+         */
         public static final String FETCH_USER_BY_ID =
                 "SELECT * FROM users WHERE user_id = ?;";
 
@@ -149,6 +150,9 @@ public class Config {
         public static final String FETCH_THREADS_BY_TOPIC_ID =
                 "SELECT * FROM threads WHERE topic_id = ?;";
 
+        /**
+         * The template for inserting a new user row into the database.
+         */
         public static final String CREATE_USER =
                 "INSERT INTO users (" +
                 "user_id," +

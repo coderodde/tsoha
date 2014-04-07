@@ -41,10 +41,6 @@ public class Topic {
     private Timestamp updatedAt;
 
     public static final Topic getTopicById(final long id) {
-//        return new Topic().setId(id)
-//                          .setName("Funkify topic")
-//                          .setCreatedAtTimestamp(new Timestamp(System.currentTimeMillis()))
-//                          .setUpdatedAtTimestamp(new Timestamp(System.currentTimeMillis() + 1000000));
         Connection conn = DB.getConnection();
 //
         if (conn == null) {
@@ -104,6 +100,13 @@ public class Topic {
         return topicList;
     }
 
+    /**
+     * Extracts a single topic from an input result set.
+     *
+     * @param rs the result set to extract from.
+     *
+     * @return a topic object, or <code>null</code> if something fails.
+     */
     private static final Topic extractTopic(ResultSet rs) {
         try {
             if (rs.next() == false) {
@@ -123,12 +126,18 @@ public class Topic {
         }
     }
 
+    /**
+     * Extracts all topics from an input result set.
+     *
+     * @param rs the result set to extract from.
+     *
+     * @return a list of topics, or <code>null</code> if something fails.
+     */
     private static final List<Topic> extractTopics(final ResultSet rs) {
         List<Topic> topicList = new ArrayList<Topic>();
 
         try {
             while (rs.next()) {
-
                 final long ID = rs.getLong("topic_id");
                 final String NAME = rs.getString("topic_name");
                 final Timestamp CREATED_AT = rs.getTimestamp("created_at");
@@ -186,6 +195,11 @@ public class Topic {
         return updatedAt;
     }
 
+    /**
+     * Returns a list of all threads belonging to this topic.
+     *
+     * @return a list of forum threads or <code>null</code> if something fails.
+     */
     public List<Thread> getThreads() {
         Connection connection = DB.getConnection();
 
@@ -221,6 +235,13 @@ public class Topic {
         return threadList;
     }
 
+    /**
+     * Extracts all forum threads from a given result set.
+     *
+     * @param rs the result set to extract from.
+     *
+     * @return a list of forum threads, or <code>null</code> if something fails.
+     */
     private static final List<Thread> extractAllThreads(ResultSet rs) {
         List<Thread> threadList = new ArrayList<Thread>();
 

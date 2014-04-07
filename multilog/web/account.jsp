@@ -56,7 +56,7 @@
 
                 ${closeBegin}
                 <form action="update">
-                    <input type="button" value="Update">
+                    <input type="button" value="Update account">
                 </form>
 
                 <form action="delete">

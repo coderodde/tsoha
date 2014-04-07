@@ -1,7 +1,6 @@
 package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.User;
 
 /**
+ * This servlet handles the account related activities.
  *
  * @author Rodion Efremov
  * @version 0.1
@@ -123,6 +123,6 @@ public class AccountServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "This servlet forwards to user pages.";
+        return "This servlet coordinates the account page related activities.";
     }
 }

@@ -18,31 +18,12 @@ import net.coderodde.multilog.Config;
  */
 public class DB {
 
-
-    /**
-     * A sentinel value returned on wrong password.
-     */
-    public static final User BAD_PASSWORD_USER = new User();
-
-    /**
-     * The database abstraction object as a singleton.
-     */
-    private static final DB db = new DB();
-
-    /**
-     * Returns the database abstraction object.
-     *
-     * @return the database abstraction object.
-     */
-    public static final DB getDatabase() {
-        return db;
-    }
-
     /**
      * This static method attempts to establish a connection to the database
      * and, upon success, returns it. Don't forget to close it.
      *
      * @return the connection to the database.
+     *
      * @throws NamingException
      * @throws SQLException
      */
@@ -56,6 +37,14 @@ public class DB {
         }
     }
 
+    /**
+     * Creates and returns a statement object from a connection.
+     *
+     * @param connection the connection to ask for a statement.
+     *
+     * @return a statement object, if everything is OK;
+     * <code>null</code> otherwise.
+     */
     public static final Statement getStatement(final Connection connection) {
         try {
             return connection.createStatement();
@@ -65,6 +54,15 @@ public class DB {
         }
     }
 
+    /**
+     * Creates and returns a prepared statement from a connection.
+     *
+     * @param connection the connection to ask for a prepared statement.
+     * @param sql the SQL-template to initialize.
+     *
+     * @return a prepared statement object, if everything is OK;
+     * <code>null</code> otherwise.
+     */
     public static final PreparedStatement getPreparedStatement
             (final Connection connection, final String sql) {
         try {
@@ -98,6 +96,4 @@ public class DB {
                          .setShowRealName(rs.getBoolean("show_real_name"))
                          .end();
     }
-
-    private DB() {}
 }

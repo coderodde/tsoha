@@ -91,6 +91,14 @@ public class User {
      */
     private Timestamp updatedAt;
 
+    /**
+     * Returns a currently signed in user, or <code>null</code> if there is no
+     * such.
+     *
+     * @param request the request object.
+     *
+     * @return a currently signed use, or <code>null</code> if there is no such.
+     */
     public static final User getCurrentlySignedUser
             (final HttpServletRequest request) {
        return (User) request.getSession()
@@ -175,26 +183,56 @@ public class User {
         return description;
     }
 
+    /**
+     * Returns the password of this user.
+     *
+     * @return the password of this user.
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Returns the password salt of this user.
+     *
+     * @return the password salt of this user.
+     */
     public String getSalt() {
         return salt;
     }
 
+    /**
+     * Returns the password hash of this user.
+     *
+     * @return the password hash of this user.
+     */
     public String getHash() {
         return hash;
     }
 
+    /**
+     * Returns the user type of this user.
+     *
+     * @return the user type of this user.
+     */
     public UserType getUserType() {
         return userType;
     }
 
+    /**
+     * Returns the creation timestamp of this user.
+     *
+     * @return the creation timestamp of this user.
+     */
     public Timestamp getCreatedAt() {
         return createdAt;
     }
 
+    /**
+     * Returns the update timestamp of this user.
+     *
+     * @return the update timestamp of this user.
+     */
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
@@ -297,31 +335,73 @@ public class User {
         return this;
     }
 
+    /**
+     * Sets the password of this user.
+     *
+     * @param password the password to set.
+     *
+     * @return itself for chaining.
+     */
     public User setPassword(final String password) {
         this.password = password;
         return this;
     }
 
+    /**
+     * Sets the password salt for this user.
+     *
+     * @param salt the password salt to set.
+     *
+     * @return itself for chaining.
+     */
     public User setSalt(final String salt) {
         this.salt = salt;
         return this;
     }
 
+    /**
+     * Sets the password hash for this user.
+     *
+     * @param hash the password hash to set.
+     *
+     * @return itself for chaining.
+     */
     public User setHash(final String hash) {
         this.hash = hash;
         return this;
     }
 
+    /**
+     * Sets the user type for this user.
+     *
+     * @param userType the user type to set.
+     *
+     * @return itself for chaining.
+     */
     public User setUserType(final UserType userType) {
         this.userType = userType;
         return this;
     }
 
+    /**
+     * Sets the creation timestamp for this user.
+     *
+     * @param createdAt the timestamp to set.
+     *
+     * @return itself for chaining.
+     */
     public User setCreatedAt(final Timestamp createdAt) {
         this.createdAt = createdAt;
         return this;
     }
 
+    /**
+     * Sets the update timestamp for this user.
+     *
+     * @param updatedAt the timestamp to set.
+     *
+     * @return itself for chaining.
+     */
     public User setUpdatedAt(final Timestamp updatedAt) {
         this.updatedAt = updatedAt;
         return this;
@@ -336,6 +416,12 @@ public class User {
         return this;
     }
 
+    /**
+     * Tries to persist this user into the database.
+     *
+     * @return <code>true</code> if persisting succeeded, <code>false</code>
+     * otherwise.
+     */
     public boolean create() {
         Connection connection = DB.getConnection();
 
@@ -393,8 +479,17 @@ public class User {
         return getHash(password, salt).equals(this.getHash());
     }
 
+    /**
+     * Returns the hash of a string resulted from appending salt to the
+     * password.
+     *
+     * @param password the password.
+     * @param salt the password salt.
+     *
+     * @return the hash as a string.
+     */
     static final String getHash(final String password,
-                                        final String salt) {
+                                final String salt) {
         final String toHash = password + salt;
         final byte[] bytes = Utils.getUtils()
                                   .getMessageDigest()
@@ -409,6 +504,13 @@ public class User {
         return sb.toString();
     }
 
+    /**
+     * Loads a user by username.
+     *
+     * @param username the username of a desired user.
+     *
+     * @return a user object, or <code>null</code> if something fails.
+     */
     public static final User read(final String username) {
         Connection conn = DB.getConnection();
 
@@ -442,6 +544,13 @@ public class User {
         return user;
     }
 
+    /**
+     * Loads a user with the desired ID.
+     *
+     * @param id the ID of the desired user.
+     *
+     * @return the user with given ID, or <code>null</code> if something fails.
+     */
     public static final User read(final long id) {
         Connection conn = DB.getConnection();
 
@@ -474,6 +583,14 @@ public class User {
         closeResources(conn, ps, rs);
         return user;
     }
+
+    /**
+     * Extracts a single user from a given result set.
+     *
+     * @param rs the result set to extract from.
+     *
+     * @return a user object, or <code>null</code> if something fails.
+     */
     private static final User extractUser(ResultSet rs) {
         try {
             if (rs.next() == false) {
@@ -493,24 +610,8 @@ public class User {
                                   .setDescription(rs.getString("description"))
                                   .setCreatedAt(rs.getTimestamp("created_at"))
                                   .setUpdatedAt(rs.getTimestamp("updated_at"))
-                                  .setUserType(UserType.valueOf(rs.getString("user_type")));
-
-//            String type = rs.getString("user_type");
-//
-//            if (type == null || type.isEmpty()) {
-//                throw new IllegalStateException("Gotcha! " + type);
-//            }
-//
-//            if (type.equals(UserType.USER.toString())) {
-//                user.setUserType(UserType.USER);
-//            } else if (type.equals(UserType.MOD.toString())) {
-//                user.setUserType(UserType.MOD);
-//            } else if (type.equals(UserType.ADMIN.toString())) {
-//                user.setUserType(UserType.ADMIN);
-//            } else {
-//                throw new IllegalStateException("Bad user type enumeration!");
-//            }
-
+                                  .setUserType(UserType.valueOf(
+                                               rs.getString("user_type")));
             return user;
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);

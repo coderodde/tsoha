@@ -23,6 +23,9 @@ public enum UserType {
      */
     ADMIN("Administrator");
 
+    /**
+     * The textual representation of a user type.
+     */
     private String text;
 
     /**

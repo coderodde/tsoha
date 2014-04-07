@@ -317,6 +317,20 @@ public class SignupServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Saves the intermediate form data.
+     *
+     * @param request the servlet request object.
+     * @param username the username to save.
+     * @param password the password to save.
+     * @param passwordConfirmation the password confirmation to save.
+     * @param firstName the first name to save.
+     * @param lastName the last name to save.
+     * @param email the email address to save.
+     * @param showName the show name trigger to save.
+     * @param showEmail the show email trigger to save.
+     * @param description the description to save.
+     */
     private static final void saveIntermediateData(
             final HttpServletRequest request,
             final String username,

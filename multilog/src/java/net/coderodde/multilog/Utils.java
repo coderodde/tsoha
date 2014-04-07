@@ -19,6 +19,7 @@ import net.coderodde.multilog.model.User;
  * This class provides utilities for multilog.
  *
  * @author Rodion Efremov
+ * @version 0.1
  */
 public class Utils {
 
@@ -34,10 +35,21 @@ public class Utils {
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile(Config.EMAIL_REGEX);
 
+    /**
+     * The random machinery.
+     */
     private static final Random random = new Random();
 
+    /**
+     * Maps an integer to a character. Used for generating password salts.
+     */
     private static final Map<Integer, Character> map =
             new HashMap<Integer, Character>();
+
+    /**
+     * A singleton for the sake of message digest machinery.
+     */
+    private static final Utils utils = new Utils();
 
     static {
         loadMap();
@@ -48,9 +60,10 @@ public class Utils {
      */
     private MessageDigest md;
 
-    private static final Utils utils = new Utils();
-
-    public Utils() {
+    /**
+     * Constructs the message digest machinery.
+     */
+    private Utils() {
         try {
             this.md = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException nsae) {
@@ -58,6 +71,11 @@ public class Utils {
         }
     }
 
+    /**
+     * Returns the utility object.
+     *
+     * @return the utility object.
+     */
     public static final Utils getUtils() {
         return utils;
     }
@@ -82,14 +100,38 @@ public class Utils {
                                            SIGNED_IN_USER_ATTRIBUTE);
     }
 
+    /**
+     * Checks the validity of a username.
+     *
+     * @param username the username to check.
+     *
+     * @return <code>true</code> if username is valid, <code>false</code>
+     * otherwise.
+     */
     public static final boolean isValidUsername(final String username) {
         return USERNAME_PATTERN.matcher(username).matches();
     }
 
+    /**
+     * Checks the validity of an email address.
+     *
+     * @param email the email address to check.
+     *
+     * @return <code>true</code> if the email address is valid,
+     * <code>false</code> otherwise.
+     */
     public static final boolean isValidEmail(final String email) {
         return EMAIL_PATTERN.matcher(email).matches();
     }
 
+    /**
+     * Checks the validity of a password.
+     *
+     * @param password the password to check.
+     *
+     * @return <code>true</code> if the password is valid, <code>false</code>
+     * otherwise.
+     */
     public static final boolean isValidPassword(final String password) {
         if (password.length() < Config.MINIMUM_PASSWORD_LENGTH) {
             return false;
@@ -120,13 +162,13 @@ public class Utils {
                 && digitCount > 1;
     }
 
-    public final static byte[] generateRandomSalt() {
-        final Random r = new SecureRandom();
-        byte[] salt = new byte[Config.SALT_LENGTH];
-        r.nextBytes(salt);
-        return salt;
-    }
-
+    /**
+     * Closes the JDBC - related resources.
+     *
+     * @param connection the connection to close.
+     * @param statement the statement to close.
+     * @param resultSet the result set to close.
+     */
     public static final void closeResources(final Connection connection,
                                             final Statement statement,
                                             final ResultSet resultSet) {
@@ -170,6 +212,18 @@ public class Utils {
         return new String(saltChars);
     }
 
+    /**
+     * Returns the message digest implementation.
+     *
+     * @return the message digest implementation.
+     */
+    public final MessageDigest getMessageDigest() {
+        return md;
+    }
+
+    /**
+     * Loads the map used in salt generation.
+     */
     private static final void loadMap() {
         char c = '0';
         int i = 0;
@@ -189,9 +243,5 @@ public class Utils {
         for (; i != 62; ++i, ++c) {
             map.put(i, c);
         }
-    }
-
-    public final MessageDigest getMessageDigest() {
-        return md;
     }
 }

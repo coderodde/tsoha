@@ -50,33 +50,6 @@ public class HomeServlet extends HttpServlet {
     }
 
     /**
-     * Sets up the request for unsigned users.
-     *
-     * @param request the request object.
-     */
-    static void prepareNavibarForUnsignedUser
-        (final HttpServletRequest request) {
-        request.setAttribute("right_left", "Sign in");
-        request.setAttribute("right_left_url", "signin.jsp");
-        request.setAttribute("right_right", "Sign up");
-        request.setAttribute("right_right_url", "signup");
-    }
-
-    /**
-     * Sets up the request for a signed in user.
-     *
-     * @param request the request object.
-     * @param user the user object.
-     */
-    static void prepareNavibarForSingedUser
-        (final HttpServletRequest request, final User user) {
-        request.setAttribute("right_left", "Sign out");
-        request.setAttribute("right_left_url", "signout");
-        request.setAttribute("right_right", user.getUsername());
-        request.setAttribute("right_right_url", "account");
-    }
-
-    /**
      * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request.
@@ -114,5 +87,32 @@ public class HomeServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
+    }
+
+    /**
+     * Sets up the request for unsigned users.
+     *
+     * @param request the request object.
+     */
+    static void prepareNavibarForUnsignedUser
+        (final HttpServletRequest request) {
+        request.setAttribute("right_left", "Sign in");
+        request.setAttribute("right_left_url", "signin.jsp");
+        request.setAttribute("right_right", "Sign up");
+        request.setAttribute("right_right_url", "signup");
+    }
+
+    /**
+     * Sets up the request for a signed in user.
+     *
+     * @param request the request object.
+     * @param user the user object.
+     */
+    static void prepareNavibarForSingedUser
+        (final HttpServletRequest request, final User user) {
+        request.setAttribute("right_left", "Sign out");
+        request.setAttribute("right_left_url", "signout");
+        request.setAttribute("right_right", user.getUsername());
+        request.setAttribute("right_right_url", "account");
     }
 }

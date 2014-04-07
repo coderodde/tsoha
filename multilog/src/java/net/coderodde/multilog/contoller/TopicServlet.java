@@ -1,8 +1,6 @@
 package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -55,16 +53,19 @@ public class TopicServlet extends HttpServlet {
 
         // If here, show all topics.
         List<Topic> topicList = Topic.getAllTopics();
-//
-//        List<Topic> shit = new ArrayList<Topic>();
-//
-//        shit.add(new Topic().setName("Maths").setCreatedAtTimestamp(new Timestamp(System.currentTimeMillis() + 1000000)));
-//        shit.add(new Topic().setName("Computer science").setCreatedAtTimestamp(new Timestamp(System.currentTimeMillis())).setUpdatedAtTimestamp(new Timestamp(System.currentTimeMillis() + 500000)));
-
         request.setAttribute("topicList", topicList);
         request.getRequestDispatcher("topicview.jsp").forward(request, response);
     }
 
+    /**
+     * Serves a particular topic page if such exists.
+     *
+     * @param id the ID of the topic to fetch.
+     * @param request the servlet request object.
+     *
+     * @return <code>true</code> if a topic with given ID exists and is renderd,
+     * <code>false</code> otherwise.
+     */
     private final boolean serveParticularThread
             (final long id, final HttpServletRequest request) {
         Topic topic = Topic.getTopicById(id);
