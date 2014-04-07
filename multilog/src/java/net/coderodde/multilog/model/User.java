@@ -16,6 +16,8 @@ import static net.coderodde.multilog.Utils.closeResources;
  */
 public class User {
 
+    public static User noconn = new User();
+
     public static final User BAD_PASSWORD_USER = new User();
 
     /**

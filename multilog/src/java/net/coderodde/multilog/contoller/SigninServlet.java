@@ -83,6 +83,14 @@ public class SigninServlet extends HttpServlet {
 
         User user = User.read(username);
 
+        if (user == User.noconn) {
+
+            request.setAttribute("notice", "No connection");
+            request.getRequestDispatcher("signin.jsp")
+                   .forward(request, response);
+            return;
+        }
+
         if (user == null) {
             request.setAttribute("notice", "Authentication failed! user == null");
             request.getRequestDispatcher("signin.jsp")
