@@ -1,7 +1,7 @@
 -- This file creates all multilog tables.
 
 -- Creates the user type enumeration.
-CREATE TYPE e_user_type AS ENUM ('User', 'Mod', 'Admin');
+CREATE TYPE e_user_type AS ENUM ('USER', 'MOD', 'ADMIN');
 
 -- Creates the user table.
 CREATE TABLE users (
