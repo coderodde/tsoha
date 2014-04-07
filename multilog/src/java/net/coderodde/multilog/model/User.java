@@ -495,11 +495,13 @@ public class User {
                              .setShowRealName(rs.getBoolean("show_real_name"))
                              .setShowEmail(rs.getBoolean("show_email"))
                              .setDescription(rs.getString("description"))
-                             .setUserType(UserType.valueOf
-                                               (rs.getString("user_type")))
+//                             .setUserType(UserType.valueOf
+//                                               (rs.getString("user_type")))
+                             .setUserType((UserType) rs.getObject("user_type"))
                              .setCreatedAt(rs.getTimestamp("created_at"))
                              .setUpdatedAt(rs.getTimestamp("updated_at"));
         } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
             return null;
         }
     }

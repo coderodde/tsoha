@@ -7,7 +7,7 @@ package net.coderodde.multilog.model;
  * @version 0.1
  */
 public enum UserType {
-    
+
     /**
      * The basic user.
      */
@@ -21,5 +21,12 @@ public enum UserType {
     /**
      * Administrator.
      */
-    ADMIN
+    ADMIN;
+
+    public static void main(String... args) {
+
+        System.out.println(UserType.valueOf("ADMIN"));
+        System.out.println(UserType.valueOf("MOD"));
+        System.out.println(UserType.valueOf("USER"));
+    }
 }
