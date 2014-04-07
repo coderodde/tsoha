@@ -365,7 +365,7 @@ public class User {
         Connection conn = DB.getConnection();
 
         if (conn == null) {
-            return null;
+            return noconn;
         }
 
         PreparedStatement ps = DB.getPreparedStatement(conn,
