@@ -73,7 +73,7 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("right_left", "Sign out");
         request.setAttribute("right_left_url", "signout");
         request.setAttribute("right_right", user.getUsername());
-        request.setAttribute("right_right_url", "http://www.yandex.ru");
+        request.setAttribute("right_right_url", "account");
     }
 
     /**
