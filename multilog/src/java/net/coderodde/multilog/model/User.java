@@ -497,8 +497,8 @@ public class User {
                              .setDescription(rs.getString("description"))
                              .setUserType(UserType.valueOf
                                                (rs.getString("user_type")))
-                             .setCreatedAt(rs.getTimestamp("createdAt"))
-                             .setUpdatedAt(rs.getTimestamp("updatedAt"));
+                             .setCreatedAt(rs.getTimestamp("created_at"))
+                             .setUpdatedAt(rs.getTimestamp("updated_at"));
         } catch (SQLException sqle) {
             return null;
         }
