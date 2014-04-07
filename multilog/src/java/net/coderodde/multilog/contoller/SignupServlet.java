@@ -117,7 +117,7 @@ public class SignupServlet extends HttpServlet {
             return;
         }
 
-        final User other = User.getByUsername(username);
+        final User other = User.read(username);
 
         if (other != null) {
             saveIntermediateData(request,

@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import javax.servlet.http.HttpServletRequest;
 import net.coderodde.multilog.Config;
 import static net.coderodde.multilog.Utils.closeResources;
 
@@ -15,8 +17,6 @@ import static net.coderodde.multilog.Utils.closeResources;
  * @version 0.1
  */
 public class User {
-
-    public static User noconn = new User();
 
     public static final User BAD_PASSWORD_USER = new User();
 
@@ -81,37 +81,27 @@ public class User {
      */
     private String hash;
 
+    /**
+     * The user's privilege type.
+     */
     private UserType type;
 
-    public static final User getByUsername(final String username) {
-        Connection connection = DB.getConnection();
+    /**
+     * The user's creation timestamp.
+     */
+    private Timestamp createdAt;
 
-        if (connection == null) {
-            return null;
-        }
+    /**
+     * The user's update timestamp.
+     */
+    private Timestamp updatedAt;
 
-        PreparedStatement ps =
-                DB.getPreparedStatement(connection,
-                                        Config.SQL_MAGIC.FETCH_USER_BY_NAME);
-
-        if (ps == null) {
-            closeResources(connection, null, null);
-        }
-
-        ResultSet rs = null;
-
-        try {
-            ps.setString(1, username);
-            rs = ps.executeQuery();
-        } catch (SQLException sqle) {
-            sqle.printStackTrace(System.err);
-            closeResources(connection, ps, rs);
-            return null;
-        }
-
-        User user = extractUser(rs);
-        closeResources(connection, ps, rs);
-        return user;
+    public static final User getCurrentlySignedUser
+            (final HttpServletRequest request) {
+       return (User) request.getSession()
+                            .getAttribute(Config.
+                                          SESSION_MAGIC.
+                                          SIGNED_IN_USER_ATTRIBUTE);
     }
 
     /**
@@ -204,6 +194,14 @@ public class User {
 
     public UserType getUserType() {
         return type;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
     /**
@@ -324,6 +322,16 @@ public class User {
         return this;
     }
 
+    public User setCreatedAt(final Timestamp createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public User setUpdatedAt(final Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+        return this;
+    }
+
     /**
      * Syntactic sugar.
      *
@@ -410,7 +418,7 @@ public class User {
         Connection conn = DB.getConnection();
 
         if (conn == null) {
-            return noconn;
+            return null;
         }
 
         PreparedStatement ps = DB.getPreparedStatement(conn,
@@ -439,6 +447,38 @@ public class User {
         return user;
     }
 
+    public static final User read(final long id) {
+        Connection conn = DB.getConnection();
+
+        if (conn == null) {
+            return null;
+        }
+
+        PreparedStatement ps = DB.getPreparedStatement(conn,
+                                                       Config.
+                                                       SQL_MAGIC.
+                                                       FETCH_USER_BY_ID);
+
+        if (ps == null) {
+            closeResources(conn, null, null);
+            return null;
+        }
+
+        ResultSet rs = null;
+
+        try {
+            ps.setLong(1, id);
+            rs = ps.executeQuery();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(conn, ps, rs);
+            return null;
+        }
+
+        User user = extractUser(rs);
+        closeResources(conn, ps, rs);
+        return user;
+    }
     private static final User extractUser(ResultSet rs) {
         try {
             if (rs.next() == false) {
@@ -456,7 +496,9 @@ public class User {
                              .setShowEmail(rs.getBoolean("show_email"))
                              .setDescription(rs.getString("description"))
                              .setUserType(UserType.valueOf
-                                               (rs.getString("user_type")));
+                                               (rs.getString("user_type")))
+                             .setCreatedAt(rs.getTimestamp("createdAt"))
+                             .setUpdatedAt(rs.getTimestamp("updatedAt"));
         } catch (SQLException sqle) {
             return null;
         }

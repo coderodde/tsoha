@@ -33,7 +33,7 @@
                         <tr> <td> Description:                           </td> <td> <textarea rows="4">${im_description}</textarea>                                                          </td> <td>                                                           </td> </tr>
                         <tr> <td> <input type="submit" value="Sign up!"> </td> <td>                                                                                                          </td> <td>                                                           </td> </tr>
                     </table>
-                        <p style="color: red;">${notice}</p>
+                    <p style="color: red;">${notice}</p>
                 </form>
             </div>
 
