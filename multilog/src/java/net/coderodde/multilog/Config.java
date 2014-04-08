@@ -124,13 +124,13 @@ public class Config {
          * The template for fetching a user by username.
          */
         public static final String FETCH_USER_BY_NAME =
-                "SELECT * FROM users WHERE username = ?;";
+                "SELECT * FROM users WHERE username = ? AND removed = FALSE;";
 
         /**
          * The template for fetching a user by ID.
          */
         public static final String FETCH_USER_BY_ID =
-                "SELECT * FROM users WHERE user_id = ?;";
+                "SELECT * FROM users WHERE user_id = ? AND removed = FALSE;";
 
         /**
          * The query to get all available topics.
@@ -176,5 +176,7 @@ public class Config {
                 "?," +                                      // description.
                 "NOW(), NOW());";
 
+        public static final String REMOVE_USER =
+                "UPDATE users SET removed = TRUE WHERE user_id = ?;";
     }
 }

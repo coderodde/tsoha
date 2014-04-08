@@ -1,0 +1,30 @@
+                <table class="info_table">
+                    <tr>
+                        <td class="info_td"></td>
+                        <td class="info_td">
+                            <table class="info_map_table">
+                                <tr>
+                                    <td class="info_map_td">Posts:</td><td class="info_map_td">${posts}</td>
+                                </tr>
+                                <tr>
+                                    <td class="info_map_td">Joined:</td><td class="info_map_td">${joined}</td>
+                                </tr>
+                                <tr>
+                                    <td class="info_map_td">Updated:</td><td class="info_map_td">${updated}</td>
+                                </tr>
+                                <tr>
+                                    <td class="info_map_td">Email:</td><td class="info_map_td">${email}</td>
+                                </tr>
+                                <tr>
+                                    <td class="info_map_td">Real name:</td><td class="info_map_td">${real_name}</td>
+                                </tr>
+                                <tr>
+                                    <td class="info_map_td">Privilege level:</td><td class="info_map_td">${level}</td>
+                                </tr>
+                                <tr>
+                                    <td class="info_map_td">Description:</td><td><p>${description}</p></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>

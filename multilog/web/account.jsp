@@ -19,51 +19,26 @@
             <hr/>
 
             <div class="user_info">
-                <div id="account_name_div">  </div>
+                <div id="account_name_div">${username}</div>
 
-                <table class="info_table">
-                    <tr ><td><h2>${username}</h2></td><td></td></tr>
-                    <tr>
-                        <td class="info_td"></td>
-                        <td class="info_td">
-                            <table class="info_map_table">
-                                <tr>
-                                    <td class="info_map_td">Posts:</td><td class="info_map_td">${posts}</td>
-                                </tr>
-                                <tr>
-                                    <td class="info_map_td">Joined:</td><td class="info_map_td">${joined}</td>
-                                </tr>
-                                <tr>
-                                    <td class="info_map_td">Updated:</td><td class="info_map_td">${updated}</td>
-                                </tr>
-                                <tr>
-                                    <td class="info_map_td">Email:</td><td class="info_map_td">${email}</td>
-                                </tr>
-                                <tr>
-                                    <td class="info_map_td">Real name:</td><td class="info_map_td">${real_name}</td>
-                                </tr>
-                                <tr>
-                                    <td class="info_map_td">Privilege level:</td><td class="info_map_td">${level}</td>
-                                </tr>
-                                <tr>
-                                    <td class="info_map_td">Description:</td><td><p>${description}</p></td>
-                                </tr>
-                                <tr>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
+                <c:if test="${edit == true}" >
+                    <%@ include file="accountedit.jspf" %>
+                </c:if>
+
+                <c:if test="${view == true}" >
+                    <%@ include file="accountview.jspf" %>
+                </c:if>
 
                 <c:if test="${edit == true}">
-                <form action="update">
+                <form action="accountupdate">
+                    <input type="hidden" value="${myid}" name="user_id">
                     <input type="button" value="Update account">
                 </form>
 
-                <form action="delete">
+                <form action="accountdelete">
+                    <input type="hidden" value="${myid}" name="user_id">
                     <input type="button" value="Delete account!" >
                 </form>
-                This must be printed! :)
                 </c:if>
             </div>
         </div>

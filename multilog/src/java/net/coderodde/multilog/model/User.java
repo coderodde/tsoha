@@ -479,6 +479,15 @@ public class User {
         return getHash(password, salt).equals(this.getHash());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof User)) {
+            return false;
+        }
+
+        return getId() == ((User) o).getId();
+    }
+
     /**
      * Returns the hash of a string resulted from appending salt to the
      * password.
@@ -582,6 +591,36 @@ public class User {
         User user = extractUser(rs);
         closeResources(conn, ps, rs);
         return user;
+    }
+
+    public boolean delete() {
+        Connection conn = null;
+
+        if (conn == null) {
+            return false;
+        }
+
+        PreparedStatement ps = DB.getPreparedStatement(conn,
+                                                       Config.
+                                                       SQL_MAGIC.
+                                                       REMOVE_USER);
+
+        if (ps == null) {
+            closeResources(conn, null, null);
+            return false;
+        }
+
+        try {
+            ps.setString(1, "" + getId());
+            ps.executeUpdate();
+            closeResources(conn, ps, null);
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(conn, ps, null);
+            return false;
+        }
+
+        return true;
     }
 
     /**
