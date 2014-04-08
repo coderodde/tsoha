@@ -108,6 +108,10 @@ public class DeleteAccountServlet extends HttpServlet {
                                      "You successfully removed " +
                                      userToDelete.getUsername() + ".");
                 request.getRequestDispatcher("home").forward(request, response);
+            } else {
+                request.setAttribute("notice", "You don't have the privileges" +
+                                               " to delete accounts.");
+                request.getRequestDispatcher("home").forward(request, response);
             }
         }
     }

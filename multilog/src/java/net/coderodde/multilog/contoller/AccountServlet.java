@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.User;
+import net.coderodde.multilog.model.UserType;
 
 /**
  * This servlet handles the account related activities.
@@ -45,6 +46,7 @@ public class AccountServlet extends HttpServlet {
         }
 
         if (who == null) {
+            request.setAttribute("notice", "Nothing to view.");
             request.getRequestDispatcher("home").forward(request, response);
             return;
         }
@@ -53,6 +55,15 @@ public class AccountServlet extends HttpServlet {
             HomeServlet.prepareNavibarForSingedUser(request, current);
         } else {
             HomeServlet.prepareNavibarForUnsignedUser(request);
+        }
+
+        if (who.equals(current)) {
+            request.setAttribute("edit", true);
+            request.setAttribute("candelete", true);
+        } else {
+            if (current.getUserType().equals(UserType.ADMIN)) {
+                request.setAttribute("candelete", true);
+            }
         }
 
         request.setAttribute("username", who.getUsername());

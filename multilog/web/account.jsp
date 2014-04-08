@@ -34,7 +34,9 @@
                     <input type="hidden" value="${myid}" name="user_id">
                     <input type="button" value="Update account">
                 </form>
+                </c:if>
 
+                <c:if test="${candelete == true}">
                 <form action="accountdelete">
                     <input type="hidden" value="${myid}" name="user_id">
                     <input type="button" value="Delete account!" >
