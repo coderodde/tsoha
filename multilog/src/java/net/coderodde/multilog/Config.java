@@ -116,6 +116,17 @@ public class Config {
     }
 
     /**
+     * HTML magic.
+     */
+    public static final class HTML_MAGIC {
+
+        /**
+         * HTML-escaped string "hidden".
+         */
+        public static final String HIDDEN = "&lt;hidden&gt;";
+    }
+
+    /**
      * SQL magic constants.
      */
     public static final class SQL_MAGIC {

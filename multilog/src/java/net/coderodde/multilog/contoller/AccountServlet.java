@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.coderodde.multilog.Config;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.UserType;
 
@@ -57,39 +58,15 @@ public class AccountServlet extends HttpServlet {
             HomeServlet.prepareNavibarForUnsignedUser(request);
         }
 
+
         if (who.equals(current)) {
-            request.setAttribute("edit", true);
-            request.setAttribute("candelete", true);
+            serveAsMyOwnEdibleView(request, who);
         } else {
             if (current.getUserType().equals(UserType.ADMIN)) {
-                request.setAttribute("candelete", true);
+                serveViewForAdmin(request, who, current);
+            } else {
+                serveAsNonedibleView(request, who);
             }
-        }
-
-        request.setAttribute("username", who.getUsername());
-        request.setAttribute("posts", "0");
-        request.setAttribute("joined", who.getCreatedAt().toString());
-        request.setAttribute("updated", who.getUpdatedAt().toString());
-
-        if (who.getShowEmail()) {
-            request.setAttribute("email", who.getEmail());
-        } else {
-            request.setAttribute("email", "&lt;hidden&gt;");
-        }
-
-        if (who.getShowRealName()) {
-            request.setAttribute("real_name",
-                                 who.getFirstName() + " " + who.getLastName());
-        } else {
-            request.setAttribute("real_name", "&lt;hidden&gt;");
-        }
-
-        request.setAttribute("level", who.getUserType().toString());
-        request.setAttribute("description", who.getDescription());
-
-        // Here 'who' is by no means 'null', but 'current' may be.
-        if (current == who) {
-            request.setAttribute("edit", "true");
         }
 
         request.getRequestDispatcher("account.jsp").forward(request, response);
@@ -123,6 +100,57 @@ public class AccountServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+    }
+
+    static void serveAsNonedibleView(final HttpServletRequest request,
+                                     final User who) {
+        request.setAttribute("view", true);
+
+        // Other attributes.
+        request.setAttribute("posts", 0);
+        request.setAttribute("joined", who.getCreatedAt());
+        request.setAttribute("updated", who.getUpdatedAt());
+
+        if (who.getShowEmail()) {
+            request.setAttribute("email", who.getEmail());
+        } else {
+            request.setAttribute("email", Config.HTML_MAGIC.HIDDEN);
+        }
+
+        if (who.getShowRealName()) {
+            request.setAttribute("real_name",
+                                 who.getFirstName() + " " + who.getLastName());
+        } else {
+            request.setAttribute("real_name", Config.HTML_MAGIC.HIDDEN);
+        }
+
+        request.setAttribute("level", who.getUserType().toString());
+        request.setAttribute("description", who.getDescription());
+    }
+
+    static void serveAsMyOwnEdibleView(final HttpServletRequest request,
+                                       final User who) {
+        request.setAttribute("edit", true);
+        request.setAttribute("candelete", true);
+
+        request.setAttribute("current_firstname", who.getFirstName());
+        request.setAttribute("currnet_lastname", who.getLastName());
+        request.setAttribute("current_description", who.getDescription());
+        request.setAttribute("current_email", who.getEmail());
+
+        request.setAttribute("current_show_real_name",
+                             who.getShowRealName() ? "checked" : "");
+
+        request.setAttribute("current_show_email",
+                             who.getShowEmail() ? "checked" : "");
+    }
+
+    static void serveViewForAdmin(final HttpServletRequest request,
+                                  final User who,
+                                  final User admin) {
+        serveAsNonedibleView(request, who);
+        request.setAttribute("myid", who.getId());
+        request.setAttribute("candelete", true);
     }
 
     /**
