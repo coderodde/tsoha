@@ -77,10 +77,8 @@ public class AccountServlet extends HttpServlet {
         request.setAttribute("description", who.getDescription());
 
         // Here 'who' is by no means 'null', but 'current' may be.
-        if (current != who) {
-            // Hide the 'delete'- and 'update'-buttons.
-            request.setAttribute("closeBegin", "<!--");
-            request.setAttribute("closeEnd", "-->");
+        if (current == who) {
+            request.setAttribute("edit", "true");
         }
 
         request.getRequestDispatcher("account.jsp").forward(request, response);

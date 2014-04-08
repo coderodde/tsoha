@@ -1,3 +1,4 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -54,7 +55,7 @@
                     </tr>
                 </table>
 
-                ${closeBegin}
+                <c:if test="${edit == true}">
                 <form action="update">
                     <input type="button" value="Update account">
                 </form>
@@ -62,7 +63,8 @@
                 <form action="delete">
                     <input type="button" value="Delete account!" >
                 </form>
-                ${closeEnd}
+                This must be printed! :)
+                </c:if>
             </div>
         </div>
     </body>
