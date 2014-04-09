@@ -91,11 +91,11 @@ public class DeleteAccountServlet extends HttpServlet {
 
             if (removed) {
                 request.setAttribute("notice",
-                                     userToDelete.getUsername() + " removed.");
+                                     userToDelete.getUsername() + " removed." + userToDelete.getId());
             } else {
                 request.setAttribute("notice",
                                      "Could not remove " +
-                                     userToDelete.getUsername() + ".");
+                                     userToDelete.getUsername() + "." + userToDelete.getId());
             }
 
             request.getRequestDispatcher("home").forward(request, response);
