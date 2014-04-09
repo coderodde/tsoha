@@ -99,6 +99,7 @@ public class DeleteAccountServlet extends HttpServlet {
             }
 
             request.getRequestDispatcher("home").forward(request, response);
+            return;
         } else {
             // Check that current user has administrator privileges.
             if (current.getUserType().equals(UserType.ADMIN)) {
@@ -108,10 +109,12 @@ public class DeleteAccountServlet extends HttpServlet {
                                      "You successfully removed " +
                                      userToDelete.getUsername() + ".");
                 request.getRequestDispatcher("home").forward(request, response);
+                return;
             } else {
                 request.setAttribute("notice", "You don't have the privileges" +
                                                " to delete accounts.");
                 request.getRequestDispatcher("home").forward(request, response);
+                return;
             }
         }
     }
