@@ -107,6 +107,11 @@ public class User {
                                           SIGNED_IN_USER_ATTRIBUTE);
     }
 
+    public static final void signout(final HttpServletRequest request) {
+        request.getSession()
+               .removeAttribute(Config.SESSION_MAGIC.SIGNED_IN_USER_ATTRIBUTE);
+    }
+
     /**
      * Returns the ID of this user.
      *
