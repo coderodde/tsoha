@@ -102,208 +102,78 @@ public class SignupServlet extends HttpServlet {
 
         if (username == null || username.isEmpty()) {
             hasErrors = true;
-//            saveIntermediateData(request,
-//                                 username,
-//                                 password,
-//                                 passwordConfirmation,
-//                                 firstName,
-//                                 lastName,
-//                                 email,
-//                                 showRealName,
-//                                 showEmail,
-//                                 description);
 
             request.setAttribute("bad_username", "Username is empty.");
             request.setAttribute("su_error_username", "su_error");
-//            request.getRequestDispatcher("signup.jsp")
-//                   .forward(request, response);
-//            return;
         }
 
         final User other = User.read(username);
 
         if (other != null) {
             hasErrors = true;
-//            saveIntermediateData(request,
-//                                 username,
-//                                 password,
-//                                 passwordConfirmation,
-//                                 firstName,
-//                                 lastName,
-//                                 email,
-//                                 showRealName,
-//                                 showEmail,
-//                                 description);
 
             // Once here, the username is already occupied.
             request.setAttribute("bad_username", "Username already in use.");
             request.setAttribute("su_error_username", "su_error");
-//            request.getRequestDispatcher("signup.jsp")
-//                   .forward(request, response);
-//            return;
         }
 
         if (Utils.isValidUsername(username) == false) {
             hasErrors = true;
-//            saveIntermediateData(request,
-//                                 username,
-//                                 password,
-//                                 passwordConfirmation,
-//                                 firstName,
-//                                 lastName,
-//                                 email,
-//                                 showRealName,
-//                                 showEmail,
-//                                 description);
 
             request.setAttribute("bad_username", "Invalid username.");
             request.setAttribute("su_error_username", "su_error");
-//            request.getRequestDispatcher("signup.jsp")
-//                   .forward(request, response);
-//            return;
         }
 
         if (password == null || password.isEmpty()) {
             hasErrors = true;
-//            saveIntermediateData(request,
-//                                 username,
-//                                 password,
-//                                 passwordConfirmation,
-//                                 firstName,
-//                                 lastName,
-//                                 email,
-//                                 showRealName,
-//                                 showEmail,
-//                                 description);
 
             request.setAttribute("bad_password", "Password is missing.");
             request.setAttribute("su_error_password", "su_error");
-//            request.getRequestDispatcher("signup.jsp")
-//                   .forward(request, response);
-//            return;
         }
 
         if (Utils.isValidPassword(password) == false) {
             hasErrors = true;
-//            saveIntermediateData(request,
-//                                 username,
-//                                 password,
-//                                 passwordConfirmation,
-//                                 firstName,
-//                                 lastName,
-//                                 email,
-//                                 showRealName,
-//                                 showEmail,
-//                                 description);
 
             request.setAttribute("bad_password", "Invalid password.");
             request.setAttribute("su_error_password", "su_error");
-//            request.getRequestDispatcher("signup.jsp")
-//                   .forward(request, response);
-//            return;
         }
 
         if (passwordConfirmation == null || passwordConfirmation.isEmpty()) {
             hasErrors = true;
-//            saveIntermediateData(request,
-//                                 username,
-//                                 password,
-//                                 passwordConfirmation,
-//                                 firstName,
-//                                 lastName,
-//                                 email,
-//                                 showRealName,
-//                                 showEmail,
-//                                 description);
 
             request.setAttribute("bad_password_confirmation",
                                  "Password is missing.");
             request.setAttribute("su_error_confirm", "su_error");
-//            request.getRequestDispatcher("signup.jsp")
-//                   .forward(request, response);
-//            return;
         }
 
         if (Utils.isValidPassword(passwordConfirmation) == false) {
             hasErrors = true;
-//            saveIntermediateData(request,
-//                                 username,
-//                                 password,
-//                                 passwordConfirmation,
-//                                 firstName,
-//                                 lastName,
-//                                 email,
-//                                 showRealName,
-//                                 showEmail,
-//                                 description);
 
             request.setAttribute("bad_password_confirmation",
                                  "Invalid password.");
             request.setAttribute("su_error_confirm", "su_error");
-//            request.getRequestDispatcher("signup.jsp")
-//                   .forward(request, response);
-//            return;
         }
 
         if (password.equals(passwordConfirmation) == false) {
             hasErrors = true;
-//            saveIntermediateData(request,
-//                                 username,
-//                                 password,
-//                                 passwordConfirmation,
-//                                 firstName,
-//                                 lastName,
-//                                 email,
-//                                 showRealName,
-//                                 showEmail,
-//                                 description);
 
             request.setAttribute("bad_password_confirmation",
                                  "Confirmation and password differ.");
             request.setAttribute("su_error_confirm", "su_error");
-//            request.getRequestDispatcher("signup.jsp")
-//                   .forward(request, response);
-//            return;
         }
 
         if (email == null || email.isEmpty()) {
             hasErrors = true;
-//            saveIntermediateData(request,
-//                                 username,
-//                                 password,
-//                                 passwordConfirmation,
-//                                 firstName,
-//                                 lastName,
-//                                 email,
-//                                 showRealName,
-//                                 showEmail,
-//                                 description);
 
             request.setAttribute("bad_email", "Email address is missing.");
             request.setAttribute("su_error_email", "su_error");
-//            request.getRequestDispatcher("signup.jsp")
-//                   .forward(request, response);
-//            return;
         }
 
         if (Utils.isValidEmail(email) == false) {
             hasErrors = true;
-//            saveIntermediateData(request,
-//                                 username,
-//                                 password,
-//                                 passwordConfirmation,
-//                                 firstName,
-//                                 lastName,
-//                                 email,
-//                                 showRealName,
-//                                 showEmail,
-//                                 description);
 
             request.setAttribute("bad_email", "Invalid email address.");
             request.setAttribute("su_error_email", "su_error");
-//            request.getRequestDispatcher("signup.jsp")
-//                   .forward(request, response);
-//            return;
         }
 
         if (hasErrors) {
@@ -317,7 +187,7 @@ public class SignupServlet extends HttpServlet {
                                  showRealName,
                                  showEmail,
                                  description);
-            
+
             request.getRequestDispatcher("signup.jsp")
                    .forward(request, response);
             return;

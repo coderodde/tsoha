@@ -242,6 +242,7 @@ body {
 }
 
 .su_error {
+    border: solid 1px white;
     margin: 3px;
     padding: 5px;
     background-color: red;

@@ -143,13 +143,15 @@ public class AccountServlet extends HttpServlet {
 
         request.setAttribute("current_show_email",
                              who.getShowEmail() ? "checked" : "");
+
+        request.setAttribute("target_id", who.getId());
     }
 
     static void serveViewForAdmin(final HttpServletRequest request,
                                   final User who,
                                   final User admin) {
         serveAsNonedibleView(request, who);
-        request.setAttribute("myid", who.getId());
+        request.setAttribute("target_id", who.getId());
         request.setAttribute("candelete", true);
     }
 

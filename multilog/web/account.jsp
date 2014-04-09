@@ -31,14 +31,14 @@
 
                 <c:if test="${edit == true}">
                 <form action="accountupdate" method="post">
-                    <input type="hidden" value="${myid}" name="user_id">
+                    <input type="hidden" value="${target_id}" name="user_id">
                     <input type="submit" value="Update account">
                 </form>
                 </c:if>
 
                 <c:if test="${candelete == true}">
                 <form action="accountdelete" method="post">
-                    <input type="hidden" value="${myid}" name="user_id">
+                    <input type="hidden" value="${target_id}" name="user_id">
                     <input type="submit" value="Delete account!" >
                 </form>
                 </c:if>
