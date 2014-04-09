@@ -615,7 +615,7 @@ public class User {
         }
 
         try {
-            ps.setString(1, "" + getId());
+            ps.setLong(1, getId());
             ps.executeUpdate();
             closeResources(conn, ps, null);
         } catch (SQLException sqle) {
