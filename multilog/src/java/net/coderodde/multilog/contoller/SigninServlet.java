@@ -84,7 +84,9 @@ public class SigninServlet extends HttpServlet {
         User user = User.read(username);
 
         if (user == null) {
-            request.setAttribute("notice", "Authentication failed! user == null");
+            request.setAttribute("notice",
+                                 "Authentication failed! User " + username +
+                                 " does not exist.");
             request.getRequestDispatcher("signin.jsp")
                    .forward(request, response);
             return;
@@ -102,7 +104,9 @@ public class SigninServlet extends HttpServlet {
             return;
         }
 
-        request.setAttribute("notice", "Authentication failed! bad passwd");
+        request.setAttribute("notice",
+                             "Authentication failed! Check username and " +
+                             "password combination.");
         request.getRequestDispatcher("signin").forward(request, response);
     }
 

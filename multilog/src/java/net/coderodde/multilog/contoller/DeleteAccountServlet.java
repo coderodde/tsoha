@@ -104,15 +104,24 @@ public class DeleteAccountServlet extends HttpServlet {
             // Check that current user has administrator privileges.
             if (current.getUserType().equals(UserType.ADMIN)) {
                 // Privilege level OK.
-                userToDelete.delete();
-                request.setAttribute("notice",
-                                     "You successfully removed " +
-                                     userToDelete.getUsername() + ".");
+                boolean removed = userToDelete.delete();
+
+                if (removed) {
+                    request.setAttribute("notice",
+                                         "You successfully removed " +
+                                         userToDelete.getUsername() + ".");
+                } else {
+                    request.setAttribute("notice",
+                                         "Could not removed " +
+                                         userToDelete.getUsername() + ".");
+                }
+
                 request.getRequestDispatcher("home").forward(request, response);
                 return;
             } else {
-                request.setAttribute("notice", "You don't have the privileges" +
-                                               " to delete accounts.");
+                request.setAttribute("notice",
+                                     "You don't have the privileges to " +
+                                     "delete other accounts.");
                 request.getRequestDispatcher("home").forward(request, response);
                 return;
             }

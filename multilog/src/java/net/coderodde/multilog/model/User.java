@@ -598,7 +598,7 @@ public class User {
     }
 
     public boolean delete() {
-        Connection conn = null;
+        Connection conn = DB.getConnection();
 
         if (conn == null) {
             return false;
