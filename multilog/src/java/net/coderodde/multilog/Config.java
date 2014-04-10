@@ -189,5 +189,17 @@ public class Config {
 
         public static final String REMOVE_USER =
                 "UPDATE users SET removed = TRUE WHERE user_id = ?;";
+
+        public static final String UPDATE_USER =
+                "UPDATE users SET " +
+                "salt = ?, " +              // salt.
+                "passwd_hash = ?, " +       // password hash.
+                "first_name = ?, " +        // first name.
+                "last_name = ?, " +         // last_name.
+                "email = ?, " +             // email.
+                "show_real_name = ?, " +    // show real name.
+                "show_email = ?, " +        // show email.
+                "description = ? " +        // description.
+                "WHERE user_id = ?;";       // user ID.
     }
 }

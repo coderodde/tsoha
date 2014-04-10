@@ -16,7 +16,7 @@
             <%@ include file="navibar.jspf" %>
 
             <hr/>
-            <p style="color: red;">${notice}</p>
+            <p style="color: red; text-align: center;">${notice}</p>
         </div>
     </body>
 </html>

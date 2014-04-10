@@ -562,6 +562,42 @@ public class User {
         return user;
     }
 
+    public boolean update() {
+        Connection conn = DB.getConnection();
+
+        if (conn == null) {
+            return false;
+        }
+
+        PreparedStatement ps = DB.getPreparedStatement(conn,
+                                                       Config.
+                                                       SQL_MAGIC.
+                                                       UPDATE_USER);
+        if (ps == null) {
+            closeResources(conn, null, null);
+            return false;
+        }
+
+        try {
+            ps.setString(1, getSalt());
+            ps.setString(2, getHash());
+            ps.setString(3, getFirstName());
+            ps.setString(4, getLastName());
+            ps.setString(5, getEmail());
+            ps.setBoolean(6, getShowRealName());
+            ps.setBoolean(7, getShowEmail());
+            ps.setString(8, getDescription());
+            ps.setLong(9, getId());
+            ps.executeUpdate();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(conn, ps, null);
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Loads a user with the desired ID.
      *
