@@ -1,7 +1,6 @@
 package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -61,22 +60,6 @@ public class UpdateAccountServlet extends HttpServlet {
 
         boolean hasErrors = false;
 
-        final String currentPassword =
-                request.getParameter(Config.SESSION_MAGIC.CURRENT_PASSWORD);
-
-        if (currentPassword == null || currentPassword.isEmpty()) {
-            request.setAttribute("bad_current_password",
-                                 "Current password may not be empty.");
-            hasErrors = true;
-        }
-
-        currentUser.setPassword(currentPassword);
-
-        if (currentUser.currentPasswordIsValid() == false) {
-            request.setAttribute("bad_current_password", "Invalid password.");
-            hasErrors = true;
-        }
-
         final String firstName =
                 request.getParameter(Config.SESSION_MAGIC.FIRST_NAME);
 
@@ -132,12 +115,21 @@ public class UpdateAccountServlet extends HttpServlet {
         }
 
         if (hasErrors) {
-            request.getRequestDispatcher("accountupdate")
+            request.getRequestDispatcher("account.jsp")
                    .forward(request, response);
             return;
         }
 
-        // Everything's OK.
+        StringBuilder sb = new StringBuilder();
+
+        if (doChangePassword) {
+            if (currentUser.changePassword(password)) {
+                sb.append("Password changed.");
+            } else {
+                sb.append("Could not change the password.");
+            }
+        }
+
         currentUser.setFirstName(firstName)
                    .setLastName(lastName)
                    .setEmail(email)
@@ -145,28 +137,18 @@ public class UpdateAccountServlet extends HttpServlet {
                    .setShowEmail(doShowEmail)
                    .setDescription(description);
 
-        StringBuilder sb = new StringBuilder();
+        sb.append("<br>");
 
         if (currentUser.update()) {
             sb.append("Account updated.");
         } else {
-            sb.append("Could not update your account.");
-            hasErrors = true;
-        }
-
-        if (doChangePassword) {
-            if (currentUser.changePassword(password)) {
-                sb.append("<br>").append("Password changed.");
-            } else {
-                sb.append("<br>").append("Could not change your password.");
-                hasErrors = true;
-            }
+            sb.append("Could not update the account.");
         }
 
         request.setAttribute("notice", sb.toString());
 
         if (hasErrors) {
-            request.getRequestDispatcher("accountupdate")
+            request.getRequestDispatcher("account.jsp")
                    .forward(request, response);
         } else {
             request.getRequestDispatcher("home").forward(request, response);

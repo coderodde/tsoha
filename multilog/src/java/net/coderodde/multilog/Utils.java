@@ -121,6 +121,10 @@ public class Utils {
      * <code>false</code> otherwise.
      */
     public static final boolean isValidEmail(final String email) {
+        if (email == null) {
+            return false;
+        }
+        
         return EMAIL_PATTERN.matcher(email).matches();
     }
 

@@ -9,6 +9,5 @@
         <tr> <td>Show email:            </td> <td> <input type="checkbox" name="<%= Config.SESSION_MAGIC.SHOW_EMAIL %>"     ${current_show_email}>            </td> <td>                                                                             </td> </tr>
         <tr> <td>Password:              </td> <td> <input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD %>"                                         </td> <td class="su_error_new_password"> ${bad_new_password}                           </td> </tr>
         <tr> <td>Password confirmation: </td> <td> <input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD_CONFIRMATION %>">                           </td> <td class="su_error_new_password_confirmation"> ${bad_new_password_confirmation} </td> </tr>
-        <tr> <td>Current password:      </td> <td> <input type="password" name="<%= Config.SESSION_MAGIC.CURRENT_PASSWORD %>" >                               </td> <td class="su_current_password"> ${bad_current_password}                         </td> </tr>
     </table>
 </form>

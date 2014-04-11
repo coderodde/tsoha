@@ -42,6 +42,7 @@
                     <input type="submit" value="Delete account!" >
                 </form>
                 </c:if>
+                <p style="color: red; text-align: center;">${notice}</p>
             </div>
         </div>
     </body>

@@ -94,7 +94,6 @@ public class AccountServlet extends HttpServlet {
             serveAsNonedibleView(request, targetUser);
             request.getRequestDispatcher("account.jsp")
                    .forward(request, response);
-            return;
         }
     }
 
