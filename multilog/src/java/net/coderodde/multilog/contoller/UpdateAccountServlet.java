@@ -83,8 +83,8 @@ public class UpdateAccountServlet extends HttpServlet {
         final String showEmail =
                 request.getParameter(Config.SESSION_MAGIC.SHOW_EMAIL);
 
-        final boolean doShowRealName = showRealName.equalsIgnoreCase("on");
-        final boolean doShowEmail = showEmail.equalsIgnoreCase("on");
+        final boolean doShowRealName = "on".equalsIgnoreCase(showRealName);
+        final boolean doShowEmail = "on".equalsIgnoreCase(showEmail);
 
         final String password =
                 request.getParameter(Config.SESSION_MAGIC.PASSWORD);
@@ -94,23 +94,18 @@ public class UpdateAccountServlet extends HttpServlet {
 
         boolean doChangePassword = false;
 
-        if (password != null
-                || passwordConfirmation != null
-                || (password.isEmpty() == false)
-                || (passwordConfirmation.isEmpty() == false)) {
+        if (password != null && !password.isEmpty()) {
             doChangePassword = true;
 
             if (Utils.isValidPassword(password)) {
+                if (!password.equals(passwordConfirmation)) {
+                    request.setAttribute("bad_new_password_confirmation",
+                                         "Confirmation differs from password.");
+                    doChangePassword = false;
+                }
+            } else {
                 request.setAttribute("bad_new_password", "Invalid password.");
                 doChangePassword = false;
-                hasErrors = true;
-            }
-
-            if (passwordConfirmation.equals(password) == false) {
-                request.setAttribute("bad_new_password_confirmation",
-                                     "Passwords do not match.");
-                doChangePassword = false;
-                hasErrors = true;
             }
         }
 
@@ -146,13 +141,8 @@ public class UpdateAccountServlet extends HttpServlet {
         }
 
         request.setAttribute("notice", sb.toString());
-
-        if (hasErrors) {
-            request.getRequestDispatcher("account.jsp")
-                   .forward(request, response);
-        } else {
-            request.getRequestDispatcher("home").forward(request, response);
-        }
+        request.getRequestDispatcher("account.jsp")
+               .forward(request, response);
     }
 
     /**
