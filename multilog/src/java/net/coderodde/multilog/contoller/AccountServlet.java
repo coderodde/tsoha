@@ -30,46 +30,72 @@ public class AccountServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         final String idString = request.getParameter("id");
+        User currentUser = User.getCurrentlySignedUser(request);
+        User targetUser = null;
+        long id = -1;
 
-        long targetId = -1;
-        User who = null;
-        User current = User.getCurrentlySignedUser(request);
+        try {
+            id = Long.parseLong(idString);
+        } catch (NumberFormatException nfe) {
+            nfe.printStackTrace(System.err);
 
-        if (idString == null || idString.isEmpty()) {
-            who = current;
-        } else {
-            try {
-                targetId = Long.parseLong(idString);
-                who = User.read(targetId);
-            } catch (NumberFormatException nfe) {
-                nfe.printStackTrace(System.err);
+            if (currentUser != null) {
+                serveAsMyOwnEdibleView(request, currentUser);
+                request.getRequestDispatcher("account.jsp")
+                       .forward(request, response);
+                return;
+            } else {
+                request.setAttribute("notice", "Nothing to view.");
+                request.getRequestDispatcher("home")
+                       .forward(request, response);
+                return;
             }
         }
 
-        if (who == null) {
-            request.setAttribute("notice", "Nothing to view.");
-            request.getRequestDispatcher("home").forward(request, response);
+        // Once here, 'id' parsed well.
+
+        targetUser = User.read(id);
+
+        if (targetUser == null) {
+            if (currentUser != null) {
+                serveAsMyOwnEdibleView(request, currentUser);
+                request.getRequestDispatcher("account.jsp")
+                       .forward(request, response);
+                return;
+            } else {
+                request.setAttribute("notice",
+                                     "User with ID " + id + " does not exist.");
+                request.getRequestDispatcher("home")
+                       .forward(request, response);
+                return;
+            }
+        }
+
+        // Once here, targetUser is not null.
+        if (currentUser != null) {
+            // Here neither currentUser nor targetUser are null.
+
+            if (currentUser.equals(targetUser)) {
+                serveAsMyOwnEdibleView(request, targetUser);
+                request.getRequestDispatcher("account.jsp")
+                       .forward(request, response);
+                return;
+            }
+
+            serveAsNonedibleView(request, targetUser);
+
+            if (currentUser.getUserType() == UserType.ADMIN) {
+                serveViewForAdmin(request, targetUser, currentUser);
+            }
+
+            request.getRequestDispatcher("account.jsp")
+                   .forward(request, response);
+        } else {
+            serveAsNonedibleView(request, targetUser);
+            request.getRequestDispatcher("account.jsp")
+                   .forward(request, response);
             return;
         }
-
-        if (current != null) {
-            HomeServlet.prepareNavibarForSingedUser(request, current);
-        } else {
-            HomeServlet.prepareNavibarForUnsignedUser(request);
-        }
-
-
-        if (who.equals(current)) {
-            serveAsMyOwnEdibleView(request, who);
-        } else {
-            if (current.getUserType().equals(UserType.ADMIN)) {
-                serveViewForAdmin(request, who, current);
-            } else {
-                serveAsNonedibleView(request, who);
-            }
-        }
-
-        request.getRequestDispatcher("account.jsp").forward(request, response);
     }
 
     /**
