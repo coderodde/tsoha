@@ -579,15 +579,13 @@ public class User {
         }
 
         try {
-            ps.setString(1, getSalt());
-            ps.setString(2, getHash());
-            ps.setString(3, getFirstName());
-            ps.setString(4, getLastName());
-            ps.setString(5, getEmail());
-            ps.setBoolean(6, getShowRealName());
-            ps.setBoolean(7, getShowEmail());
-            ps.setString(8, getDescription());
-            ps.setLong(9, getId());
+            ps.setString(1, getFirstName());
+            ps.setString(2, getLastName());
+            ps.setString(3, getEmail());
+            ps.setBoolean(4, getShowRealName());
+            ps.setBoolean(5, getShowEmail());
+            ps.setString(6, getDescription());
+            ps.setLong(7, getId());
             ps.executeUpdate();
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
@@ -595,6 +593,42 @@ public class User {
             return false;
         }
 
+        return true;
+    }
+
+    public boolean changePassword(final String newPassword) {
+        Connection conn = DB.getConnection();
+
+        if (conn == null) {
+            return false;
+        }
+
+        PreparedStatement ps = DB.getPreparedStatement(conn,
+                                                       Config.
+                                                       SQL_MAGIC.
+                                                       CHANGE_PASSWORD);
+
+        if (ps == null) {
+            closeResources(conn, null, null);
+            return false;
+        }
+
+        final String newSalt = Utils.createSalt();
+        final String newHash = User.getHash(newPassword, newSalt);
+
+        try {
+            ps.setString(1, newSalt);
+            ps.setString(2, newHash);
+            ps.setLong(3, getId());
+            ps.executeUpdate();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(conn, ps, null);
+            return false;
+        }
+
+        setSalt(newSalt);
+        setHash(newHash);
         return true;
     }
 

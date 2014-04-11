@@ -64,6 +64,11 @@ public class Config {
         public static final String USERNAME = "username";
 
         /**
+         * The key name for currnet password.
+         */
+        public static final String CURRENT_PASSWORD = "current_password";
+
+        /**
          * The key name in a session for the password.
          */
         public static final String PASSWORD = "password";
@@ -192,14 +197,18 @@ public class Config {
 
         public static final String UPDATE_USER =
                 "UPDATE users SET " +
-                "salt = ?, " +              // salt.
-                "passwd_hash = ?, " +       // password hash.
                 "first_name = ?, " +        // first name.
                 "last_name = ?, " +         // last_name.
                 "email = ?, " +             // email.
                 "show_real_name = ?, " +    // show real name.
                 "show_email = ?, " +        // show email.
-                "description = ? " +        // description.
+                "description = ?, " +       // description.
+                "updated_at = NOW() " +     // Update the timestamp.
                 "WHERE user_id = ?;";       // user ID.
+
+        public static final String CHANGE_PASSWORD =
+                "UPDATE users SET salt = ?, " +
+                                 "passwd_hash = ?, " +
+                                 "updated_at = NOW() WHERE user_id = ?;";
     }
 }
