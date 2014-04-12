@@ -97,19 +97,20 @@ public class UpdateAccountServlet extends HttpServlet {
         if (password != null && !password.isEmpty()) {
             doChangePassword = true;
 
-            if (Utils.isValidPassword(password)) {
-                if (!password.equals(passwordConfirmation)) {
-                    request.setAttribute("bad_new_password_confirmation",
-                                         "Confirmation differs from password.");
-                    doChangePassword = false;
-                }
-            } else {
+            if (!Utils.isValidPassword(password)) {
                 request.setAttribute("bad_new_password", "Invalid password.");
+                doChangePassword = false;
+            }
+
+            if (!password.equals(passwordConfirmation)) {
+                request.setAttribute("bad_new_password_confirmation",
+                                     "Confirmation differs from password.");
                 doChangePassword = false;
             }
         }
 
         if (hasErrors) {
+            AccountServlet.serveAsMyOwnEdibleView(request, currentUser);
             request.getRequestDispatcher("account.jsp")
                    .forward(request, response);
             return;
@@ -141,6 +142,7 @@ public class UpdateAccountServlet extends HttpServlet {
         }
 
         request.setAttribute("notice", sb.toString());
+        AccountServlet.serveAsMyOwnEdibleView(request, currentUser);
         request.getRequestDispatcher("account.jsp")
                .forward(request, response);
     }
