@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.Config;
 import net.coderodde.multilog.Utils;
 import net.coderodde.multilog.model.User;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 /**
  * This servlet is responsible for updating the user accounts.
@@ -60,13 +61,13 @@ public class UpdateAccountServlet extends HttpServlet {
 
         boolean hasErrors = false;
 
-        final String firstName =
+        String firstName =
                 request.getParameter(Config.SESSION_MAGIC.FIRST_NAME);
 
-        final String lastName =
+        String lastName =
                 request.getParameter(Config.SESSION_MAGIC.LAST_NAME);
 
-        final String description =
+        String description =
                 request.getParameter(Config.SESSION_MAGIC.DESCRIPTION);
 
         final String email =
@@ -76,6 +77,11 @@ public class UpdateAccountServlet extends HttpServlet {
             request.setAttribute("bad_email", "Invalid email address.");
             hasErrors = true;
         }
+
+        // HMTL-escaping.
+        firstName = escapeHtml4(firstName);
+        lastName = escapeHtml4(lastName);
+        description = escapeHtml4(description);
 
         final String showRealName =
                 request.getParameter(Config.SESSION_MAGIC.SHOW_REAL_NAME);
