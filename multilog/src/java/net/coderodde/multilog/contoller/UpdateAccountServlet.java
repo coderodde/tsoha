@@ -79,9 +79,9 @@ public class UpdateAccountServlet extends HttpServlet {
         }
 
         // HMTL-escaping.
-        firstName = escapeHtml4(firstName);
-        lastName = escapeHtml4(lastName);
-        description = escapeHtml4(description);
+        firstName = escapeHtml4(firstName).trim();
+        lastName = escapeHtml4(lastName).trim();
+        description = escapeHtml4(description).trim();
 
         final String showRealName =
                 request.getParameter(Config.SESSION_MAGIC.SHOW_REAL_NAME);
