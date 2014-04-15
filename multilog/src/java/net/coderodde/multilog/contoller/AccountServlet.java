@@ -159,7 +159,7 @@ public class AccountServlet extends HttpServlet {
         request.setAttribute("candelete", true);
 
         request.setAttribute("current_firstname", who.getFirstName());
-        request.setAttribute("currnet_lastname", who.getLastName());
+        request.setAttribute("current_lastname", who.getLastName());
         request.setAttribute("current_description", who.getDescription());
         request.setAttribute("current_email", who.getEmail());
 
