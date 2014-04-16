@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.Thread;
 import net.coderodde.multilog.model.Topic;
+import net.coderodde.multilog.model.User;
 
 /**
  * This servlet processes the topic-related views.
@@ -30,6 +31,14 @@ public class TopicServlet extends HttpServlet {
     protected void processRequest(final HttpServletRequest request,
                                   final HttpServletResponse response)
             throws ServletException, IOException {
+        User currentUser = User.getCurrentlySignedUser(request);
+
+        if (currentUser == null) {
+            HomeServlet.prepareNavibarForUnsignedUser(request);
+        } else {
+            HomeServlet.prepareNavibarForSingedUser(request, currentUser);
+        }
+
         String topicId = request.getParameter("id");
 
         // Below: try to show the threads of a particular topic.

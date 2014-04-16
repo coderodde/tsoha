@@ -85,13 +85,13 @@ public class Topic {
             return null;
         }
 
-        ResultSet rs;
+        ResultSet rs = null;
 
         try {
             rs = statement.executeQuery(Config.SQL_MAGIC.FETCH_ALL_TOPICS);
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
-            closeResources(connection, statement, null);
+            closeResources(connection, statement, rs);
             return null;
         }
 

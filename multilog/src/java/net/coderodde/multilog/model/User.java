@@ -444,8 +444,6 @@ public class User {
             return false;
         }
 
-        ResultSet rs = null;
-
         final String passwordHash = getHash(getPassword(), getSalt());
 
         try {
@@ -459,11 +457,11 @@ public class User {
             ps.executeUpdate();
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
-            closeResources(connection, ps, rs);
+            closeResources(connection, ps, null);
             return false;
         }
 
-        closeResources(connection, ps, rs);
+        closeResources(connection, ps, null);
         return true;
     }
 
@@ -593,6 +591,7 @@ public class User {
             return false;
         }
 
+        closeResources(conn, ps, null);
         return true;
     }
 
@@ -627,6 +626,7 @@ public class User {
             return false;
         }
 
+        closeResources(conn, ps, null);
         setSalt(newSalt);
         setHash(newHash);
         return true;
