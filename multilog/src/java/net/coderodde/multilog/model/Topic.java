@@ -42,7 +42,7 @@ public class Topic {
 
     public static final Topic read(final long id) {
         Connection conn = DB.getConnection();
-//
+
         if (conn == null) {
             return null;
         }
