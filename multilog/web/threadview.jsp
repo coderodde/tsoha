@@ -19,7 +19,7 @@
             <hr />
 
             <div class="post_container">
-                <h2>Posts on ...</h2>
+                <h2>Posts on ${shit}</h2>
                 <c:forEach var="post" items="${requestScope.postList}">
                     <div class="post_item">${post.text}</div>
                 </c:forEach>

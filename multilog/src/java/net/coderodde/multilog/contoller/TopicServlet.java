@@ -40,11 +40,14 @@ public class TopicServlet extends HttpServlet {
                 id = Long.parseLong(topicId);
             } catch (NumberFormatException nfe) {
                 nfe.printStackTrace(System.err);
+                request.setAttribute("notice", "Bad topic ID.");
+                request.getRequestDispatcher("home").forward(request, response);
+                return;
             }
 
             if (id != -1) {
                 if (serveParticularThread(id, request)) {
-                    request.getRequestDispatcher("threadview.jsp")
+                    request.getRequestDispatcher("threadsview.jsp")
                            .forward(request, response);
                     return;
                 }
