@@ -44,7 +44,7 @@ CREATE TABLE posts (
   user_id     BIGSERIAL REFERENCES users(user_id),
   post_text   TEXT NOT NULL,
   parent_post BIGSERIAL, -- Set if this post is a reply..
-  removedd    BOOLEAN DEFAULT FALSE,
+  removed     BOOLEAN DEFAULT FALSE,
   created_at  TIMESTAMP WITH TIME ZONE NOT NULL,
   updated_at  TIMESTAMP WITH TIME ZONE NOT NULL);
 

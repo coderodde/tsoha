@@ -1,6 +1,12 @@
 package net.coderodde.multilog.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import net.coderodde.multilog.Config;
+import static net.coderodde.multilog.Utils.closeResources;
 
 /**
  * This class holds all information of a forum post.
@@ -9,6 +15,11 @@ import java.sql.Timestamp;
  * @version 0.1
  */
 public class Post {
+
+    /**
+     * This field holds the ID of this post.
+     */
+    private long id;
 
     /**
      * This field holds the information of an owner of this post.
@@ -41,6 +52,80 @@ public class Post {
      * If not <code>null</code>, points to the post being replied by this post.
      */
     private Post parentPost;
+
+    public static final Post read(final long postId) {
+        Connection conn = DB.getConnection();
+
+        if (conn == null) {
+            return null;
+        }
+
+        PreparedStatement ps = DB.getPreparedStatement(conn,
+                                                       Config.
+                                                       SQL_MAGIC.
+                                                       FETCH_POST_BY_ID);
+        if (ps == null) {
+            closeResources(conn, null, null);
+            return null;
+        }
+
+        ResultSet rs = null;
+
+        try {
+            ps.setLong(1, postId);
+            rs = ps.executeQuery();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(conn, ps, rs);
+            return null;
+        }
+
+        Post post = extractPost(rs);
+        closeResources(conn, ps, rs);
+        return post;
+    }
+
+    private static final Post extractPost(final ResultSet rs) {
+        try {
+            if (rs.next() == false) {
+                return null;
+            }
+
+            Post post = new Post();
+
+            post.setId(rs.getLong("post_id"))
+                .setText(rs.getString("post_text"))
+                .setCreatedAtTimestamp(rs.getTimestamp("created_at"))
+                .setUpdatedAtTimestamp(rs.getTimestamp("updated_at"));
+
+            long parentPostId = rs.getLong("parent_post");
+
+            if (parentPostId > 0L) {
+                post.setParentPost(Post.read(parentPostId));
+            }
+
+            long threadId = rs.getLong("thread_id");
+
+            if (threadId > 0L) {
+                post.setThread(Thread.read(threadId));
+            }
+
+            long userId = rs.getLong("user_id");
+
+            if (userId > 0L) {
+                post.setUser(User.read(userId));
+            }
+
+            return post;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            return null;
+        }
+    }
+
+    public long getId() {
+        return id;
+    }
 
     /**
      * Returns the writer of this post.
@@ -95,6 +180,11 @@ public class Post {
      */
     public Post getParentPost() {
         return parentPost;
+    }
+
+    public Post setId(final long id) {
+        this.id = id;
+        return this;
     }
 
     /**

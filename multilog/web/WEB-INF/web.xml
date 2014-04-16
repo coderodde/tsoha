@@ -36,6 +36,10 @@
         <servlet-name>UpdateAccountServlet</servlet-name>
         <servlet-class>net.coderodde.multilog.contoller.UpdateAccountServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ThreadServlet</servlet-name>
+        <servlet-class>net.coderodde.multilog.contoller.ThreadServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListTest</servlet-name>
         <url-pattern>/ListTest</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>UpdateAccountServlet</servlet-name>
         <url-pattern>/accountupdate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ThreadServlet</servlet-name>
+        <url-pattern>/thread</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

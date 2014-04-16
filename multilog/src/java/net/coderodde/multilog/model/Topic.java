@@ -40,7 +40,7 @@ public class Topic {
      */
     private Timestamp updatedAt;
 
-    public static final Topic getTopicById(final long id) {
+    public static final Topic read(final long id) {
         Connection conn = DB.getConnection();
 //
         if (conn == null) {

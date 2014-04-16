@@ -1,6 +1,14 @@
 package net.coderodde.multilog.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import net.coderodde.multilog.Config;
+import static net.coderodde.multilog.Utils.closeResources;
 
 /**
  * This class holds the information of a forum thread.
@@ -40,6 +48,124 @@ public class Thread {
      * Basically this is updated every time a thread get a new post.
      */
     private Timestamp updatedAt;
+
+    public static final Thread read(final long id) {
+        Connection conn = DB.getConnection();
+
+        if (conn == null) {
+            return null;
+        }
+
+        PreparedStatement ps = DB.getPreparedStatement(conn,
+                                                       Config.
+                                                       SQL_MAGIC.
+                                                       FETCH_THREAD);
+        if (ps == null) {
+            closeResources(conn, null, null);
+            return null;
+        }
+
+        ResultSet rs = null;
+
+        try {
+            ps.setLong(1, id);
+            rs = ps.executeQuery();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(conn, ps, rs);
+            return null;
+        }
+
+        Thread thread = extractThread(rs);
+        closeResources(conn, ps, rs);
+        return thread;
+    }
+
+    private static final Thread extractThread(final ResultSet rs) {
+        try {
+            if (rs.next() == false) {
+                return null;
+            }
+
+            Thread thread = new Thread();
+
+            thread.setId(rs.getLong("thread_id"))
+                  .setName(rs.getString("thread_name"))
+                  .setCreatedAtTimestamp(rs.getTimestamp("created_at"))
+                  .setUpdatedAtTimestamp(rs.getTimestamp("updated_at"));
+
+            long topicId = rs.getLong("topic_id");
+
+            if (topicId > 0l) {
+                thread.setTopic(Topic.read(topicId));
+            }
+
+            return thread;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            return null;
+        }
+    }
+
+    private static final List<Post> extractPostList(final ResultSet rs) {
+        List<Post> postList = new ArrayList<Post>();
+
+        try {
+            while (rs.next()) {
+                Post post = new Post();
+                long parentPostId = rs.getLong("parent_post");
+
+                if (parentPostId > 0L) {
+                    post.setParentPost(Post.read(parentPostId));
+                }
+
+                post.setId(rs.getLong("post_id"))
+                    .setText(rs.getString("text"))
+                    .setThread()
+                    .setCreatedAtTimestamp(rs.getTimestamp("created_at"))
+                    .setUpdatedAtTimestamp(rs.getTimestamp("updated_at"));
+            }
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            return null;
+        }
+
+        return postList;
+    }
+
+    public List<Post> getAllPosts() {
+        Connection conn = DB.getConnection();
+
+        if (conn == null) {
+            return null;
+        }
+
+        PreparedStatement ps =
+                DB.getPreparedStatement(conn,
+                                        Config.
+                                        SQL_MAGIC.
+                                        FETCH_ALL_POSTS_OF_A_THREAD);
+
+        if (ps == null) {
+            closeResources(conn, null, null);
+            return null;
+        }
+
+        ResultSet rs = null;
+
+        try {
+            ps.setLong(1, getId());
+            rs = ps.executeQuery();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(conn, ps, rs);
+            return null;
+        }
+
+        List<Post> postList = extractPostList(rs);
+        closeResources(conn, ps, rs);
+        return postList;
+    }
 
     /**
      * Returns the ID of this thread.

@@ -68,7 +68,7 @@ public class TopicServlet extends HttpServlet {
      */
     private final boolean serveParticularThread
             (final long id, final HttpServletRequest request) {
-        Topic topic = Topic.getTopicById(id);
+        Topic topic = Topic.read(id);
 
         if (topic == null) {
             return false;

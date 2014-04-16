@@ -210,5 +210,14 @@ public class Config {
                 "UPDATE users SET salt = ?, " +
                                  "passwd_hash = ?, " +
                                  "updated_at = NOW() WHERE user_id = ?;";
+
+        public static final String FETCH_THREAD =
+                "SELECT * FROM threads WHERE thread_id = ?;";
+
+        public static final String FETCH_ALL_POSTS_OF_A_THREAD =
+                "SELECT * FROM posts WHERE thread_id = ?;";
+
+        public static final String FETCH_POST_BY_ID =
+                "SELECT * FROM posts WHERE post_id = ?;";
     }
 }
