@@ -57,7 +57,10 @@ public class ThreadServlet extends HttpServlet {
             return;
         }
 
-
+        request.setAttribute("postList", thread.getAllPosts());
+        request.getRequestDispatcher("threadview.jsp")
+               .forward(request, response);
+        return;
     }
 
     /**

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.coderodde.multilog.Config;
 import static net.coderodde.multilog.Utils.closeResources;
+import net.coderodde.multilog.model.Thread;
 
 /**
  * This class holds the information of a forum thread.
@@ -91,14 +92,9 @@ public class Thread {
 
             thread.setId(rs.getLong("thread_id"))
                   .setName(rs.getString("thread_name"))
+                  .setTopicId(rs.getLong("topic_id"))
                   .setCreatedAtTimestamp(rs.getTimestamp("created_at"))
                   .setUpdatedAtTimestamp(rs.getTimestamp("updated_at"));
-
-            long topicId = rs.getLong("topic_id");
-
-            if (topicId > 0l) {
-                thread.setTopic(Topic.read(topicId));
-            }
 
             return thread;
         } catch (SQLException sqle) {
@@ -107,7 +103,7 @@ public class Thread {
         }
     }
 
-    private static final List<Post> extractPostList(final ResultSet rs) {
+    private final List<Post> extractPostList(final ResultSet rs) {
         List<Post> postList = new ArrayList<Post>();
 
         try {
@@ -121,9 +117,11 @@ public class Thread {
 
                 post.setId(rs.getLong("post_id"))
                     .setText(rs.getString("text"))
-                    .setThread()
+                    .setThread(this)
                     .setCreatedAtTimestamp(rs.getTimestamp("created_at"))
                     .setUpdatedAtTimestamp(rs.getTimestamp("updated_at"));
+
+                return postList;
             }
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
