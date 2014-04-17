@@ -116,7 +116,7 @@ public class Thread {
                 }
 
                 post.setId(rs.getLong("post_id"))
-                    .setText(rs.getString("text"))
+                    .setText(rs.getString("post_text"))
                     .setThread(this)
                     .setCreatedAtTimestamp(rs.getTimestamp("created_at"))
                     .setUpdatedAtTimestamp(rs.getTimestamp("updated_at"));
