@@ -182,7 +182,7 @@ public class Post {
         return parentPost;
     }
 
-    public boolean timestampsDiffer() {
+    public boolean isTimestampsDifferent() {
         return !createdAt.equals(updatedAt);
     }
 

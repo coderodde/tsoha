@@ -26,7 +26,7 @@
                     <div class="post_item" data-id="${post.id}">
                         <div class="post_intro">${post.user.username} at
                         <fmt:formatDate pattern="yyyy.MM.dd  HH:mm:ss z" value="${post.createdAt}" />
-                        <c:if test="!post.createdAt.equals(post.updatedAt)" >
+                        <c:if test="post.timestampDifferent" >
                             , updated at <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss z" value="${post.updatedAt}" />
                         </c:if>
                         </div>
