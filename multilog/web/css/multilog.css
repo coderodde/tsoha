@@ -209,6 +209,23 @@ body {
     background-color: #fafaea;
 }
 
+.post_container {
+    padding: 10px;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background-color: #b1b675;
+    border: 2px solid #bd0000;
+}
+
+.post_item {
+    padding: 6px;
+    border-radius: 6px;
+    border: solid 1px #bd6443;
+    background-color: #edeca7;
+}
+
 .reply_button {
     padding: 10px;
     border: 1px solid black;
