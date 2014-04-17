@@ -182,6 +182,10 @@ public class Post {
         return parentPost;
     }
 
+    public boolean timestampsDiffer() {
+        return !createdAt.equals(updatedAt);
+    }
+
     public Post setId(final long id) {
         this.id = id;
         return this;
