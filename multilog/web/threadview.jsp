@@ -26,6 +26,9 @@
                 <c:forEach var="post" items="${postList}">
                     <div class="post_item">${post.text}</div>
                 </c:forEach>
+                <c:forEach var="post" items="${pageScope.postList}">
+                    <div class="post_item">${post.text}</div>
+                </c:forEach>
             </div>
         </div>
     </body>
