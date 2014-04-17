@@ -91,8 +91,8 @@ public class Thread {
             Thread thread = new Thread();
 
             thread.setId(rs.getLong("thread_id"))
-                  .setName(rs.getString("thread_name"))
                   .setTopicId(rs.getLong("topic_id"))
+                  .setName(rs.getString("thread_name"))
                   .setCreatedAtTimestamp(rs.getTimestamp("created_at"))
                   .setUpdatedAtTimestamp(rs.getTimestamp("updated_at"));
 
@@ -121,7 +121,7 @@ public class Thread {
                     .setCreatedAtTimestamp(rs.getTimestamp("created_at"))
                     .setUpdatedAtTimestamp(rs.getTimestamp("updated_at"));
 
-                return postList;
+                postList.add(post);
             }
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
