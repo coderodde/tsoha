@@ -95,8 +95,8 @@ public class Post {
 
             post.setId(rs.getLong("post_id"))
                 .setText(rs.getString("post_text"))
-                .setCreatedAtTimestamp(rs.getTimestamp("created_at"))
-                .setUpdatedAtTimestamp(rs.getTimestamp("updated_at"));
+                .setCreatedAt(rs.getTimestamp("created_at"))
+                .setUpdatedAt(rs.getTimestamp("updated_at"));
 
             long parentPostId = rs.getLong("parent_post");
 
@@ -159,7 +159,7 @@ public class Post {
      *
      * @return the creation timestamp.
      */
-    public Timestamp getCreatedAtTimestamp() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
@@ -168,7 +168,7 @@ public class Post {
      *
      * @return the latest update timestamp.
      */
-    public Timestamp getUpdatedAtTimestamp() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
@@ -230,7 +230,7 @@ public class Post {
      *
      * @return itself for chaining.
      */
-    public Post setCreatedAtTimestamp(final Timestamp createdAt) {
+    public Post setCreatedAt(final Timestamp createdAt) {
         this.createdAt = createdAt;
         return this;
     }
@@ -243,7 +243,7 @@ public class Post {
      *
      * @return this for chaining.
      */
-    public Post setUpdatedAtTimestamp(Timestamp updatedAt) {
+    public Post setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
         return this;
     }
