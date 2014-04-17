@@ -192,6 +192,19 @@ public class Post {
         return !createdAt.equals(updatedAt);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+
+        if (!(o instanceof Post)) {
+            return false;
+        }
+
+        return this.getId() == ((Post) o).getId();
+    }
+
     public Post setId(final long id) {
         this.id = id;
         return this;

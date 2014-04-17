@@ -23,7 +23,7 @@
             <div class="post_container">
                 <h2>Posts on ${thread_name}</h2>
                 <c:forEach var="post" items="${requestScope.postList}">
-                    <div class="post_item" data-id="${post.id}">
+                    <div class="post_item" data-id="${post.id}" style="margin-left: <c:out value="${10 * post.indent}" /> px;">
                         <div class="post_intro">${post.user.username} at
                         <fmt:formatDate pattern="yyyy.MM.dd  HH:mm:ss z" value="${post.createdAt}" />
                         <c:if test="${post.timestampsDifferent}" >

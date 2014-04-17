@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +69,9 @@ public class ThreadServlet extends HttpServlet {
             return;
         }
 
-        request.setAttribute("postList", thread.getAllPosts());
+        List<Post> posts = thread.getAllPosts();
+        posts = resort(posts);
+        request.setAttribute("postList", posts);
         request.setAttribute("thread_name", thread.getName());
         request.getRequestDispatcher("threadview.jsp")
                .forward(request, response);
@@ -116,105 +120,68 @@ public class ThreadServlet extends HttpServlet {
 
     /**
      * Sorts the list of posts such that the reply posts <i>D</i> of post
-     * <i>P</i> appear immediately after <i>P</i>.
+     * <i>P</i> appear immediately after <i>P</i>, etc.
      *
      * @param postList the list of posts to sort.
      */
     private static final List<Post> resort(List<Post> postList) {
-        List<Post> ret = new ArrayList<Post>(postList.size());
-        List<Post> topmostPosts = getTopmostPosts(postList);
+        List<Post> toplevelPostList = new ArrayList<Post>(postList.size());
 
-        if (topmostPosts.size() == postList.size()) {
-            // Nothing to resort.
-            return postList;
-        }
-
-        Collections.sort(topmostPosts, pc);
-
-        List<PostTree> postTree = new ArrayList<PostTree>();
-
-        for (Post p : topmostPosts) {
-            postTree.add(new PostTree(p));
-        }
-
-        return null;
-    }
-
-    private static final List<Post> getTopmostPosts(List<Post> postList) {
-        List<Post> ret = new ArrayList(postList.size());
+        // Maps a parent post to the list of its children posts (i.e. replies).
+        Map<Post, List<Post>> map =
+                new HashMap<Post, List<Post>>(postList.size());
 
         for (Post post : postList) {
-            if (post.getParentPost() == null) {
-                ret.add(post);
+            Post parent  = post.getParentPost();
+
+            if (parent != null) {
+                List<Post> childrenOfParent = map.get(parent);
+
+                if (childrenOfParent == null) {
+                    childrenOfParent = new ArrayList<Post>();
+                    childrenOfParent.add(post);
+                    map.put(parent, childrenOfParent);
+                } else {
+                    childrenOfParent.add(post);
+                }
+            } else {
+                toplevelPostList.add(post);
+            }
+        }
+
+        Collections.sort(toplevelPostList, pc);
+
+        for (Post p : map.keySet()) {
+            List<Post> list = map.get(p);
+
+            if (list != null) {
+                Collections.sort(list, pc);
+            }
+        }
+
+        List<Post> ret = new ArrayList<Post>(postList.size());
+        LinkedList<Iterator<Post>> stack = new LinkedList<Iterator<Post>>();
+        stack.addLast(toplevelPostList.iterator());
+
+        while (stack.isEmpty() == false) {
+            Iterator<Post> it = stack.getLast();
+
+            if (it.hasNext() == false) {
+                stack.removeLast();
+                continue;
+            }
+
+            Post tmp = it.next();
+            tmp.setIndent(stack.size() - 1);
+
+            ret.add(tmp);
+
+            if (map.containsKey(tmp)) {
+                stack.addLast(map.get(tmp).iterator());
             }
         }
 
         return ret;
-    }
-
-    private static final class PostTree implements Iterable<Post> {
-
-        private Post post;
-        private List<PostTree> children;
-
-        public PostTree(Post post) {
-            this.post = post;
-            this.children = new ArrayList<PostTree>();
-        }
-
-        public boolean add(final Post post) {
-            if (post.getParentPost() == null) {
-                // Root post already set.
-                return false;
-            }
-
-            if (post.getParentPost().equals(this.post)) {
-                this.children.add(new PostTree(post));
-                return true;
-            }
-
-            for (PostTree pt : this.children) {
-                if (pt.add(post) == true) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public void sort() {
-            Collections.sort(this.children, ptc);
-
-            for (PostTree pt : this.children) {
-                pt.sort();
-            }
-        }
-
-        public Iterator<Post> iterator() {
-            return new PostTreeIterator();
-        }
-
-        private final class PostTreeIterator implements Iterator<Post> {
-
-            private LinkedList<Pair<PostTree, Integer>> stack;
-
-            PostTreeIterator() {
-                this.stack = new LinkedList<Pair<PostTree, Integer>>();
-                this.stack.add(new Pair<PostTree, Integer>(PostTree.this, 0));
-            }
-
-            public boolean hasNext() {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            public Post next() {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            public void remove() {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        }
     }
 
     /**
@@ -226,14 +193,6 @@ public class ThreadServlet extends HttpServlet {
         @Override
         public int compare(Post p1, Post p2) {
             return p1.getCreatedAt().compareTo(p2.getCreatedAt());
-        }
-    };
-
-    static final Comparator<PostTree> ptc = new Comparator<PostTree>() {
-
-        @Override
-        public int compare(PostTree p1, PostTree p2) {
-            return p1.post.getCreatedAt().compareTo(p2.post.getCreatedAt());
         }
     };
 }
