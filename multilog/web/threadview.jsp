@@ -21,7 +21,10 @@
             <div class="post_container">
                 <h2>Posts on ${thread_name}</h2>
                 <c:forEach var="post" items="${requestScope.postList}">
-                    <div class="post_item">${post.text}</div>
+                    <div class="post_item">
+                        <div class="post_intro">${post.user.username}</div>
+                        <div class="post_text">${post.text}</div>
+                    </div>
                 </c:forEach>
             </div>
         </div>

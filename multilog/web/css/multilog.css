@@ -203,6 +203,7 @@ body {
 }
 
 .thread_item {
+    margin: 5px;
     padding: 6px;
     border-radius: 6px;
     border: solid 1px #edeca7;
@@ -215,15 +216,15 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: 6px;
-    background-color: #b1b675;
-    border: 2px solid #bd0000;
+    background-color: #c4dcf9;
+    border: 2px solid #2894f7;
 }
 
 .post_item {
     padding: 6px;
     border-radius: 6px;
-    border: solid 1px #bd6443;
-    background-color: #edeca7;
+    border: solid 1px #edeca7;
+    background-color: #fafaea;
 }
 
 .reply_button {
