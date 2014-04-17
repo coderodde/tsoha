@@ -221,6 +221,7 @@ body {
 }
 
 .post_item {
+    margin: 6px;
     padding: 6px;
     border-radius: 6px;
     border: solid 1px #edeca7;
