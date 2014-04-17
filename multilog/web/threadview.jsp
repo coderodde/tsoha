@@ -24,8 +24,11 @@
                 <h2>Posts on ${thread_name}</h2>
                 <c:forEach var="post" items="${requestScope.postList}">
                     <div class="post_item" data-id="${post.id}">
-                        <div class="post_intro">${post.user.username}, created at
+                        <div class="post_intro">${post.user.username} at
                         <fmt:formatDate pattern="yyyy.MM.dd  HH:mm:ss z" value="${post.createdAt}" />
+                        <c:if test="!post.createdAt.equals(post.updatedAt)" >
+                            , updated at <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss z" value="${post.updatedAt}" />
+                        </c:if>
                         </div>
                         <div class="post_text">${post.text}</div>
                     </div>
