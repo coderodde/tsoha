@@ -53,6 +53,8 @@ public class Post {
      */
     private Post parentPost;
 
+    private int indent;
+
     public static final Post read(final long postId) {
         Connection conn = DB.getConnection();
 
@@ -182,6 +184,10 @@ public class Post {
         return parentPost;
     }
 
+    public int getIndent() {
+        return indent;
+    }
+
     public boolean isTimestampsDifferent() {
         return !createdAt.equals(updatedAt);
     }
@@ -261,6 +267,11 @@ public class Post {
      */
     public Post setParentPost(final Post parentPost) {
         this.parentPost = parentPost;
+        return this;
+    }
+
+    public Post setIndent(final int indent) {
+        this.indent = indent;
         return this;
     }
 

@@ -215,7 +215,8 @@ public class Config {
                 "SELECT * FROM threads WHERE thread_id = ?;";
 
         public static final String FETCH_ALL_POSTS_OF_A_THREAD =
-                "SELECT * FROM posts WHERE thread_id = ?;";
+                "SELECT * FROM posts WHERE thread_id = ? " +
+                "ORDER BY created_at ASC;";
 
         public static final String FETCH_POST_BY_ID =
                 "SELECT * FROM posts WHERE post_id = ?;";

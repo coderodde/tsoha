@@ -124,7 +124,7 @@ public class Utils {
         if (email == null) {
             return false;
         }
-        
+
         return EMAIL_PATTERN.matcher(email).matches();
     }
 
@@ -223,6 +223,40 @@ public class Utils {
      */
     public final MessageDigest getMessageDigest() {
         return md;
+    }
+
+    public static final class Pair<F, S> {
+        private F first;
+        private S second;
+
+        public Pair(final F first, final S second) {
+            this.first = first;
+            this.second = second;
+        }
+
+        public Pair() {
+
+        }
+
+        public F getFirst() {
+            return this.first;
+        }
+
+        public S getSecond() {
+            return this.second;
+        }
+
+        public F setFirst(final F first) {
+            F ret = this.first;
+            this.first = first;
+            return ret;
+        }
+
+        public S setSecond(final S second) {
+            S ret = this.second;
+            this.second = second;
+            return ret;
+        }
     }
 
     /**

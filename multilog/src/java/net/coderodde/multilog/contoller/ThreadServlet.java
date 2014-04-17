@@ -1,11 +1,21 @@
 package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.coderodde.multilog.model.Post;
 import net.coderodde.multilog.model.Thread;
+import net.coderodde.multilog.Utils.Pair;
 
 /**
  * This servlet is responsible for showing particular threads. The servlet
@@ -103,4 +113,127 @@ public class ThreadServlet extends HttpServlet {
     public String getServletInfo() {
         return "This servlet is responsible for showing a particular thread.";
     }
+
+    /**
+     * Sorts the list of posts such that the reply posts <i>D</i> of post
+     * <i>P</i> appear immediately after <i>P</i>.
+     *
+     * @param postList the list of posts to sort.
+     */
+    private static final List<Post> resort(List<Post> postList) {
+        List<Post> ret = new ArrayList<Post>(postList.size());
+        List<Post> topmostPosts = getTopmostPosts(postList);
+
+        if (topmostPosts.size() == postList.size()) {
+            // Nothing to resort.
+            return postList;
+        }
+
+        Collections.sort(topmostPosts, pc);
+
+        List<PostTree> postTree = new ArrayList<PostTree>();
+
+        for (Post p : topmostPosts) {
+            postTree.add(new PostTree(p));
+        }
+
+        return null;
+    }
+
+    private static final List<Post> getTopmostPosts(List<Post> postList) {
+        List<Post> ret = new ArrayList(postList.size());
+
+        for (Post post : postList) {
+            if (post.getParentPost() == null) {
+                ret.add(post);
+            }
+        }
+
+        return ret;
+    }
+
+    private static final class PostTree implements Iterable<Post> {
+
+        private Post post;
+        private List<PostTree> children;
+
+        public PostTree(Post post) {
+            this.post = post;
+            this.children = new ArrayList<PostTree>();
+        }
+
+        public boolean add(final Post post) {
+            if (post.getParentPost() == null) {
+                // Root post already set.
+                return false;
+            }
+
+            if (post.getParentPost().equals(this.post)) {
+                this.children.add(new PostTree(post));
+                return true;
+            }
+
+            for (PostTree pt : this.children) {
+                if (pt.add(post) == true) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void sort() {
+            Collections.sort(this.children, ptc);
+
+            for (PostTree pt : this.children) {
+                pt.sort();
+            }
+        }
+
+        public Iterator<Post> iterator() {
+            return new PostTreeIterator();
+        }
+
+        private final class PostTreeIterator implements Iterator<Post> {
+
+            private LinkedList<Pair<PostTree, Integer>> stack;
+
+            PostTreeIterator() {
+                this.stack = new LinkedList<Pair<PostTree, Integer>>();
+                this.stack.add(new Pair<PostTree, Integer>(PostTree.this, 0));
+            }
+
+            public boolean hasNext() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            public Post next() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            public void remove() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        }
+    }
+
+    /**
+     * The timestamp comparator for putting the most recent posts to the
+     * bottom of a page. (Ascending order.)
+     */
+    static final Comparator<Post> pc = new Comparator<Post>(){
+
+        @Override
+        public int compare(Post p1, Post p2) {
+            return p1.getCreatedAt().compareTo(p2.getCreatedAt());
+        }
+    };
+
+    static final Comparator<PostTree> ptc = new Comparator<PostTree>() {
+
+        @Override
+        public int compare(PostTree p1, PostTree p2) {
+            return p1.post.getCreatedAt().compareTo(p2.post.getCreatedAt());
+        }
+    };
 }
