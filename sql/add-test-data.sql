@@ -216,3 +216,19 @@ VALUES
  'Here it is lonely.',
  NOW(),
  NOW());
+
+INSERT INTO posts (post_id,
+                   thread_id,
+                   user_id,
+                   post_text,
+                   parent_post,
+                   created_at,
+                   updated_at)
+VALUES
+(5,
+ 2,
+ 1,
+ 'Rly?',
+ 2,
+ NOW() + INTERVAL '1 HOUR',
+ NOW() + INTERVAL '1 HOUR');
