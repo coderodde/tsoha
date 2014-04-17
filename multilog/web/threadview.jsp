@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <!DOCTYPE html>
@@ -23,16 +24,13 @@
                 <h2>Posts on ${thread_name}</h2>
                 <c:forEach var="post" items="${requestScope.postList}">
                     <div class="post_item" data-id="${post.id}">
-                        <div class="post_intro">${post.user.username}, created at ${post.createdAt}
-                            <c:if test="!post.createdAt.equals(post.updatedAt)">
-                                , updated at <%= new SimpleDateFormat("yyyy.mm.dd").format(post.updatedAt) %>
-                            </c:if>
+                        <div class="post_intro">${post.user.username}, created at
+                        <fmt:formatDate pattern="yyyy.MM.dd  HH:mm:ss z" value="${post.createdAt}" />
                         </div>
                         <div class="post_text">${post.text}</div>
                     </div>
                 </c:forEach>
             </div>
         </div>
-                <fmt:formatDate value
     </body>
 </html>
