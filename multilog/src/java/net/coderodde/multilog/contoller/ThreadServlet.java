@@ -1,9 +1,7 @@
 package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -17,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.Post;
 import net.coderodde.multilog.model.Thread;
-import net.coderodde.multilog.Utils.Pair;
 
 /**
  * This servlet is responsible for showing particular threads. The servlet
@@ -132,7 +129,7 @@ public class ThreadServlet extends HttpServlet {
                 new HashMap<Post, List<Post>>(postList.size());
 
         for (Post post : postList) {
-            Post parent  = post.getParentPost();
+            Post parent = post.getParentPost();
 
             if (parent != null) {
                 List<Post> childrenOfParent = map.get(parent);
