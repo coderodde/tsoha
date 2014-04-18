@@ -79,6 +79,7 @@ public class ThreadServlet extends HttpServlet {
         posts = resort(posts);
         request.setAttribute("postList", posts);
         request.setAttribute("thread_name", thread.getName());
+        request.setAttribute("thread_id", thread.getId());
 
         if (currentUser != null) {
             request.setAttribute("can_reply", true);

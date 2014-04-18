@@ -220,5 +220,15 @@ public class Config {
 
         public static final String FETCH_POST_BY_ID =
                 "SELECT * FROM posts WHERE post_id = ?;";
+
+        public static final String CREATE_NEW_POST =
+                "INSERT INTO posts (" +
+                "thread_id, " +
+                "user_id, " +
+                "post_text, " +
+                "parent_post, " +
+                "created_at, " +
+                "updated_at, " +
+                "VALUES (?, ?, ?, ?, NOW(), NOW());";
     }
 }

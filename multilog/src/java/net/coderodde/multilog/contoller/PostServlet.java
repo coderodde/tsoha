@@ -1,13 +1,13 @@
 package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.Post;
 import net.coderodde.multilog.model.User;
+import net.coderodde.multilog.model.Thread;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 /**
@@ -67,7 +67,31 @@ public class PostServlet extends HttpServlet {
             return;
         }
 
-        final String rawPostText = request.getParameter("post_text");
+        final String threadIdString = request.getParameter("thread_id");
+
+        long threadId = -1L;
+
+        try {
+            threadId = Long.parseLong(threadIdString);
+        } catch (NumberFormatException nfe) {
+            nfe.printStackTrace(System.err);
+            request.setAttribute("notice",
+                                 "Bad thread ID. Please stop hacking.");
+            request.getRequestDispatcher("home").forward(request, response);
+            return;
+        }
+
+        final Thread ownerThread = Thread.read(threadId);
+
+        if (ownerThread == null) {
+            request.setAttribute("notice",
+                                 "No thread with ID " + threadId + ". " +
+                                 "Please stop hacking.");
+            request.getRequestDispatcher("home").forward(request, response);
+            return;
+        }
+
+        final String rawPostText = request.getParameter("post_text").trim();
         final String escapedPostText = escapeHtml4(rawPostText);
 
         long parentPostId = -1;
@@ -87,9 +111,11 @@ public class PostServlet extends HttpServlet {
             }
         }
 
-        if (parentPostId == -1) {
-            // The current post is not a reply.
-        } else {
+        Post post = new Post().setText(escapedPostText)
+                              .setThread(ownerThread)
+                              .setUser(currentUser);
+
+        if (parentPostId != 1L) {
             Post parent = Post.read(parentPostId);
 
             if (parent == null) {
@@ -100,6 +126,16 @@ public class PostServlet extends HttpServlet {
                 return;
             }
 
+            // Once here, parent post is OK.
+            post.setParentPost(parent);
+        }
+
+        if (post.create()) {
+            request.getRequestDispatcher("thread?id=" + ownerThread.getId())
+                   .forward(request, response);
+        } else {
+            request.setAttribute("notice", "Could not insert a post.");
+            request.getRequestDispatcher("home").forward(request, response);
         }
     }
 

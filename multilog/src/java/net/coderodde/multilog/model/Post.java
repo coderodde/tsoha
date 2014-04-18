@@ -125,6 +125,44 @@ public class Post {
         }
     }
 
+    public boolean create() {
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return false;
+        }
+
+        PreparedStatement ps = DB.getPreparedStatement(connection,
+                                                       Config.
+                                                       SQL_MAGIC.
+                                                       CREATE_NEW_POST);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+        }
+
+        try {
+            ps.setLong(1, getThread().getId());
+            ps.setLong(2, getUser().getId());
+            ps.setString(3, getText());
+
+            if (getParentPost() != null) {
+                ps.setLong(4, getParentPost().getId());
+            } else {
+                ps.setLong(4, 0);
+            }
+
+            ps.executeUpdate();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, null);
+            return false;
+        }
+
+        closeResources(connection, ps, null);
+        return true;
+    }
+
     public long getId() {
         return id;
     }

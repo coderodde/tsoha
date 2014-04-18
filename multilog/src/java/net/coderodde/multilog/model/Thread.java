@@ -133,38 +133,6 @@ public class Thread {
     }
 
     public List<Post> getAllPosts() {
-//        List<Post> list = new ArrayList<Post>();
-//        Post p = new Post().setId(1).setText("First post.");
-//        list.add(p);
-//
-//        p = new Post().setId(2).setText("Second post.");
-//        list.add(p);
-//
-//        p = new Post().setId(3).setText("Reply to first post.");
-//        p.setParentPost(list.get(0));
-//        list.add(p);
-//
-//        p = new Post().setId(4).setText("Reply to the first reply 1.");
-//        p.setParentPost(list.get(2));
-//        list.add(p);
-//
-//        p = new Post().setId(5).setText("Reply to the first reply 2.");
-//        p.setParentPost(list.get(2));
-//        list.add(p);
-//
-//        p = new Post().setId(6).setText("Reply to the second post.");
-//        p.setParentPost(list.get(1));
-//        list.add(p);
-//
-//        Timestamp ts = new Timestamp(System.currentTimeMillis());
-//
-//        for (Post post : list) {
-//            post.setCreatedAt(ts);
-//            post.setUpdatedAt(ts);
-//        }
-//
-//        return list;
-
         Connection conn = DB.getConnection();
 
         if (conn == null) {
