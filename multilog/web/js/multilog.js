@@ -6,7 +6,7 @@ function setReplyTarget(id) {
     var DOMHiddenField = document.getElementById("hidden_input");
     DOMHiddenField.value = id;
 
-    var DOMReplyToLabel = documnent.getElementById("reply_to");
+    var DOMReplyToLabel = document.getElementById("reply_to");
     DOMReplyToLabel.innerHTHML = "";
 }
 
