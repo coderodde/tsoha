@@ -72,7 +72,6 @@ public class ThreadServlet extends HttpServlet {
         request.setAttribute("thread_name", thread.getName());
         request.getRequestDispatcher("threadview.jsp")
                .forward(request, response);
-        return;
     }
 
     /**
