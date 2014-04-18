@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.Post;
 import net.coderodde.multilog.model.Thread;
+import net.coderodde.multilog.model.User;
 
 /**
  * This servlet is responsible for showing particular threads. The servlet
@@ -37,6 +38,14 @@ public class ThreadServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        final User currentUser = User.getCurrentlySignedUser(request);
+
+        if (currentUser != null) {
+            HomeServlet.prepareNavibarForSingedUser(request, currentUser);
+        } else {
+            HomeServlet.prepareNavibarForUnsignedUser(request);
+        }
+
         final String idAsString = request.getParameter("id");
 
         if (idAsString == null || idAsString.isEmpty()) {
@@ -70,6 +79,11 @@ public class ThreadServlet extends HttpServlet {
         posts = resort(posts);
         request.setAttribute("postList", posts);
         request.setAttribute("thread_name", thread.getName());
+
+        if (currentUser != null) {
+            request.setAttribute("can_reply", true);
+        }
+
         request.getRequestDispatcher("threadview.jsp")
                .forward(request, response);
     }
