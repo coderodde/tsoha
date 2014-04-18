@@ -223,12 +223,17 @@ public class Config {
 
         public static final String CREATE_NEW_POST =
                 "INSERT INTO posts (" +
+                "post_id, " +
                 "thread_id, " +
                 "user_id, " +
                 "post_text, " +
                 "parent_post, " +
                 "created_at, " +
                 "updated_at, " +
-                "VALUES (?, ?, ?, ?, NOW(), NOW());";
+                "VALUES ((SELECT max(user_id) from users) + 1, " +
+                "?, " +
+                "?, " +
+                "?, " +
+                "?, NOW(), NOW());";
     }
 }
