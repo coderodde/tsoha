@@ -3,7 +3,7 @@ function setReplyTarget(id) {
         return;
     }
 
-    var DOMHiddenField = document.getElementById("hidden_input")[0];
+    var DOMHiddenField = document.getElementById("hidden_input");
 
     alert(DOMHiddenField.name + "!");
 }

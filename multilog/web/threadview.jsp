@@ -43,6 +43,9 @@
             </div>
 
             <c:if test="${can_reply == true}" >
+
+            <hr />
+
             <div class="reply_area">
                 <div id="reply_to" style="color: #ff3300;"></div>
                 <form action="dopost" method="post">
