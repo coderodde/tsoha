@@ -1,4 +1,4 @@
-function setReplyTarget(id) {
+function setReplyTarget(id, who) {
     if (id <= 0) {
         return;
     }
@@ -7,10 +7,14 @@ function setReplyTarget(id) {
     DOMHiddenField.value = id;
 
     var DOMReplyToLabel = document.getElementById("reply_to");
-    DOMReplyToLabel.innerHTHML = "";
+    DOMReplyToLabel.innerHTHML = "Replying to " + who;
+
+    var DOMDontReplyButton = document.getElementById("dont_reply");
+    DOMDontReplyButton.innerHTML = "Forget"
 }
 
 function forget() {
     document.getElementById("hidden_input").value = "";
+    document.getElementById("reply_to").innerHTML = "";
     document.getElementById("dont_reply").innerHTML = "";
 }

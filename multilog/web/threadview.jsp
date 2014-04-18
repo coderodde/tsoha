@@ -33,7 +33,7 @@
                         </c:if>
 
                         <c:if test="${can_reply == true}">
-                            <div class="reply_button" onclick="setReplyTarget(${post.id});">Reply</div>
+                            <div class="reply_button" onclick="setReplyTarget(${post.id}, ${post.user.username});">Reply</div>
                         </c:if>
                         </div>
                         <div class="post_text">${post.text}</div>
