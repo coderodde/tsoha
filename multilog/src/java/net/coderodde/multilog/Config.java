@@ -182,7 +182,7 @@ public class Config {
                 "created_at," +
                 "updated_at) " +
                 "VALUES (" +
-                "(SELECT max(user_id) from users) + 1," +
+                "(SELECT max(user_id) FROM users) + 1," +
                 "?," +                                      // user name.
                 "?," +                                      // salt.
                 "?," +                                      // passwd_hash.
@@ -230,7 +230,7 @@ public class Config {
                 "parent_post, " +
                 "created_at, " +
                 "updated_at, " +
-                "VALUES ((SELECT max(user_id) from users) + 1, " +
+                "VALUES ((SELECT max(post_id) FROM posts) + 1, " +
                 "?, " +
                 "?, " +
                 "?, " +
