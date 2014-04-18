@@ -115,7 +115,7 @@ public class PostServlet extends HttpServlet {
                               .setThread(ownerThread)
                               .setUser(currentUser);
 
-        if (parentPostId != 1L) {
+        if (parentPostId != -1L) {
             Post parent = Post.read(parentPostId);
 
             if (parent == null) {
