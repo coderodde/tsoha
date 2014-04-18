@@ -51,7 +51,7 @@
                 <div class="reply_button" id="dont_reply" style="color: #ff3300;" onclick="forget();">Forget</div>
 
                 <form action="dopost" method="post">
-                    <textarea rows="4" id="post_textarea"></textarea>
+                    <textarea rows="4" id="post_textarea" name="post_text"></textarea>
                     <input type="hidden" id="hidden_input" name="replied_post_id" value="">
                     <input type="submit" value="Post now!">
                 </form>
