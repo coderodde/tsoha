@@ -237,5 +237,11 @@ public class Config {
                 "?, " +
                 "NOW(), " +
                 "NOW());";
+
+        public static final String CREATE_POST_READ =
+                "INSERT INTO message_reads (user_id, post_id) VALUES (?, ?);";
+
+        public static final String FETCH_MESSAGE_READS_OF_USER =
+                "SELECT * FROM message_reads WHERE user_id = ?;";
     }
 }

@@ -139,6 +139,7 @@ public class Post {
 
         if (ps == null) {
             closeResources(connection, null, null);
+            return false;
         }
 
         try {
