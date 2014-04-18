@@ -132,6 +132,24 @@ public class Thread {
         return postList;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+
+        if (!(o instanceof Thread)) {
+            return false;
+        }
+
+        return getId() == ((Thread) o).getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) getId();
+    }
+
     public List<Post> getAllPosts() {
         Connection conn = DB.getConnection();
 

@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import net.coderodde.multilog.Config;
 import static net.coderodde.multilog.Utils.closeResources;
 
@@ -100,9 +102,52 @@ public class MessageRead {
     }
 
     public static final List<Thread> findUpdatedThreads(final User user) {
+        final List<MessageRead> messageReads = getAllMessageReadsOfUser(user);
+        final List<Post> posts = findAllPostsFromMessageReads(messageReads);
+        final List<Thread> threads = findAllThreadsFromPosts(posts);
+        final Set<Long> postIdSet = new HashSet<Long>();
 
+        for (final MessageRead mr : messageReads) {
+            postIdSet.add(mr.getPostId());
+        }
 
-        return null;
+        final List<Thread> updatedThreads = new ArrayList<Thread>();
+
+        outer:
+        for (final Thread t : threads) {
+            List<Post> postList = t.getAllPosts();
+
+            for (Post post : postList) {
+                if (postIdSet.contains(post.getId()) == false) {
+                    updatedThreads.add(t);
+                    continue outer;
+                }
+            }
+        }
+
+        return updatedThreads;
+    }
+
+    private static final List<Post> findAllPostsFromMessageReads
+            (final List<MessageRead> messageReads) {
+        final Set<Post> postSet = new HashSet<Post>();
+
+        for (final MessageRead mr : messageReads) {
+            postSet.add(Post.read(mr.getPostId()));
+        }
+
+        return new ArrayList<Post>(postSet);
+    }
+
+    private static final List<Thread>
+            findAllThreadsFromPosts(final List<Post> posts) {
+        final Set<Thread> threadSet = new HashSet<Thread>();
+
+        for (final Post p : posts) {
+            threadSet.add(p.getThread());
+        }
+
+        return new ArrayList<Thread>(threadSet);
     }
 
     public boolean create() {
