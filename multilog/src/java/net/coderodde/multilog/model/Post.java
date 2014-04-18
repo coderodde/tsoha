@@ -205,6 +205,17 @@ public class Post {
         return this.getId() == ((Post) o).getId();
     }
 
+    /**
+     * This method returns rather simple a hash for the sake
+     * of putting post objects into a hash map.
+     *
+     * @return the hash value of this <code>Post</code>.
+     */
+    @Override
+    public int hashCode() {
+        return (int) getId();
+    }
+
     public Post setId(final long id) {
         this.id = id;
         return this;
