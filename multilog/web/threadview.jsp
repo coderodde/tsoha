@@ -48,7 +48,7 @@
 
             <div class="reply_area">
                 <div id="reply_to" style="color: #ff3300;"></div>
-                <div class="reply_button" id="dont_reply" onclick="forget();">Forget</div>
+                <div class="reply_button" id="dont_reply" style="color: #ff3300;" onclick="forget();">Forget</div>
 
                 <form action="dopost" method="post">
                     <textarea rows="4" id="post_textarea"></textarea>
