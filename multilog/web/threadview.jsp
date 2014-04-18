@@ -48,6 +48,8 @@
 
             <div class="reply_area">
                 <div id="reply_to" style="color: #ff3300;"></div>
+                <div class="reply_button" id="dont_reply" onclick="forget();">Forget</div>
+
                 <form action="dopost" method="post">
                     <textarea rows="4" id="post_textarea"></textarea>
                     <input type="hidden" id="hidden_input" name="replied_post_id" value="">
