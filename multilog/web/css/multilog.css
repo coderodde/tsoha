@@ -229,10 +229,11 @@ body {
 }
 
 .reply_button {
+    float: right;
     padding: 10px;
     border: 1px solid black;
     color: white;
-    background-color: #07aa01;
+    background-color: #ff3300;
     font-style: normal;
 }
 
