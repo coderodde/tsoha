@@ -229,11 +229,13 @@ public class Config {
                 "post_text, " +
                 "parent_post, " +
                 "created_at, " +
-                "updated_at, " +
+                "updated_at) " +
                 "VALUES ((SELECT max(post_id) FROM posts) + 1, " +
                 "?, " +
                 "?, " +
                 "?, " +
-                "?, NOW(), NOW());";
+                "?, " +
+                "NOW(), " +
+                "NOW());";
     }
 }
