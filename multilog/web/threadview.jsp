@@ -41,7 +41,7 @@
                         </c:if>
                         </div>
 
-                        <div class="post_text">${post.text}</div>
+                        <div class="post_text">${post.html}</div>
 
                         <c:if test="${post.edible == true}" >
                             <form action="updatepost" method="post">
