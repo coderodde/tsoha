@@ -38,10 +38,10 @@
 
                 <p style="color: red; text-align: center;">${notice}</p>
             </div>
-        </div>
 
-        <c:if test="${edit == true}">
-            <%@ include file="thread_updates.jspf" %>
-        </c:if>
+            <c:if test="${edit == true}">
+                <%@ include file="thread_updates.jspf" %>
+            </c:if>
+        </div>
     </body>
 </html>
