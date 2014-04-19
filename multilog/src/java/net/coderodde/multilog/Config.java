@@ -242,9 +242,9 @@ public class Config {
                 "NOW());";
 
         public static final String UPDATE_POST =
-                "UPDATE users SET " +
+                "UPDATE posts SET " +
                 "post_text = ?, " +
-                "updated_at = NOw() " +
+                "updated_at = NOW() " +
                 "WHERE post_id = ?;";
 
         public static final String CREATE_POST_READ =
