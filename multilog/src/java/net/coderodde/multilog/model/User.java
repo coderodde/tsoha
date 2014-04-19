@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import net.coderodde.multilog.Config;
 import net.coderodde.multilog.Utils;
@@ -480,6 +481,14 @@ public class User {
         }
 
         return getHash(password, salt).equals(this.getHash());
+    }
+
+    public void addMessageReads(List<Post> posts) {
+        for (Post p : posts) {
+            new MessageRead().setPostId(p.getId())
+                             .setUserId(getId())
+                             .create();
+        }
     }
 
     @Override

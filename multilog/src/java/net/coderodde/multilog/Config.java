@@ -243,11 +243,5 @@ public class Config {
 
         public static final String FETCH_MESSAGE_READS_OF_USER =
                 "SELECT * FROM message_reads WHERE user_id = ?;";
-
-        public static final String FETCH_THREAD_WITH_GIVEN_POST_ID =
-                "SELECT * FROM threads WHERE";
-
-        public static final String GET_THREAD_ID_OF_POST =
-                "SELECT ";
     }
 }

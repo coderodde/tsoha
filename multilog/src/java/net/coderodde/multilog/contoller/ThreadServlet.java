@@ -85,6 +85,7 @@ public class ThreadServlet extends HttpServlet {
             List<MessageRead> messageReads =
                     MessageRead.getAllMessageReadsOfUser(currentUser);
             setFreshnessFlags(posts, messageReads);
+            currentUser.addMessageReads(posts);
         }
 
         posts = resort(posts);

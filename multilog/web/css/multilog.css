@@ -193,6 +193,7 @@ body {
 }
 
 .reply_button {
+    margin: 3px;
     float: right;
     padding: 10px;
     border: 1px solid black;
@@ -202,9 +203,10 @@ body {
 }
 
 .fresh_label {
+    margin: 3px;
     float: right;
     padding: 10px;
-    border: 1px solid white;
+    border: 1px solid black;
     color: white;
     background-color: #00c500;
     font-style: normal;
