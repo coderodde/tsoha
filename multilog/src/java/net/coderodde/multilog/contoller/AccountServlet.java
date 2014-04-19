@@ -178,6 +178,7 @@ public class AccountServlet extends HttpServlet {
         Map<Thread, Integer> map = MessageRead.findUpdatedThreads(who);
 
         if (map.size() > 0) {
+            request.setAttribute("doshow", true);
             request.setAttribute("post_updates", "Post updates:");
         }
 
