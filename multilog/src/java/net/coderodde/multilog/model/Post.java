@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import net.coderodde.multilog.Config;
 import static net.coderodde.multilog.Utils.closeResources;
+import net.coderodde.multilog.model.Thread;
 
 /**
  * This class holds all information of a forum post.
@@ -62,6 +63,12 @@ public class Post {
      * <code>true</code> if this post is fresh.
      */
     private boolean fresh;
+
+    /**
+     * <code>true</code> if this post is edible (this post belongs to
+     * the current signed in user).
+     */
+    private boolean edible;
 
     public static final Post read(final long postId) {
         Connection conn = DB.getConnection();
@@ -243,6 +250,10 @@ public class Post {
         return fresh;
     }
 
+    public boolean isEdible() {
+        return edible;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -352,6 +363,11 @@ public class Post {
 
     public Post setFresh(final boolean fresh) {
         this.fresh = fresh;
+        return this;
+    }
+
+    public Post setEdible(final boolean edible) {
+        this.edible = edible;
         return this;
     }
 

@@ -86,9 +86,10 @@ public class ThreadServlet extends HttpServlet {
                     MessageRead.getAllMessageReadsOfUser(currentUser);
             setFreshnessFlags(posts, messageReads);
             currentUser.addMessageReads(posts);
+            setupOwnEdiblePosts(posts, currentUser);
         }
 
-        posts = resort(posts);
+        posts = sort(posts);
         request.setAttribute("postList", posts);
         request.setAttribute("thread_name", thread.getName());
         request.setAttribute("thread_id", thread.getId());
@@ -138,19 +139,26 @@ public class ThreadServlet extends HttpServlet {
     }
 
     private static final void setFreshnessFlags
-            (List<Post> posts, List<MessageRead> reads) {
+            (final List<Post> posts, final List<MessageRead> reads) {
         if (reads.isEmpty()) {
             return;
         }
 
         Set<Long> postIdSet = new HashSet<Long>(reads.size());
 
-        for (MessageRead mr : reads) {
+        for (final MessageRead mr : reads) {
             postIdSet.add(mr.getPostId());
         }
 
-        for (Post p : posts) {
+        for (final Post p : posts) {
             p.setFresh(!postIdSet.contains(p.getId()));
+        }
+    }
+
+    private static final void setupOwnEdiblePosts
+            (final List<Post> postList, final User currentUser) {
+        for (final Post p : postList) {
+            p.setEdible(p.getUser().equals(currentUser));
         }
     }
 
@@ -160,7 +168,7 @@ public class ThreadServlet extends HttpServlet {
      *
      * @param postList the list of posts to sort.
      */
-    private static final List<Post> resort(List<Post> postList) {
+    private static final List<Post> sort(List<Post> postList) {
         List<Post> toplevelPostList = new ArrayList<Post>(postList.size());
 
         // Maps a parent post to the list of its children posts (i.e. replies).

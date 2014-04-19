@@ -40,7 +40,17 @@
                             <div class="fresh_label">New!</div>
                         </c:if>
                         </div>
+
                         <div class="post_text">${post.text}</div>
+
+                        <c:if test="${post.edible == true}" >
+                            <form action="updatepost" method="post">
+                                <textarea rows="4" cols="80" name="new_content">${post.text}</textarea>
+                                <input type="hidden" name="edit_post_id" value="${post.id}">
+                                <input type="submit" value="Update post" >
+                            </form>
+                        </c:if>
+
                     </div>
 
                 </c:forEach>
