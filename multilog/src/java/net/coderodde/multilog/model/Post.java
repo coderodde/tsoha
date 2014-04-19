@@ -325,6 +325,17 @@ public class Post {
             }
         }
 
+        while (stack.size() > 0) {
+            buffer = stack.removeLast();
+
+            if (buffer == Config.MARK_UP.BOLD
+                    || buffer == Config.MARK_UP.ITALIC
+                    || buffer == Config.MARK_UP.MONO) {
+
+                sb.append(Config.MARK_UP.HTML_CLOSE_MARKUP);
+            }
+        }
+
         return sb.toString();
     }
 
@@ -468,7 +479,8 @@ public class Post {
 
     public static void main(String... args) {
         Post p = new Post();
-        p.setText("_#*hello*#_ #code here# [Google!|http://google.fi]");
+        p.setText("_#*hello*#_ #code here# [http://google.fi|Google!]");
+        p.setText("_hello*[|");
         System.out.println(p.getHtml());
     }
 }
