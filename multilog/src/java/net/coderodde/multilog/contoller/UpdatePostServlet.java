@@ -98,7 +98,8 @@ public class UpdatePostServlet extends HttpServlet {
             request.setAttribute("notice", "Could not update your post!");
         }
 
-        request.getRequestDispatcher("thread?id=" + post.getThread().getId());
+        request.getRequestDispatcher("thread?id=" + post.getThread().getId())
+               .forward(request, response);
     }
 
     /**
