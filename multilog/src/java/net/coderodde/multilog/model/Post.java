@@ -200,6 +200,7 @@ public class Post {
         try {
             ps.setString(1, getText());
             ps.setLong(2, getId());
+            ps.executeUpdate();
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
             closeResources(connection, ps, null);
