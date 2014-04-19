@@ -201,6 +201,15 @@ body {
     font-style: normal;
 }
 
+.fresh_label {
+    float: right;
+    padding: 10px;
+    border: 1px solid white;
+    color: white;
+    background-color: #00c500;
+    font-style: normal;
+}
+
 .post_intro {
     height: 30px;
     margin: 0;

@@ -5,14 +5,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.coderodde.multilog.model.MessageRead;
 import net.coderodde.multilog.model.Post;
 import net.coderodde.multilog.model.Thread;
 import net.coderodde.multilog.model.User;
@@ -76,14 +79,18 @@ public class ThreadServlet extends HttpServlet {
         }
 
         List<Post> posts = thread.getAllPosts();
+
+        if (currentUser != null) {
+            request.setAttribute("can_reply", true);
+            List<MessageRead> messageReads =
+                    MessageRead.getAllMessageReadsOfUser(currentUser);
+            setFreshnessFlags(posts, messageReads);
+        }
+
         posts = resort(posts);
         request.setAttribute("postList", posts);
         request.setAttribute("thread_name", thread.getName());
         request.setAttribute("thread_id", thread.getId());
-
-        if (currentUser != null) {
-            request.setAttribute("can_reply", true);
-        }
 
         request.getRequestDispatcher("threadview.jsp")
                .forward(request, response);
@@ -127,6 +134,19 @@ public class ThreadServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "This servlet is responsible for showing a particular thread.";
+    }
+
+    private static final void setFreshnessFlags
+            (List<Post> posts, List<MessageRead> reads) {
+        Set<Long> postIdSet = new HashSet<Long>(reads.size());
+
+        for (MessageRead mr : reads) {
+            postIdSet.add(mr.getPostId());
+        }
+
+        for (Post p : posts) {
+            p.setFresh(!postIdSet.contains(p.getId()));
+        }
     }
 
     /**

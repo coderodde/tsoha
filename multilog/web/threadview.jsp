@@ -35,6 +35,10 @@
                         <c:if test="${can_reply == true}">
                             <div class="reply_button" onclick="setReplyTarget(${post.id}, '${post.user.username}');">Reply</div>
                         </c:if>
+
+                        <c:if test="${post.fresh}">
+                            <div class="fresh_label">New!</div>
+                        </c:if>
                         </div>
                         <div class="post_text">${post.text}</div>
                     </div>

@@ -53,7 +53,15 @@ public class Post {
      */
     private Post parentPost;
 
+    /**
+     * Used for indenting the replies.
+     */
     private int indent;
+
+    /**
+     * <code>true</code> if this post is fresh.
+     */
+    private boolean fresh;
 
     public static final Post read(final long postId) {
         Connection conn = DB.getConnection();
@@ -231,6 +239,10 @@ public class Post {
         return !createdAt.equals(updatedAt);
     }
 
+    public boolean isFresh() {
+        return fresh;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -335,6 +347,11 @@ public class Post {
 
     public Post setIndent(final int indent) {
         this.indent = indent;
+        return this;
+    }
+
+    public Post setFresh(final boolean fresh) {
+        this.fresh = fresh;
         return this;
     }
 
