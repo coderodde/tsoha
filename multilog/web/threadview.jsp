@@ -21,11 +21,13 @@
 
             <hr />
 
+            <p style="color: red; font-style: italic; text-align: center;">${notice}</p>
+
             <div class="post_container">
                 <h2>Posts on ${thread_name}</h2>
                 <c:forEach var="post" items="${requestScope.postList}">
 
-                    <div class="post_item" data-id="${post.id}" style="margin-left: <c:out value="${6 + 10 * post.indent}" />px;">
+                    <div class="post_item" style="margin-left: <c:out value="${6 + 10 * post.indent}" />px;">
                         <div class="post_intro">${post.user.username} at
                         <fmt:formatDate pattern="yyyy.MM.dd  HH:mm:ss z" value="${post.createdAt}" />
                         <c:if test="${post.timestampsDifferent}" >
@@ -65,11 +67,23 @@
                 <div class="reply_button" id="dont_reply" style="color: #ff3300;" onclick="forget();">Forget</div>
 
                 <form action="dopost" method="post">
-                    <textarea rows="4" id="post_textarea" name="post_text"></textarea>
+                    <textarea rows="4" cols="80" id="post_textarea" name="post_text"></textarea>
                     <input type="hidden" id="hidden_input" name="replied_post_id" value="">
                     <input type="hidden" name="thread_id" value="${thread_id}">
                     <input type="submit" value="Post now!">
                 </form>
+            </div>
+
+            <div>
+                Use * for bold font.
+                <br>
+                Use _ for italic.
+                <br>
+                Use # for monospaced font.
+                <br>
+                Use [http://...] for a link.
+                <br>
+                Use [http://...|Name] for a named link.
             </div>
             </c:if>
 

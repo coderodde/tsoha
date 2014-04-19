@@ -241,6 +241,12 @@ public class Config {
                 "NOW(), " +
                 "NOW());";
 
+        public static final String UPDATE_POST =
+                "UPDATE users SET " +
+                "post_text = ?, " +
+                "updated_at = NOw() " +
+                "WHERE post_id = ?;";
+
         public static final String CREATE_POST_READ =
                 "INSERT INTO message_reads (user_id, post_id) VALUES (?, ?);";
 
