@@ -1,5 +1,8 @@
 package net.coderodde.multilog;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This class defines the constants for configuring the system.
  *
@@ -243,5 +246,36 @@ public class Config {
 
         public static final String FETCH_MESSAGE_READS_OF_USER =
                 "SELECT * FROM message_reads WHERE user_id = ?;";
+    }
+
+    public static final class MARK_UP {
+
+        public static final char BOLD = '*';
+
+        public static final char ITALIC = '_';
+
+        public static final char MONO = '|';
+
+        public static final char URL_BEGIN = '[';
+
+        public static final char URL_END = ']';
+
+        public static final char SEPARATOR = '|';
+
+        public static final char ESCAPE = '\\'; // backslash.
+
+        public static final Map<Character, String> map;
+
+        public static final String HTML_CLOSE_MARKUP = "</span>";
+
+        public static final String HTML_CLOSE_URL = "</a>";
+
+        static {
+            map = new HashMap<Character, String>();
+
+            map.put(BOLD,   "<span class=\"mk_bold\">");
+            map.put(ITALIC, "<span class=\"mk_italic\">");
+            map.put(MONO,   "<span class=\"mk_mono\">");
+        }
     }
 }

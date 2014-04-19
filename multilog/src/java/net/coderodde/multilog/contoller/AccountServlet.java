@@ -2,7 +2,6 @@ package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.TreeMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

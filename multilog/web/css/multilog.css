@@ -120,6 +120,7 @@ body {
 }
 
 .post_text {
+    text-align: justify;
     font-size: 10pt;
     font-weight: normal;
     font-style: normal;
@@ -262,4 +263,20 @@ body {
     text-align: center;
     font-style: italic;
     font-weight: normal;
+}
+
+.mk_bold {
+    font-weight: bold;
+}
+
+.mk_italic {
+    font-style: italic;
+}
+
+.mk_mono {
+    font-family: monospace;
+}
+
+.mk_url {
+    color: #a80000;
 }

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.LinkedList;
 import net.coderodde.multilog.Config;
 import static net.coderodde.multilog.Utils.closeResources;
 import net.coderodde.multilog.model.Thread;
@@ -240,6 +241,50 @@ public class Post {
 
     public int getIndent() {
         return indent;
+    }
+
+    public final String getHtml() {
+        final String raw = getText();
+
+        if (raw == null || raw.isEmpty()) {
+            return "";
+        }
+
+        final StringBuilder sb = new StringBuilder(2 * raw.length());
+        final LinkedList<Character> stack = new LinkedList<Character>();
+
+        int currentCharIndex = 0;
+        char buffer;
+        boolean escapeNext = false;
+
+        while (currentCharIndex < raw.length()) {
+            buffer = raw.charAt(currentCharIndex);
+
+            if (escapeNext) {
+                sb.append(buffer);
+                escapeNext = false;
+                continue;
+            }
+
+            if (buffer == Config.MARK_UP.ESCAPE) {
+                escapeNext = true;
+                continue;
+            }
+
+            if (buffer == Config.MARK_UP.BOLD) {
+                if (stack.size() > 0
+                        && stack.getLast() == Config.MARK_UP.BOLD) {
+                    sb.append(Config.MARK_UP.map.get(Config.MARK_UP.))
+                }
+
+                stack.addLast(Config.MARK_UP.BOLD);
+                sb.append(Config.MARK_UP.map.get(Config.MARK_UP.BOLD));
+            } else if (buffer == Config.MARK_UP.ITALIC) {
+                stack.addLast(Config.MARK_UP.ITALIC);
+            }
+        }
+
+        return sb.toString();
     }
 
     public boolean isTimestampsDifferent() {
