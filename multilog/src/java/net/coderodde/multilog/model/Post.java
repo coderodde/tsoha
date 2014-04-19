@@ -325,6 +325,7 @@ public class Post {
             }
         }
 
+        // For the sake of well-formed HTML.
         while (stack.size() > 0) {
             buffer = stack.removeLast();
 
