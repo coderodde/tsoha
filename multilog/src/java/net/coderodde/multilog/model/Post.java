@@ -251,6 +251,8 @@ public class Post {
         }
 
         final StringBuilder sb = new StringBuilder(2 * raw.length());
+        final StringBuilder urlSb = new StringBuilder();
+        final StringBuilder urlNameSb = new StringBuilder();
         final LinkedList<Character> stack = new LinkedList<Character>();
 
         int currentCharIndex = 0;
@@ -258,7 +260,7 @@ public class Post {
         boolean escapeNext = false;
 
         while (currentCharIndex < raw.length()) {
-            buffer = raw.charAt(currentCharIndex);
+            buffer = raw.charAt(currentCharIndex++);
 
             if (escapeNext) {
                 sb.append(buffer);
@@ -274,13 +276,50 @@ public class Post {
             if (buffer == Config.MARK_UP.BOLD) {
                 if (stack.size() > 0
                         && stack.getLast() == Config.MARK_UP.BOLD) {
-                    sb.append(Config.MARK_UP.map.get(Config.MARK_UP.))
+                    sb.append(Config.MARK_UP.HTML_CLOSE_MARKUP);
+                    stack.removeLast();
+                } else {
+                    stack.addLast(Config.MARK_UP.BOLD);
+                    sb.append(Config.MARK_UP.map.get(Config.MARK_UP.BOLD));
                 }
-
-                stack.addLast(Config.MARK_UP.BOLD);
-                sb.append(Config.MARK_UP.map.get(Config.MARK_UP.BOLD));
             } else if (buffer == Config.MARK_UP.ITALIC) {
-                stack.addLast(Config.MARK_UP.ITALIC);
+                if (stack.size() > 0
+                        && stack.getLast() == Config.MARK_UP.ITALIC) {
+                    sb.append(Config.MARK_UP.HTML_CLOSE_MARKUP);
+                    stack.removeLast();
+                } else {
+                    stack.addLast(Config.MARK_UP.ITALIC);
+                    sb.append(Config.MARK_UP.map.get(Config.MARK_UP.ITALIC));
+                }
+            } else if (buffer == Config.MARK_UP.MONO) {
+                if (stack.size() > 0
+                        && stack.getLast() == Config.MARK_UP.MONO) {
+                    sb.append(Config.MARK_UP.HTML_CLOSE_MARKUP);
+                    stack.removeLast();
+                } else {
+                    stack.addLast(Config.MARK_UP.MONO);
+                    sb.append(Config.MARK_UP.map.get(Config.MARK_UP.MONO));
+                }
+            } else if (buffer == Config.MARK_UP.URL_BEGIN) {
+                stack.addLast(Config.MARK_UP.URL_BEGIN);
+            } else if (buffer == Config.MARK_UP.URL_END) {
+                sb.append("<a href=\"")
+                  .append(urlSb.toString())
+                  .append("\">")
+                  .append(urlNameSb.toString())
+                  .append(Config.MARK_UP.HTML_CLOSE_URL);
+
+                // Empty the url string builders.
+                urlSb.delete(0, urlSb.length());
+                urlNameSb.delete(0, urlNameSb.length());
+            } else if (buffer == Config.MARK_UP.SEPARATOR) {
+                stack.addLast(Config.MARK_UP.SEPARATOR);
+            } else if (stack.size() > 0
+                    && stack.getLast() == Config.MARK_UP.URL_BEGIN) {
+                urlSb.append(buffer);
+            } else if (stack.size() > 0
+                    && stack.getLast() == Config.MARK_UP.SEPARATOR) {
+                urlNameSb.append(buffer);
             }
         }
 
@@ -423,5 +462,11 @@ public class Post {
      */
     public Post end() {
         return this;
+    }
+
+    public static void main(String... args) {
+        Post p = new Post();
+        p.setText("*hello*");
+        System.out.println(p.getHtml());
     }
 }
