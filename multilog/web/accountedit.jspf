@@ -16,7 +16,7 @@
 
             <div>
                 <c:forEach var="entry" items="${requestScope.threadMap}">
-                    <c:out value="entry.key"/> - <c:out value="entry.value"/>
+                    <c:out value="${entry.key.name}"/> - <c:out value="${entry.value}"/>
                     <br>
                 </c:forEach>
             </div>
