@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import net.coderodde.multilog.Config;
 import static net.coderodde.multilog.Utils.closeResources;
@@ -49,6 +50,12 @@ public class Thread {
      * Basically this is updated every time a thread get a new post.
      */
     private Timestamp updatedAt;
+
+    public static final Comparator<Thread> tc = new Comparator<Thread>() {
+        public int compare(Thread o1, Thread o2) {
+            return o1.getName().compareTo(o2.getName());
+        }
+    };
 
     public static final Thread read(final long id) {
         Connection conn = DB.getConnection();

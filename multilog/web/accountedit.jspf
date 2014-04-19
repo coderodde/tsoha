@@ -13,10 +13,3 @@
                     <tr> <td><input type="submit" value="Update account"> </td> <td>                                                                                                            </td> <td>                                                                             </td> </tr>
                 </table>
             </form>
-
-            <div>
-                <c:forEach var="entry" items="${requestScope.threadMap}">
-                    <c:out value="${entry.key.name}"/> - <c:out value="${entry.value}"/>
-                    <br>
-                </c:forEach>
-            </div>

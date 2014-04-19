@@ -2,6 +2,7 @@ package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.TreeMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -175,7 +176,7 @@ public class AccountServlet extends HttpServlet {
         request.setAttribute("target_id", who.getId());
 
         Map<Thread, Integer> map = MessageRead.findUpdatedThreads(who);
-
+        Map<Thread, Integer> m2 = new TreeMap<Thread, Integer>();
         request.setAttribute("threadMap", map);
     }
 

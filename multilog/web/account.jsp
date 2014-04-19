@@ -35,6 +35,11 @@
                     <input type="submit" value="Delete account!" >
                 </form>
                 </c:if>
+
+                <c:if test="${edit == true}">
+                    <%@ include file="thread_updates.jspf" %>
+                </c:if>
+                
                 <p style="color: red; text-align: center;">${notice}</p>
             </div>
         </div>

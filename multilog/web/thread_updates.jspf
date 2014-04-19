@@ -1,0 +1,8 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+            <div class="update_container">
+                <c:forEach var="entry" items="${requestScope.threadMap}">
+                    <div class="update_item">
+                        <a href="thread?id="${entry.key.id}>${entry.key.name} - ${entry.value}</a>
+                </c:forEach>
+            </div>

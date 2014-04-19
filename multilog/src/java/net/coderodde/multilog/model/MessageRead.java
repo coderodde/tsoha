@@ -5,11 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import net.coderodde.multilog.Config;
 import static net.coderodde.multilog.Utils.closeResources;
 
@@ -110,7 +110,9 @@ public class MessageRead {
         final List<Thread> threads = findAllThreadsFromPosts(posts);
         final Set<Long> postIdSet = new HashSet<Long>();
 
-        final Map<Thread, Integer> map = new HashMap<Thread, Integer>();
+        // This also sorts the threads by name.
+        final Map<Thread, Integer> map =
+                new TreeMap<Thread, Integer>(Thread.tc);
 
         for (final MessageRead mr : messageReads) {
             postIdSet.add(mr.getPostId());
