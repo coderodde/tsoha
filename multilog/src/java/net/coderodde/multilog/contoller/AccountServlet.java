@@ -1,11 +1,14 @@
 package net.coderodde.multilog.contoller;
 
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.Config;
+import net.coderodde.multilog.model.MessageRead;
+import net.coderodde.multilog.model.Thread;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.UserType;
 
@@ -170,6 +173,10 @@ public class AccountServlet extends HttpServlet {
                              who.getShowEmail() ? "checked" : "");
 
         request.setAttribute("target_id", who.getId());
+
+        Map<Thread, Integer> map = MessageRead.findUpdatedThreads(who);
+
+        request.setAttribute("threadMap", map);
     }
 
     static void serveViewForAdmin(final HttpServletRequest request,

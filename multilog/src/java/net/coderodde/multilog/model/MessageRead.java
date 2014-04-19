@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import net.coderodde.multilog.Config;
 import static net.coderodde.multilog.Utils.closeResources;
@@ -101,31 +103,34 @@ public class MessageRead {
         return list;
     }
 
-    public static final List<Thread> findUpdatedThreads(final User user) {
+    public static final Map<Thread, Integer>
+            findUpdatedThreads(final User user) {
         final List<MessageRead> messageReads = getAllMessageReadsOfUser(user);
         final List<Post> posts = findAllPostsFromMessageReads(messageReads);
         final List<Thread> threads = findAllThreadsFromPosts(posts);
         final Set<Long> postIdSet = new HashSet<Long>();
 
+        final Map<Thread, Integer> map = new HashMap<Thread, Integer>();
+
         for (final MessageRead mr : messageReads) {
             postIdSet.add(mr.getPostId());
         }
 
-        final List<Thread> updatedThreads = new ArrayList<Thread>();
-
-        outer:
         for (final Thread t : threads) {
             List<Post> postList = t.getAllPosts();
 
             for (Post post : postList) {
                 if (postIdSet.contains(post.getId()) == false) {
-                    updatedThreads.add(t);
-                    continue outer;
+                    if (map.containsKey(t) == false) {
+                        map.put(t, 1);
+                    } else {
+                        map.put(t, map.get(t) + 1);
+                    }
                 }
             }
         }
 
-        return updatedThreads;
+        return map;
     }
 
     private static final List<Post> findAllPostsFromMessageReads
