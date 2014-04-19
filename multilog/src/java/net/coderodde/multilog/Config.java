@@ -254,7 +254,7 @@ public class Config {
 
         public static final char ITALIC = '_';
 
-        public static final char MONO = '|';
+        public static final char MONO = '#';
 
         public static final char URL_BEGIN = '[';
 

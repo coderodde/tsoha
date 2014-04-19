@@ -320,6 +320,8 @@ public class Post {
             } else if (stack.size() > 0
                     && stack.getLast() == Config.MARK_UP.SEPARATOR) {
                 urlNameSb.append(buffer);
+            } else {
+                sb.append(buffer);
             }
         }
 
@@ -466,7 +468,7 @@ public class Post {
 
     public static void main(String... args) {
         Post p = new Post();
-        p.setText("*hello*");
+        p.setText("_#*hello*#_ #code here# [Google!|http://google.fi]");
         System.out.println(p.getHtml());
     }
 }
