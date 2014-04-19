@@ -176,7 +176,11 @@ public class AccountServlet extends HttpServlet {
         request.setAttribute("target_id", who.getId());
 
         Map<Thread, Integer> map = MessageRead.findUpdatedThreads(who);
-        Map<Thread, Integer> m2 = new TreeMap<Thread, Integer>();
+
+        if (map.size() > 0) {
+            request.setAttribute("post_updates", "Post updates:");
+        }
+
         request.setAttribute("threadMap", map);
     }
 
