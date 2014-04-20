@@ -193,7 +193,7 @@ body {
     background-color: #fafaea;
 }
 
-.update_item:hover, .thread_container:hover, .post_item:hover, .topic_item:hover {
+.update_item:hover, .thread_item:hover, .topic_item:hover {
     margin: 6px;
     padding: 6px;
     border-radius: 6px;

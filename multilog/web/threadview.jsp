@@ -20,7 +20,7 @@
             <%@include file="navibar.jspf" %>
 
             <hr />
-            <div onclick="window.location='topic?id=${topic_id}'">${topic_name}</div> &gt; <div onclick="window.location='thread?id=${thread_id}'">${thread_name}</div>
+            <div onclick="window.location='topic?id=${topic_id}'">${topic_name}</div> &gt; ${thread_name}
             <hr />
 
             <p style="color: red; font-style: italic; text-align: center;">${notice}</p>
@@ -31,10 +31,10 @@
 
                     <div class="post_item" style="margin-left: <c:out value="${6 + 10 * post.indent}" />px;">
                         <div class="post_intro">${post.user.username} at
-                        <fmt:formatDate pattern="yyyy.MM.dd  HH:mm:ss z" value="${post.createdAt}" />
+                            <span class="float_right" style="font-style: normal; font-weight: normal;"><fmt:formatDate pattern="yyyy.MM.dd  HH:mm:ss z" value="${post.createdAt}" />
                         <c:if test="${post.timestampsDifferent}" >
                             , updated at <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss z" value="${post.updatedAt}" />
-                        </c:if>
+                        </c:if></span>
 
                         <c:if test="${can_reply == true}">
                             <div class="reply_button" onclick="setReplyTarget(${post.id}, '${post.user.username}');">Reply</div>

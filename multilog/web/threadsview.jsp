@@ -18,13 +18,13 @@
             <%@ include file="navibar.jspf" %>
 
             <hr />
-            
+
             <div class="thread_container">
                 <h2>Threads on ${topic_name}</h2>
                 <c:forEach var="thread" items="${requestScope.threadList}" >
                     <div class="thread_item" onclick="window.location='thread?id=${thread.id}'">
                         ${thread.name}
-                        <span class="float_right" style="font-style: normal;">
+                        <span class="float_right" style="font-style: normal; font-weight: normal;">
                         at <fmt:formatDate pattern="yyyy.MM.dd  HH:mm:ss z" value="${thread.createdAt}" />
                         <c:if test="${thread.timestampsDifferent}">
                             , updated at <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss z" value="${thread.updatedAt}" />

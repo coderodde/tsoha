@@ -24,7 +24,7 @@
                 <c:forEach var="topic" items="${requestScope.topicList}">
                     <div class="topic_item" onclick="window.location='topic?id=${topic.id}'">
                         ${topic.name}
-                        <span class="float_right" style="font-style: normal;">
+                        <span class="float_right" style="font-style: normal; font-weight: normal;">
                             at <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss z" value="${topic.createdAt}" />
                             <c:if test="${topic.timestampsDifferent}">
                                 , updated at <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss z" value="${topic.updatedAt}" />
