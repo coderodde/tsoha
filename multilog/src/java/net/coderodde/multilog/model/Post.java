@@ -274,6 +274,13 @@ public class Post {
         return indent;
     }
 
+    /**
+     * Runs the markup algorithm and returns everything as HTML. Runs in linear
+     * time and operates on operator stack, which makes it possible to fix (?)
+     * invalid markup as to output valid HTML.
+     *
+     * @return the HTML fragment for this post.
+     */
     public final String getHtml() {
         final String raw = getText();
 
@@ -376,18 +383,43 @@ public class Post {
         return sb.toString();
     }
 
+    /**
+     * Returns <code>true</code> if the time stamps of this post are different.
+     * <code>false</code> otherwise.
+     *
+     * @return see above.
+     */
     public boolean isTimestampsDifferent() {
         return !createdAt.equals(updatedAt);
     }
 
+    /**
+     * Returns a boolean indicating the "freshness" of this post.
+     *
+     * @return <code>true</code> or <code>false</code>.
+     */
     public boolean isFresh() {
         return fresh;
     }
 
+    /**
+     * Returns <code>true</code> if this post is edible (by currently signed
+     * user), <code>false</code> otherwise.
+     *
+     * @return see above.
+     */
     public boolean isEdible() {
         return edible;
     }
 
+    /**
+     * Checks equality by IDs.
+     *
+     * @param o another object.
+     *
+     * @return <code>true</code> if <code>o</code> is a post and has the same
+     * ID as <code>this</code>; <code>otherwise</code>.
+     */
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -412,6 +444,13 @@ public class Post {
         return (int) getId();
     }
 
+    /**
+     * Sets the ID of this post.
+     *
+     * @param id the ID to set.
+     *
+     * @return itself for chaining.
+     */
     public Post setId(final long id) {
         this.id = id;
         return this;
@@ -490,16 +529,38 @@ public class Post {
         return this;
     }
 
+    /**
+     * Sets the left indentation value for the sake of prettiness and
+     * readability.
+     *
+     * @param indent the indentation level.
+     *
+     * @return itself for chaining.
+     */
     public Post setIndent(final int indent) {
         this.indent = indent;
         return this;
     }
 
+    /**
+     * Sets the freshness flag on or off.
+     *
+     * @param fresh the flag to set.
+     *
+     * @return itself for chaining.
+     */
     public Post setFresh(final boolean fresh) {
         this.fresh = fresh;
         return this;
     }
 
+    /**
+     * Sets the edibility flag on or off.
+     *
+     * @param edible the flag to set.
+     *
+     * @return itself for chaining.
+     */
     public Post setEdible(final boolean edible) {
         this.edible = edible;
         return this;

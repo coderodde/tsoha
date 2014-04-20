@@ -7,6 +7,7 @@ import java.util.Map;
  * This class defines the constants for configuring the system.
  *
  * @author Rodion Efremov
+ * @version 0.1
  */
 public class Config {
 
@@ -195,9 +196,15 @@ public class Config {
                 "?," +                                      // description.
                 "NOW(), NOW());";
 
+        /**
+         * The template for removing a user.
+         */
         public static final String REMOVE_USER =
                 "UPDATE users SET removed = TRUE WHERE user_id = ?;";
 
+        /**
+         * The template for updating a user.
+         */
         public static final String UPDATE_USER =
                 "UPDATE users SET " +
                 "first_name = ?, " +        // first name.
@@ -209,21 +216,36 @@ public class Config {
                 "updated_at = NOW() " +     // Update the timestamp.
                 "WHERE user_id = ?;";       // user ID.
 
+        /**
+         * The template for changing a user's password.
+         */
         public static final String CHANGE_PASSWORD =
                 "UPDATE users SET salt = ?, " +
                                  "passwd_hash = ?, " +
                                  "updated_at = NOW() WHERE user_id = ?;";
 
+        /**
+         * The template for fetching a particular thread.
+         */
         public static final String FETCH_THREAD =
                 "SELECT * FROM threads WHERE thread_id = ?;";
 
+        /**
+         * The template for fetching all posts belonging to a thread.
+         */
         public static final String FETCH_ALL_POSTS_OF_A_THREAD =
                 "SELECT * FROM posts WHERE thread_id = ? " +
                 "ORDER BY created_at ASC;";
 
+        /**
+         * The template for fetching a post by its ID.
+         */
         public static final String FETCH_POST_BY_ID =
                 "SELECT * FROM posts WHERE post_id = ?;";
 
+        /**
+         * The template for creating a new post.
+         */
         public static final String CREATE_NEW_POST =
                 "INSERT INTO posts (" +
                 "post_id, " +
@@ -241,45 +263,93 @@ public class Config {
                 "NOW(), " +
                 "NOW());";
 
+        /**
+         * The template for updating a post.
+         */
         public static final String UPDATE_POST =
                 "UPDATE posts SET " +
                 "post_text = ?, " +
                 "updated_at = NOW() " +
                 "WHERE post_id = ?;";
 
+        /**
+         * The template for creating a post read entry.
+         */
         public static final String CREATE_POST_READ =
                 "INSERT INTO message_reads (user_id, post_id) VALUES (?, ?);";
 
+        /**
+         * The template for fetching all the message reads of a user.
+         */
         public static final String FETCH_MESSAGE_READS_OF_USER =
                 "SELECT * FROM message_reads WHERE user_id = ?;";
 
+        /**
+         * The template for updating a thread's update timestamp.
+         */
         public static final String UPDATE_THREAD_TIMESTAMP =
                 "UPDATE threads SET updated_at = NOW() WHERE thread_id = ?;";
 
+        /**
+         * The template for updating a topic's update timestamp.
+         */
         public static final String UPDATE_TOPIC_TIMESTAMP =
                 "UPDATE topics SET updated_at = NOW() WHERE topic_id = ?;";
     }
 
+    /**
+     * The markup data.
+     */
     public static final class MARK_UP {
 
+        /**
+         * The token for bold font.
+         */
         public static final char BOLD = '*';
 
+        /**
+         * The token for italicized font.
+         */
         public static final char ITALIC = '_';
 
+        /**
+         * The token for monospaced font.
+         */
         public static final char MONO = '#';
 
+        /**
+         * The token for beginning an URL.
+         */
         public static final char URL_BEGIN = '[';
 
+        /**
+         * The token for ending an URL.
+         */
         public static final char URL_END = ']';
 
+        /**
+         * The token to separating URL and label. (Not required."
+         */
         public static final char SEPARATOR = '|';
 
+        /**
+         * The token for escaping itself and markup tokens.
+         */
         public static final char ESCAPE = '\\'; // backslash.
 
+        /**
+         * Used by markup algorithm.
+         */
         public static final Map<Character, String> map;
 
+        /**
+         * The HTML for closing the span-tags.
+         */
         public static final String HTML_CLOSE_MARKUP = "</span>";
 
+        /**
+         * The HTML for closing the link.
+         */
         public static final String HTML_CLOSE_URL = "</a>";
 
         static {

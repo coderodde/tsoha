@@ -130,6 +130,12 @@ public class AccountServlet extends HttpServlet {
         processRequest(request, response);
     }
 
+    /**
+     * Serves the account as a non-edible view.
+     *
+     * @param request the request object.
+     * @param who the account being viewed.
+     */
     static void serveAsNonedibleView(final HttpServletRequest request,
                                      final User who) {
         request.setAttribute("view", true);
@@ -156,6 +162,13 @@ public class AccountServlet extends HttpServlet {
         request.setAttribute("description", who.getDescription());
     }
 
+    /**
+     * Serves the account of currently signed in user. The resulting view
+     * is edible.
+     *
+     * @param request the request object.
+     * @param who the account being viewed/edited.
+     */
     static void serveAsMyOwnEdibleView(final HttpServletRequest request,
                                        final User who) {
         request.setAttribute("edit", true);
@@ -184,6 +197,13 @@ public class AccountServlet extends HttpServlet {
         request.setAttribute("threadMap", map);
     }
 
+    /**
+     * Serve a view for administrator.
+     *
+     * @param request the request object.
+     * @param who the target account.
+     * @param admin the administrator account.
+     */
     static void serveViewForAdmin(final HttpServletRequest request,
                                   final User who,
                                   final User admin) {

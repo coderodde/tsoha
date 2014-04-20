@@ -140,6 +140,12 @@ public class ThreadServlet extends HttpServlet {
         return "This servlet is responsible for showing a particular thread.";
     }
 
+    /**
+     * Marks the fresh (not seen) posts.
+     *
+     * @param posts the all posts of a thread.
+     * @param reads the all message reads of a current user.
+     */
     private static final void setFreshnessFlags
             (final List<Post> posts, final List<MessageRead> reads) {
         if (reads.isEmpty()) {
@@ -157,6 +163,12 @@ public class ThreadServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Mark all own posts as edible.
+     *
+     * @param postList all the posts of a thread.
+     * @param currentUser the current signed in user.
+     */
     private static final void setupOwnEdiblePosts
             (final List<Post> postList, final User currentUser) {
         for (final Post p : postList) {
@@ -177,6 +189,7 @@ public class ThreadServlet extends HttpServlet {
         Map<Post, List<Post>> map =
                 new HashMap<Post, List<Post>>(postList.size());
 
+        // Load top-level posts and the (implicit) post tree.
         for (Post post : postList) {
             Post parent = post.getParentPost();
 
@@ -195,6 +208,7 @@ public class ThreadServlet extends HttpServlet {
             }
         }
 
+        // Begin: sort evertying.
         Collections.sort(toplevelPostList, pc);
 
         for (Post p : map.keySet()) {
@@ -204,11 +218,13 @@ public class ThreadServlet extends HttpServlet {
                 Collections.sort(list, pc);
             }
         }
+        // End: sort everything.
 
         List<Post> ret = new ArrayList<Post>(postList.size());
         LinkedList<Iterator<Post>> stack = new LinkedList<Iterator<Post>>();
         stack.addLast(toplevelPostList.iterator());
 
+        // Now load all posts by traversing the post tree in pre-order.
         while (stack.isEmpty() == false) {
             Iterator<Post> it = stack.getLast();
 

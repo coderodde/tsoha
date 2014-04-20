@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.Post;
-import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.Thread;
+import net.coderodde.multilog.model.User;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 /**
