@@ -20,7 +20,7 @@
             <%@include file="navibar.jspf" %>
 
             <hr />
-            <div style="float: left; margin-right: 8px;" onclick="window.location='topic?id=${topic_id}'">${topic_name}</div> &gt; ${thread_name}
+            <div style="float: left; margin-right: 8px; margin-left: 8px;" onclick="window.location='topic?id=${topic_id}'">${topic_name}</div> &gt; ${thread_name}
             <hr />
 
             <p style="color: red; font-style: italic; text-align: center;">${notice}</p>
@@ -66,7 +66,7 @@
 
             <hr />
 
-            <div class="reply_area">
+            <div class="reply_area" id="reply_anchor">
                 <div id="reply_to" style="color: #ff3300;"></div>
                 <div class="reply_button" id="dont_reply" style="color: #ff3300;" onclick="forget();">Forget</div>
 
@@ -78,7 +78,7 @@
                 </form>
             </div>
 
-            <div>
+            <div style="border: 1px solid black; margin: 8px auto 8px auto; padding: 10px;">
                 Use * for bold font.
                 <br>
                 Use _ for italic.
