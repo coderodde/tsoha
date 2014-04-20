@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -100,8 +101,8 @@ public class Thread {
             thread.setId(rs.getLong("thread_id"))
                   .setTopicId(rs.getLong("topic_id"))
                   .setName(rs.getString("thread_name"))
-                  .setCreatedAtTimestamp(rs.getTimestamp("created_at"))
-                  .setUpdatedAtTimestamp(rs.getTimestamp("updated_at"));
+                  .setCreatedAt(rs.getTimestamp("created_at"))
+                  .setUpdatedAt(rs.getTimestamp("updated_at"));
 
             return thread;
         } catch (SQLException sqle) {
@@ -232,7 +233,7 @@ public class Thread {
      *
      * @return the creation timestamp.
      */
-    public Timestamp getCreatedAtTimestamp() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
@@ -241,8 +242,43 @@ public class Thread {
      *
      * @return the update timestamp.
      */
-    public Timestamp getUpdatedAtTimestamp() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
+    }
+
+    public boolean updateTimestamp() {
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return false;
+        }
+
+        PreparedStatement ps =
+                DB.getPreparedStatement(connection,
+                                        Config.
+                                        SQL_MAGIC.
+                                        UPDATE_THREAD_TIMESTAMP);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+            return false;
+        }
+
+        try {
+            ps.setLong(1, getId());
+            ps.executeUpdate();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, null);
+            return false;
+        }
+
+        closeResources(connection, ps, null);
+        return true;
+    }
+
+    public final boolean isTimestampsDifferent() {
+        return !getCreatedAt().equals(getUpdatedAt());
     }
 
     /**
@@ -300,7 +336,7 @@ public class Thread {
      *
      * @return itself for chaining.
      */
-    public Thread setCreatedAtTimestamp(final Timestamp createdAt) {
+    public Thread setCreatedAt(final Timestamp createdAt) {
         this.createdAt = createdAt;
         return this;
     }
@@ -312,7 +348,7 @@ public class Thread {
      *
      * @return itself for chaining.
      */
-    public Thread setUpdatedAtTimestamp(final Timestamp updatedAt) {
+    public Thread setUpdatedAt(final Timestamp updatedAt) {
         this.updatedAt = updatedAt;
         return this;
     }

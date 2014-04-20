@@ -131,6 +131,10 @@ public class PostServlet extends HttpServlet {
         }
 
         if (post.create()) {
+            // Update the time stamps.
+            ownerThread.updateTimestamp();
+            ownerThread.getTopic().updateTimestamp();
+
             request.getRequestDispatcher("thread?id=" + ownerThread.getId())
                    .forward(request, response);
         } else {

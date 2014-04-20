@@ -252,6 +252,12 @@ public class Config {
 
         public static final String FETCH_MESSAGE_READS_OF_USER =
                 "SELECT * FROM message_reads WHERE user_id = ?;";
+
+        public static final String UPDATE_THREAD_TIMESTAMP =
+                "UPDATE threads SET updated_at = NOW() WHERE thread_id = ?;";
+
+        public static final String UPDATE_TOPIC_TIMESTAMP =
+                "UPDATE topics SET updated_at = NOW() WHERE topic_id = ?;";
     }
 
     public static final class MARK_UP {

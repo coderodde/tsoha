@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -21,7 +22,15 @@
             <div class="topic_container">
                 <h2>Topics</h2>
                 <c:forEach var="topic" items="${requestScope.topicList}">
-                    <div class="topic_item" onclick="window.location='topic?id=${topic.id}'">${topic.name} <span class="float_right topic_entry_time_text">U: ${topic.updatedAt} C: ${topic.createdAt}</span></div>
+                    <div class="topic_item" onclick="window.location='topic?id=${topic.id}'">
+                        ${topic.name}
+                        <span class="float_right">
+                            at <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss z" value="${topic.createdAt}" />
+                            <c:if test="${topic.timestampsDifferent}">
+                                , updated at <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss z" value="${topic.updatedAt}" />
+                            </c:if>
+                        </span>
+                    </div>
                 </c:forEach>
             </div>
         </div>

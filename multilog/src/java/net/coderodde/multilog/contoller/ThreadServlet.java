@@ -92,6 +92,7 @@ public class ThreadServlet extends HttpServlet {
         posts = sort(posts);
         request.setAttribute("postList", posts);
         request.setAttribute("thread_name", thread.getName());
+        request.setAttribute("topic_name", thread.getTopic().getName());
         request.setAttribute("thread_id", thread.getId());
 
         request.getRequestDispatcher("threadview.jsp")

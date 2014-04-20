@@ -251,8 +251,8 @@ public class Topic {
                 t.setId(rs.getLong("thread_id"))
                  .setTopicId(rs.getLong("topic_id"))
                  .setName(rs.getString("thread_name"))
-                 .setCreatedAtTimestamp(rs.getTimestamp("created_at"))
-                 .setUpdatedAtTimestamp(rs.getTimestamp("updated_at"))
+                 .setCreatedAt(rs.getTimestamp("created_at"))
+                 .setUpdatedAt(rs.getTimestamp("updated_at"))
                  .end();
 
                 threadList.add(t);
@@ -263,6 +263,41 @@ public class Topic {
         }
 
         return threadList;
+    }
+
+    public final boolean isTimestampsDifferent() {
+        return !getCreatedAt().equals(getUpdatedAt());
+    }
+
+    public boolean updateTimestamp() {
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return false;
+        }
+
+        PreparedStatement ps =
+                DB.getPreparedStatement(connection,
+                                        Config.
+                                        SQL_MAGIC.
+                                        UPDATE_TOPIC_TIMESTAMP);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+            return false;
+        }
+
+        try {
+            ps.setLong(1, getId());
+            ps.executeUpdate();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, null);
+            return false;
+        }
+
+        closeResources(connection, ps, null);
+        return true;
     }
 
     /**

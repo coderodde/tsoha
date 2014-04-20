@@ -20,6 +20,8 @@
             <%@include file="navibar.jspf" %>
 
             <hr />
+            ${topic_name} > ${thread_name}
+            <hr />
 
             <p style="color: red; font-style: italic; text-align: center;">${notice}</p>
 
