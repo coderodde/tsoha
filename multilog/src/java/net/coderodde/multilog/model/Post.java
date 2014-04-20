@@ -299,6 +299,11 @@ public class Post {
                 continue;
             }
 
+            if (buffer == '\n') {
+                sb.append("<br>");
+                continue;
+            }
+
             if (buffer == Config.MARK_UP.ESCAPE) {
                 escapeNext = true;
                 continue;
