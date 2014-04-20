@@ -104,6 +104,8 @@ public class Thread {
                   .setCreatedAt(rs.getTimestamp("created_at"))
                   .setUpdatedAt(rs.getTimestamp("updated_at"));
 
+            thread.setTopic(Topic.read(thread.getTopicId()));
+
             return thread;
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
