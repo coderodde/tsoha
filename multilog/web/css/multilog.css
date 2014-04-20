@@ -193,6 +193,14 @@ body {
     background-color: #fafaea;
 }
 
+.update_item:hover, .thread_container:hover, .post_item:hover, .topic_item:hover {
+    margin: 6px;
+    padding: 6px;
+    border-radius: 6px;
+    border: solid 1px #fafaea;
+    background-color: #edeca7;
+}
+
 .reply_button {
     margin: 3px;
     float: right;

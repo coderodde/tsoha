@@ -20,7 +20,7 @@
             <%@include file="navibar.jspf" %>
 
             <hr />
-            ${topic_name} > ${thread_name}
+            <div onclick="window.location='topic?id=${topic_id}'">${topic_name}</div> &gt; <div onclick="window.location='thread?id=${thread_id}'">${thread_name}</div>
             <hr />
 
             <p style="color: red; font-style: italic; text-align: center;">${notice}</p>
