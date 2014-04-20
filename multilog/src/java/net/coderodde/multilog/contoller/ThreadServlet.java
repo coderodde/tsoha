@@ -148,10 +148,6 @@ public class ThreadServlet extends HttpServlet {
      */
     private static final void setFreshnessFlags
             (final List<Post> posts, final List<MessageRead> reads) {
-        if (reads.isEmpty()) {
-            return;
-        }
-
         Set<Long> postIdSet = new HashSet<Long>(reads.size());
 
         for (final MessageRead mr : reads) {

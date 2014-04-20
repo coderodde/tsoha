@@ -285,6 +285,12 @@ public class Config {
                 "SELECT * FROM message_reads WHERE user_id = ?;";
 
         /**
+         * The template for deleting all message reads of post.
+         */
+        public static final String REMOVE_MESSAGE_READS_OF_POST =
+                "DELETE FROM message_reads WHERE post_id = ?;";
+
+        /**
          * The template for updating a thread's update timestamp.
          */
         public static final String UPDATE_THREAD_TIMESTAMP =

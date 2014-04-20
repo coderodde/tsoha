@@ -94,6 +94,7 @@ public class UpdatePostServlet extends HttpServlet {
 
         if (post.update()) {
             request.setAttribute("notice", "Post updated.");
+            post.removeMessageReads();
         } else {
             request.setAttribute("notice", "Could not update your post!");
         }
