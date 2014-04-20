@@ -113,6 +113,9 @@ public class UpdateAccountServlet extends HttpServlet {
                                      "Confirmation differs from password.");
                 doChangePassword = false;
             }
+        } else if (passwordConfirmation != null
+                && !passwordConfirmation.isEmpty()) {
+            request.setAttribute("bad_new_password", "Password is missing.");
         }
 
         if (hasErrors) {
