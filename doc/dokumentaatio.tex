@@ -195,4 +195,43 @@ Mikäli on saatavana palvelinkone, jossa on Apache Tomcat 6 - sovelluspalvelin (
 \section{Käynnistys- /käyttöohje}
 Sovelluksen pääsivu on osoitteessa \url{http://t-rodionef.users.cs.helsinki.fi/multilog/}.
 Tässä vaiheessa sovelluksessa voi luoda (alimman etuoikeustason) tunnukset kohdasta ``Sign up''.
+
+\section{Järjestelmän yleisrakenne}
+Toteuttaessa \textbf{multilog}:n näkymäkomponentit pidettiin JSP-tiedostoina erillään muusta koodista, joka jakaantui kahteen osaan: kontrollerit (servlet:ina) ja malliluokat. Kontrollerit ovat nähtävissä pakkauksessa \textbf{net.coderodde.multilog.controller} ja malliluokat pakkauksessa \textbf{net.coderodde.multilog.model}. Lisäksi, pakkaus \textbf{net.coderodde.multilog} sisältää järjesetlmän konfigurointiin tarkoitetut tiedostot ja toistuva koodi.
+
+\subsection{net.coderodde.multilog}
+\begin{description}
+  \item[Config.java] sisältää (lähes) kaiken kovakoodatun datan kuten SQL-lauseet.
+  \item[Utils.java] sisältää usein toistuva koodi.
+\end{description}
+
+\subsection{net.coderodde.multilog.controller}
+\begin{description}
+  \item[AccountServlet.java] näyttää käyttäjien profiilit,
+  \item[DeleteAccountServlet.java] poistaa profiilin,
+  \item[HomeServlet.java] valmistelee alkunäytön,
+  \item[PostServlet.java] tallentaa uudet postaukset,
+  \item[SigninServlet.java] autentikoi ja kirjaa käyttäjän sisään,
+  \item[SignoutServlet.java] lopettaa käyttäjän session,
+  \item[SignupServlet.java] luo uudet käyttäjät,
+  \item[ThreadServlet.java] näyttää säikeet,
+  \item[TopicServlet.java] näyttää aiheet,
+  \item[UpdateAccountServlet.java] päivittää profiilin tiedot,
+  \item[UpdatePostServlet.java] päivittää postaukset.
+\end{description}
+
+\subsection{net.coderodde.multilog.model}
+\begin{description}
+  \item[DB.java] abstrahoi perustavanlaatuisimmat tietokantatoiminnot,
+  \item[MessageRead.java] malliluokka, joka pitää tiedon siitä, mitkä postaukset on nähty,
+  \item[Post.java] malliluokka postaukselle CRUD-toimintoineen,
+  \item[Thread.java] malliluokka keskustelusäikeelle CRUD-toimintoineen,
+  \item[Topic.java] malliluokka keskusteluaiheille CRUD-toimintoineen,
+  \item[User.java] malliluokka käyttäjille CRUD-toimintoineen,
+  \item[UserType.java] enumeraatiotyyppi foorumin käyttäjätasoille.
+\end{description}
+
+\section{Käyttöliittymä ja järjestelmän komponentit}
+
+
 \end{document}

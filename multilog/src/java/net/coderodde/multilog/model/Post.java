@@ -536,7 +536,7 @@ public class Post {
     /**
      * Sets the update timestamp.
      *
-     * @param updateAt update timestamp.
+     * @param updatedAt update timestamp.
      *
      * @return this for chaining.
      */

@@ -12,7 +12,7 @@ import net.coderodde.multilog.Config;
  * This servlet signs out the users.
  *
  * @author Rodion Efremov
- * @vesion 0.1
+ * @version 0.1
  */
 public class SignoutServlet extends HttpServlet {
 
