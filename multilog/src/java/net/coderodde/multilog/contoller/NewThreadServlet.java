@@ -72,7 +72,18 @@ public class NewThreadServlet extends HttpServlet {
 
         Thread t = new Thread().setName(escapedThreadName);
 
-        
+        if (t.create()) {
+            request.setAttribute("notice",
+                                 "Thread '" + t.getName() + "' " +
+                                 "created.");
+        } else {
+            request.setAttribute("notice",
+                                 "Could not create thread '" +
+                                 t.getName() + "'.");
+        }
+
+        request.getRequestDispatcher("threadsview.jsp")
+               .forward(request, response);
     }
 
     /**
