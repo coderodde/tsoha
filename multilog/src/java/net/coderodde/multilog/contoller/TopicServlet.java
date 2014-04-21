@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.Thread;
 import net.coderodde.multilog.model.Topic;
 import net.coderodde.multilog.model.User;
+import net.coderodde.multilog.model.UserType;
 
 /**
  * This servlet processes the topic-related views.
@@ -32,11 +33,16 @@ public class TopicServlet extends HttpServlet {
                                   final HttpServletResponse response)
             throws ServletException, IOException {
         User currentUser = User.getCurrentlySignedUser(request);
+        boolean isAdmin = false;
 
         if (currentUser == null) {
             HomeServlet.prepareNavibarForUnsignedUser(request);
         } else {
             HomeServlet.prepareNavibarForSingedUser(request, currentUser);
+
+            if (currentUser.getUserType() == UserType.ADMIN) {
+                isAdmin = true;
+            }
         }
 
         String topicId = request.getParameter("id");
@@ -63,6 +69,10 @@ public class TopicServlet extends HttpServlet {
             }
         }
 
+        if (isAdmin) {
+            request.setAttribute("isAdmin", true);
+        }
+        
         // If here, show all topics.
         List<Topic> topicList = Topic.getAllTopics();
         request.setAttribute("topicList", topicList);
