@@ -283,6 +283,12 @@ public class Thread {
         return !getCreatedAt().equals(getUpdatedAt());
     }
 
+    public boolean create() {
+
+
+        return true;
+    }
+
     public boolean delete() {
         List<Post> childrenPosts = getAllPosts();
 
