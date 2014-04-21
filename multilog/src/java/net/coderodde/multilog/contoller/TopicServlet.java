@@ -72,7 +72,9 @@ public class TopicServlet extends HttpServlet {
         if (isAdmin) {
             request.setAttribute("isAdmin", true);
         }
-        
+
+        request.setAttribute("notice", "isAdmin: " + isAdmin);
+
         // If here, show all topics.
         List<Topic> topicList = Topic.getAllTopics();
         request.setAttribute("topicList", topicList);
