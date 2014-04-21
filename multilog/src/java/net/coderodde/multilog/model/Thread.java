@@ -284,9 +284,34 @@ public class Thread {
     }
 
     public boolean create() {
+        Connection connection = DB.getConnection();
 
+        if (connection == null) {
+            return false;
+        }
 
-        return true;
+        PreparedStatement ps =
+                DB.getPreparedStatement(connection,
+                                        Config.
+                                        SQL_MAGIC.
+                                        CREATE_THREAD);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+            return false;
+        }
+
+        try {
+            ps.setLong(1, getTopic().getId());
+            ps.setString(2, getName());
+            ps.executeUpdate();
+            closeResources(connection, ps, null);
+            return true;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, null);
+            return false;
+        }
     }
 
     public boolean delete() {

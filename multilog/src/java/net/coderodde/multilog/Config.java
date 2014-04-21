@@ -317,6 +317,14 @@ public class Config {
 
         public static final String DELETE_POST =
                 "DELETE FROM posts WHERE post_id = ?;";
+
+        public static final String CREATE_THREAD =
+                "INSERT INTO threads (" +
+                "topic_id, " +
+                "thread_name, " +
+                "created_at, " +
+                "updated_at) " +
+                "VALUES (?, ?, NOW(), NOW());";
     }
 
     /**
