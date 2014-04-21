@@ -39,7 +39,8 @@
                     </div>
                 </c:forEach>
             </div>
-            <c:if test="${canCreateThread}">
+            <!-- Any signed in user can create a new thread. -->
+            <c:if test="${isSignedIn}">
             <div>
                 <h2>Create new thread</h2>
                 <form action="newthread" method="post">
