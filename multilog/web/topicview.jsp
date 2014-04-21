@@ -30,9 +30,25 @@
                                 , updated at <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss z" value="${topic.updatedAt}" />
                             </c:if>
                         </span>
+                        <c:if test="${isAdmin} == true">
+                            <form action="deletetopic" method="post">
+                                <input type="hidden" name="topic_id" value="${topic.id}">
+                                <input type="submit" value="Delete">
+                            </form>
+                        </c:if>
                     </div>
                 </c:forEach>
             </div>
+            <c:if test="${isAdmin} == true">
+            <div>
+                <h2>Create new topic</h2>
+                <form action="newtopic" method="post">
+                    <input type="text" name="topic_name">
+                    <input type="submit" value="Create">
+                </form>
+                <p id="notice" style="text-align: center; color: red;">${notice}</p>
+            </div>
+            </c:if>
         </div>
     </body>
 </html>

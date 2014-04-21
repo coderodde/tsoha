@@ -301,6 +301,13 @@ public class Config {
          */
         public static final String UPDATE_TOPIC_TIMESTAMP =
                 "UPDATE topics SET updated_at = NOW() WHERE topic_id = ?;";
+
+        public static final String CREATE_NEW_TOPIC =
+                "INSERT INTO topics (" +
+                "topic_name, " +
+                "created_at, " +
+                "updated_at) " +
+                "VALUES (?, NOW(), NOW());";
     }
 
     /**
