@@ -65,9 +65,9 @@ public class TopicServlet extends HttpServlet {
                     if (currentUser != null
                             && (currentUser.getUserType() == UserType.MOD
                             ||  currentUser.getUserType() == UserType.ADMIN)) {
-                        request.setAttribute("isMod", id);
+                        request.setAttribute("isMod", true);
                     }
-                    
+
                     request.getRequestDispatcher("threadsview.jsp")
                            .forward(request, response);
                     return;
