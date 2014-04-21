@@ -45,6 +45,7 @@
                 <h2>Create new thread</h2>
                 <form action="newthread" method="post">
                     <input type="text" name="thread_name">
+                    <input type="hidden" name="topic_id" value="${topic_id}">
                     <input type="submit" value="Create">
                 </form>
             </div>

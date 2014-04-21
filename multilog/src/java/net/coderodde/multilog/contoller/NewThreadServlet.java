@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.Thread;
+import net.coderodde.multilog.model.Topic;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 /**
@@ -69,8 +70,35 @@ public class NewThreadServlet extends HttpServlet {
         }
 
         final String escapedThreadName = escapeHtml4(threadName);
+        final String topicIdString = request.getParameter("topic_id");
 
-        Thread t = new Thread().setName(escapedThreadName);
+        long topicId = -1L;
+
+        try {
+            topicId = Long.parseLong(topicIdString);
+        } catch (NumberFormatException nfe) {
+            nfe.printStackTrace(System.err);
+            request.setAttribute("notice",
+                                 "Bad topic ID: '" +
+                                 topicIdString + "'.");
+            request.getRequestDispatcher("threadsview.jsp")
+                   .forward(request, response);
+            return;
+        }
+
+        Topic topic = Topic.read(topicId);
+
+        if (topic == null) {
+            request.setAttribute("notice",
+                                 "No topic with ID '" +
+                                 topicId + "' found.");
+            request.getRequestDispatcher("threadsview.jsp")
+                   .forward(request, response);
+            return;
+        }
+
+        Thread t = new Thread().setName(escapedThreadName)
+                               .setTopic(topic);
 
         if (t.create()) {
             request.setAttribute("notice",

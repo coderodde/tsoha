@@ -70,8 +70,10 @@ public class TopicServlet extends HttpServlet {
                                    == UserType.ADMIN) {
                             request.setAttribute("isMod", true);
                         }
+
+                        request.setAttribute("topic_id", id);
                     }
-                    
+
                     request.getRequestDispatcher("threadsview.jsp")
                            .forward(request, response);
                     return;
