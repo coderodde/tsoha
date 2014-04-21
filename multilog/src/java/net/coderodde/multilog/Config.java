@@ -320,11 +320,13 @@ public class Config {
 
         public static final String CREATE_THREAD =
                 "INSERT INTO threads (" +
+                "thread_id, " +
                 "topic_id, " +
                 "thread_name, " +
                 "created_at, " +
                 "updated_at) " +
-                "VALUES (?, ?, NOW(), NOW());";
+                "VALUES ((SELECT max(thread_id) FROM threads) + 1, " +
+                "?, ?, NOW(), NOW());";
     }
 
     /**
