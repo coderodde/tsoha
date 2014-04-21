@@ -308,6 +308,15 @@ public class Config {
                 "created_at, " +
                 "updated_at) " +
                 "VALUES (?, NOW(), NOW());";
+
+        public static final String DELETE_TOPIC =
+                "DELETE FROM topics WHERE topic_id = ?;";
+
+        public static final String DELETE_THREAD =
+                "DELETE FROM threads WHERE thread_id = ?;";
+
+        public static final String DELETE_POST =
+                "DELETE FROM posts WHERE post_id = ?;";
     }
 
     /**

@@ -283,6 +283,51 @@ public class Thread {
         return !getCreatedAt().equals(getUpdatedAt());
     }
 
+    public boolean delete() {
+        List<Post> childrenPosts = getAllPosts();
+
+        boolean deleted = true;
+
+        for (Post p : childrenPosts) {
+            if (p.delete() == false) {
+                deleted = false;
+                break;
+            }
+        }
+
+        if (!deleted) {
+            return false;
+        }
+
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return false;
+        }
+
+        PreparedStatement ps =
+                DB.getPreparedStatement(connection,
+                                        Config.
+                                        SQL_MAGIC.
+                                        DELETE_THREAD);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+            return false;
+        }
+
+        try {
+            ps.setLong(1, getId());
+            ps.executeUpdate();
+            closeResources(connection, ps, null);
+            return true;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, null);
+            return false;
+        }
+    }
+
     /**
      * Sets the ID of this thread.
      *

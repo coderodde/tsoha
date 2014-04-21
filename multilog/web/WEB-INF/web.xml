@@ -52,6 +52,10 @@
         <servlet-name>NewTopicServlet</servlet-name>
         <servlet-class>net.coderodde.multilog.contoller.NewTopicServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteTopicServlet</servlet-name>
+        <servlet-class>net.coderodde.multilog.contoller.DeleteTopicServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListTest</servlet-name>
         <url-pattern>/ListTest</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>NewTopicServlet</servlet-name>
         <url-pattern>/newtopic</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteTopicServlet</servlet-name>
+        <url-pattern>/deletetopic</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

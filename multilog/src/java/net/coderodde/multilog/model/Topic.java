@@ -187,6 +187,50 @@ public class Topic {
         return true;
     }
 
+    public boolean delete() {
+        List<Thread> childrenThreads = getThreads();
+
+        boolean deleted = true;
+
+        for (Thread t : childrenThreads) {
+            if (t.delete() == false) {
+                deleted = false;
+                break;
+            }
+        }
+
+        if (!deleted) {
+            return false;
+        }
+
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return false;
+        }
+
+        PreparedStatement ps =
+                DB.getPreparedStatement(connection,
+                                        Config.
+                                        SQL_MAGIC.
+                                        DELETE_TOPIC);
+        if (ps == null) {
+            closeResources(connection, null, null);
+            return false;
+        }
+
+        try {
+            ps.setLong(1, getId());
+            ps.executeUpdate();
+            closeResources(connection, ps, null);
+            return true;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, null);
+            return false;
+        }
+    }
+
     /**
      * Returns the ID of this topic.
      *

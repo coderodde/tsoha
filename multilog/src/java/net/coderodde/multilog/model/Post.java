@@ -211,6 +211,37 @@ public class Post {
         return true;
     }
 
+    public boolean delete() {
+        removeMessageReads();
+
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return false;
+        }
+
+        PreparedStatement ps =
+                DB.getPreparedStatement(connection,
+                                        Config.
+                                        SQL_MAGIC.
+                                        DELETE_POST);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+            return false;
+        }
+
+        try {
+            ps.setLong(1, getId());
+            ps.executeUpdate();
+            closeResources(connection, ps, null);
+            return true;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            return false;
+        }
+    }
+
     public final void removeMessageReads() {
         Connection connection = DB.getConnection();
 
