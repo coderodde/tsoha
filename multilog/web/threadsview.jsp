@@ -30,9 +30,25 @@
                             , updated at <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss z" value="${thread.updatedAt}" />
                         </c:if>
                         </span>
+                        <c:if test="${isMod}">
+                            <form action="deletethread" method="post">
+                                <input type="hidden" name="thread_id" value="${thread.id}">
+                                <input type="submit" value="Delete">
+                            </form>
+                        </c:if>
                     </div>
                 </c:forEach>
             </div>
+            <c:if test="${canCreateThread}">
+            <div>
+                <h2>Create new thread</h2>
+                <form action="newthread" method="post">
+                    <input type="text" name="topic_name">
+                    <input type="submit" value="Create">
+                </form>
+            </div>
+            </c:if>
+            <p id="notice" style="text-align: center; color: red;">${notice}</p>
         </div>
     </body>
 </html>
