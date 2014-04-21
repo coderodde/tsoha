@@ -46,9 +46,9 @@
                     <input type="text" name="topic_name">
                     <input type="submit" value="Create">
                 </form>
-                <p id="notice" style="text-align: center; color: red;">${notice}</p>
             </div>
             </c:if>
+            <p id="notice" style="text-align: center; color: red;">${notice}</p>
         </div>
     </body>
 </html>
