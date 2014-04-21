@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.Thread;
 import net.coderodde.multilog.model.Topic;
+import net.coderodde.multilog.model.UserType;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 /**
@@ -57,6 +58,8 @@ public class NewThreadServlet extends HttpServlet {
             request.getRequestDispatcher("threadsview.jsp")
                    .forward(request, response);
             return;
+        } else {
+            request.setAttribute("isSignedIn", true);
         }
 
         final String threadName = request.getParameter("thread_name");
@@ -108,6 +111,14 @@ public class NewThreadServlet extends HttpServlet {
             request.setAttribute("notice",
                                  "Could not create thread '" +
                                  t.getName() + "'.");
+        }
+
+        request.setAttribute("topic_name", t.getTopic().getName());
+        request.setAttribute("threadList", t.getTopic().getThreads());
+
+        if (currentUser.getUserType() != UserType.USER) {
+            // Can remove.
+            request.setAttribute("isMod", true);
         }
 
         request.getRequestDispatcher("threadsview.jsp")
