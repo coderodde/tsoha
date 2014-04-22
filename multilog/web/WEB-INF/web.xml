@@ -64,6 +64,10 @@
         <servlet-name>NewThreadServlet</servlet-name>
         <servlet-class>net.coderodde.multilog.contoller.NewThreadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BanServlet</servlet-name>
+        <servlet-class>net.coderodde.multilog.contoller.BanServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListTest</servlet-name>
         <url-pattern>/ListTest</url-pattern>
@@ -127,6 +131,10 @@
     <servlet-mapping>
         <servlet-name>NewThreadServlet</servlet-name>
         <url-pattern>/newthread</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BanServlet</servlet-name>
+        <url-pattern>/ban</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

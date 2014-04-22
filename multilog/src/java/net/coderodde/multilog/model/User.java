@@ -711,6 +711,26 @@ public class User {
         return true;
     }
 
+    public boolean ban(final double duration) {
+        if (getUserType() == UserType.ADMIN) {
+            // Cannot ban an admin.
+            return false;
+        }
+
+        if (Double.isInfinite(duration)
+                || Double.isNaN(duration)
+                || duration <= 0.0) {
+            // Bad duration.
+            return false;
+        }
+
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return false;
+        }
+    }
+
     /**
      * Extracts a single user from a given result set.
      *

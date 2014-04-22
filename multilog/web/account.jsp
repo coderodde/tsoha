@@ -44,15 +44,35 @@
             </c:if>
             <c:if test="${can_ban}">
                 Can ban.
+                <form action="ban" method="post">
+                    <input type="text" name="ban_hours">
+                    <input type="hidden" name="banned_id" value="${target_id}">
+                    <input type="submit" value="Ban">
+                </form>
             </c:if>
             <c:if test="${can_promote_to_moderator}">
                 Can promote to moderator.
+                <form action="promote" method="post">
+                    <input type="hidden" name="promoted_id" value="${target_id}">
+                    <inpyt type="hidden" name="promotion_level" value="mod">
+                    <input type="submit" value="Promote to moderator">
+                </form>
             </c:if>
             <c:if test="${can_promote_to_admin}">
                 Can promote to administrator.
+                <form action="promote" method="post">
+                    <input type="hidden" name="promoted_id" value="${target_id}">
+                    <input type="hidden" name="promotion_level" value="admin">
+                    <input type="submit" value="Promote to administrator">
+                </form>
             </c:if>
             <c:if test="${can_degrade_to_user}">
                 Can degrade to user.
+                <!-- Degrading a moderator to user. -->
+                <form action="degrade" method="post">
+                    <input type="hidden" name="to_level" value="user">
+                    <input type="submit" value="Degrade to user">
+                </form>
             </c:if>
         </div>
     </body>
