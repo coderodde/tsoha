@@ -44,15 +44,12 @@ public class AccountServlet extends HttpServlet {
 
             if (currentUser != null) {
                 serveAsMyOwnEdibleView(request, currentUser);
-                request.getRequestDispatcher("account.jsp")
-                       .forward(request, response);
-                return;
-            } else {
-                request.setAttribute("notice", "Nothing to view.");
-                request.getRequestDispatcher("home")
-                       .forward(request, response);
-                return;
             }
+
+            request.setAttribute("notice", "Bad user ID: " + idString);
+            request.getRequestDispatcher("account.jsp")
+                   .forward(request, response);
+            return;
         }
 
         // Once here, 'id' parsed well.
@@ -62,16 +59,12 @@ public class AccountServlet extends HttpServlet {
         if (targetUser == null) {
             if (currentUser != null) {
                 serveAsMyOwnEdibleView(request, currentUser);
-                request.getRequestDispatcher("account.jsp")
-                       .forward(request, response);
-                return;
-            } else {
-                request.setAttribute("notice",
-                                     "User with ID " + id + " does not exist.");
-                request.getRequestDispatcher("home")
-                       .forward(request, response);
-                return;
             }
+
+            request.setAttribute("notice", "No account with ID '" + id + "'.");
+            request.getRequestDispatcher("account.jsp")
+                   .forward(request, response);
+            return;
         }
 
         // Once here, targetUser is not null.
