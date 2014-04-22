@@ -42,6 +42,18 @@
             <c:if test="${edit == true}">
                 <%@ include file="thread_updates.jspf" %>
             </c:if>
+            <c:if test="${can_ban}">
+                Can ban.
+            </c:if>
+            <c:if test="${can_promote_to_moderator}">
+                Can promote to moderator.
+            </c:if>
+            <c:if test="${can_promote_to_admin}">
+                Can promote to administrator.
+            </c:if>
+            <c:if test="${can_degrade_to_user}">
+                Can degrade to user.
+            </c:if>
         </div>
     </body>
 </html>
