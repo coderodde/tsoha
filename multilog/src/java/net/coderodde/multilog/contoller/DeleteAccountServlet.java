@@ -104,6 +104,17 @@ public class DeleteAccountServlet extends HttpServlet {
         } else {
             // Check that current user has administrator privileges.
             if (current.getUserType().equals(UserType.ADMIN)) {
+
+                if (userToDelete.getUserType() == UserType.ADMIN) {
+                    // Admins cannot delete other admins.
+                    request.setAttribute("notice",
+                                         "Administrator cannot remove other " +
+                                         "administrators.");
+                    request.getRequestDispatcher("account.jsp")
+                           .forward(request, response);
+                    return;
+                }
+
                 // Privilege level OK.
                 boolean removed = userToDelete.delete();
 

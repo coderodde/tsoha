@@ -46,7 +46,6 @@ public class AccountServlet extends HttpServlet {
                 serveAsMyOwnEdibleView(request, currentUser);
             }
 
-            request.setAttribute("notice", "Bad user ID: " + idString);
             request.getRequestDispatcher("account.jsp")
                    .forward(request, response);
             return;
