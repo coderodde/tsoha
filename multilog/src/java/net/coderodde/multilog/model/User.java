@@ -822,6 +822,46 @@ public class User {
         return !notBanned;
     }
 
+    public final int getPostCount() {
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return -1;
+        }
+
+        PreparedStatement ps =
+                DB.getPreparedStatement(connection,
+                                        Config.
+                                        SQL_MAGIC.
+                                        COUNT_POSTS);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+            return -1;
+        }
+
+        ResultSet rs = null;
+
+        try {
+            ps.setLong(1, getId());
+            rs = ps.executeQuery();
+
+            if (rs.next() == false) {
+                closeResources(connection, ps, rs);
+                return -1;
+            }
+
+            int count = rs.getInt(1);
+
+            closeResources(connection, ps, rs);
+            return count;
+        } catch (final SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, rs);
+            return -1;
+        }
+    }
+    
     /**
      * Extracts a single user from a given result set.
      *

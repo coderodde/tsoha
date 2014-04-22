@@ -330,6 +330,9 @@ public class Config {
 
         public static final String REMOVE_BAN_TIMESTAMP =
                 "UPDATE users SET ban_until = NULL WHERE user_id = ?;";
+
+        public static final String COUNT_POSTS =
+                "SELECT COUNT(*) FROM posts WHERE user_id = ?;";
     }
 
     /**

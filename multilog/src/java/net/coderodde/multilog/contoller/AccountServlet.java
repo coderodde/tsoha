@@ -46,6 +46,7 @@ public class AccountServlet extends HttpServlet {
                 serveAsMyOwnEdibleView(request, currentUser);
             }
 
+            request.setAttribute("posts", currentUser.getPostCount());
             request.getRequestDispatcher("account.jsp")
                    .forward(request, response);
             return;
@@ -72,6 +73,7 @@ public class AccountServlet extends HttpServlet {
 
             if (currentUser.equals(targetUser)) {
                 serveAsMyOwnEdibleView(request, targetUser);
+                request.setAttribute("posts", currentUser.getPostCount());
                 request.getRequestDispatcher("account.jsp")
                        .forward(request, response);
                 return;
@@ -79,17 +81,18 @@ public class AccountServlet extends HttpServlet {
 
             serveAsNonedibleView(request, targetUser);
 
-            // TODO: fix this shit.
             if (currentUser.getUserType() == UserType.MOD) {
                 serveViewForModerator(request, targetUser, currentUser);
             } else if (currentUser.getUserType() == UserType.ADMIN) {
                 serveViewForAdmin(request, targetUser, currentUser);
             }
 
+            request.setAttribute("posts", targetUser.getPostCount());
             request.getRequestDispatcher("account.jsp")
                    .forward(request, response);
         } else {
             serveAsNonedibleView(request, targetUser);
+            request.setAttribute("posts", targetUser.getPostCount());
             request.getRequestDispatcher("account.jsp")
                    .forward(request, response);
         }
