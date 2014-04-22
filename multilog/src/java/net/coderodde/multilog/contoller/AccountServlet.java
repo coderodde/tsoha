@@ -43,12 +43,11 @@ public class AccountServlet extends HttpServlet {
             nfe.printStackTrace(System.err);
 
             if (currentUser != null) {
+                request.setAttribute("posts", currentUser.getPostCount());
                 serveAsMyOwnEdibleView(request, currentUser);
             }
 
-            request.setAttribute("posts", currentUser.getPostCount());
-            request.getRequestDispatcher("account.jsp")
-                   .forward(request, response);
+            request.getRequestDispatcher("home").forward(request, response);
             return;
         }
 
