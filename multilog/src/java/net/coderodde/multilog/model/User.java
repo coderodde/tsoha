@@ -780,8 +780,6 @@ public class User {
         final Timestamp ts = getBannedUntil();
 
         if (ts == null) {
-            System.out.println("OUT:: ts == null.");
-            System.err.println("OUT:: ts == null. err");
             return false;
         }
 
@@ -821,7 +819,7 @@ public class User {
             }
         }
 
-        return notBanned;
+        return !notBanned;
     }
 
     /**
