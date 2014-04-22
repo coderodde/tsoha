@@ -1,6 +1,7 @@
 package net.coderodde.multilog.model;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -93,6 +94,11 @@ public class User {
      * The user's update timestamp.
      */
     private Timestamp updatedAt;
+
+    /**
+     * The timestamp at which this user is not banned.
+     */
+    private Timestamp bannedUntil;
 
     /**
      * Returns a currently signed in user, or <code>null</code> if there is no
@@ -243,6 +249,15 @@ public class User {
      */
     public Timestamp getUpdatedAt() {
         return updatedAt;
+    }
+
+    /**
+     * Returns the timestamp at which this user is no longer banned.
+     *
+     * @return the timestamp or <code>null</code> if there is no such.
+     */
+    public Timestamp getBannedUntil() {
+        return bannedUntil;
     }
 
     /**
@@ -412,6 +427,18 @@ public class User {
      */
     public User setUpdatedAt(final Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+        return this;
+    }
+
+    /**
+     * Sets the timestamp at which this user is no longer time.
+     *
+     * @param bannedUntil the timestamp.
+     *
+     * @return this for chaining.
+     */
+    public User setBannedUntil(final Timestamp bannedUntil) {
+        this.bannedUntil = bannedUntil;
         return this;
     }
 
@@ -749,6 +776,47 @@ public class User {
         }
     }
 
+    public final boolean isBanned() {
+        final Timestamp ts = getBannedUntil();
+
+        if (ts == null) {
+            return false;
+        }
+
+        final Timestamp now = new Timestamp(System.currentTimeMillis());
+        boolean notBanned = ts.before(now);
+
+        if (notBanned) {
+            // Here no banned anymore, clear the entry in DB.
+            Connection connection = DB.getConnection();
+
+            if (connection == null) {
+                // Do not insist.
+                return true;
+            }
+
+            PreparedStatement ps =
+                    DB.getPreparedStatement(connection,
+                                            Config.
+                                            SQL_MAGIC.
+                                            REMOVE_BAN_TIMESTAMP);
+
+            try {
+                ps.setLong(1, getId());
+                ps.executeUpdate();
+                closeResources(connection, ps, null);
+                return true;
+            } catch (final SQLException sqle) {
+                sqle.printStackTrace(System.err);
+                closeResources(connection, ps, null);
+                // Do not insist.
+                return true;
+            }
+        }
+
+        return notBanned;
+    }
+
     /**
      * Extracts a single user from a given result set.
      *
@@ -776,7 +844,10 @@ public class User {
                                   .setCreatedAt(rs.getTimestamp("created_at"))
                                   .setUpdatedAt(rs.getTimestamp("updated_at"))
                                   .setUserType(UserType.valueOf(
-                                               rs.getString("user_type")));
+                                               rs.getString("user_type")))
+                                  .setBannedUntil(rs.getTimestamp("ban_until"))
+                                  .end();
+
             return user;
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);

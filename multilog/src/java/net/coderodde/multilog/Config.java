@@ -328,9 +328,8 @@ public class Config {
                 "VALUES ((SELECT max(thread_id) FROM threads) + 1, " +
                 "?, ?, NOW(), NOW());";
 
-        public static final String BAN_USER =
-                "UPDATE users SET ban_until = NOW() + ? " +
-                "WHERE user_id = ?;";
+        public static final String REMOVE_BAN_TIMESTAMP =
+                "UPDATE users SET ban_until = NULL WHERE user_id = ?;";
     }
 
     /**
