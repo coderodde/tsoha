@@ -784,7 +784,7 @@ public class User {
         }
 
         final Timestamp now = new Timestamp(System.currentTimeMillis());
-        boolean notBanned = ts.before(now);
+        boolean notBanned = now.after(ts);
 
         if (notBanned) {
             // Here no banned anymore, clear the entry in DB.
@@ -800,6 +800,11 @@ public class User {
                                             Config.
                                             SQL_MAGIC.
                                             REMOVE_BAN_TIMESTAMP);
+
+            if (ps == null) {
+                closeResources(connection, null, null);
+                return true;
+            }
 
             try {
                 ps.setLong(1, getId());
