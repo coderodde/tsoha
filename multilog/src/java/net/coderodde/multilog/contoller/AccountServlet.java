@@ -228,7 +228,7 @@ public class AccountServlet extends HttpServlet {
             request.setAttribute("can_ban", true);
         } else if (who.getUserType() == UserType.MOD) {
             request.setAttribute("can_promote_to_admin", true);
-            request.setAttribute("can_degrade_to_user", who);
+            request.setAttribute("can_degrade_to_user", true);
             request.setAttribute("can_ban", true);
         }
 
