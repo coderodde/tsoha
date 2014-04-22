@@ -68,7 +68,6 @@ public class BanServlet extends HttpServlet {
 
         final String durationString = request.getParameter("ban_hours");
 
-
         if (durationString == null || durationString.isEmpty()) {
             request.setAttribute("notice", "No ban duration given.");
             request.getRequestDispatcher("account.jsp")
@@ -166,7 +165,7 @@ public class BanServlet extends HttpServlet {
             throw new IllegalStateException("Unknown user type.");
         }
 
-        request.getRequestDispatcher("account").forward(request, response);
+        request.getRequestDispatcher("account.jsp").forward(request, response);
     }
 
     /**
