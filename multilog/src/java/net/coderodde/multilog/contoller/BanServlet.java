@@ -135,7 +135,11 @@ public class BanServlet extends HttpServlet {
         if (currentUser.getUserType() == UserType.MOD) {
             if (targetUser.getUserType() == UserType.USER) {
                 // Privileges OK.
-                targetUser.ban(duration);
+                if (targetUser.ban(duration)) {
+                    request.setAttribute("notice", "Ban applied.");
+                } else {
+                    request.setAttribute("notice", "Banning as a mod failed.");
+                }
             } else {
                 // No privileges.
                 request.setAttribute("notice",
@@ -146,7 +150,11 @@ public class BanServlet extends HttpServlet {
             if (targetUser.getUserType() == UserType.USER
                     || targetUser.getUserType() == UserType.MOD) {
                 // Privileges OK.
-                targetUser.ban(duration);
+                if (targetUser.ban(duration)) {
+                    request.setAttribute("notice", "Ban applied.");
+                } else {
+                    request.setAttribute("notice", "Banning as an admin failed.");
+                }
             } else {
                 // No privileges.
                 request.setAttribute("notice",
