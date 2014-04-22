@@ -95,6 +95,14 @@ public class SigninServlet extends HttpServlet {
         user.setPassword(password);
 
         if (user.currentPasswordIsValid()) {
+            if (user.isBanned()) {
+                request.setAttribute("notice",
+                                     "You are banned until " +
+                                     user.getBannedUntil());
+                request.getRequestDispatcher("home").forward(request, response);
+                return;
+            }
+
             request.getSession().setAttribute(Config.
                                               SESSION_MAGIC.
                                               SIGNED_IN_USER_ATTRIBUTE, user);
