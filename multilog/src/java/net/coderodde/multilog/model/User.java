@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.coderodde.multilog.Config;
 import net.coderodde.multilog.Utils;
 import static net.coderodde.multilog.Utils.closeResources;
+import org.postgresql.util.PGInterval;
 
 /**
  * This class implements a user type for <tt>multilog</tt>..
@@ -742,7 +743,7 @@ public class User {
         }
 
         try {
-            ps.setDouble(1, duration);
+            ps.setObject(1, new PGInterval(duration + " hours"));
             ps.setLong(2, getId());
             ps.executeUpdate();
             closeResources(connection, ps, null);
@@ -787,5 +788,19 @@ public class User {
             sqle.printStackTrace(System.err);
             return null;
         }
+    }
+
+    public static void main(String... args) {
+        String s = "3.2";
+
+        double d = 0.0;
+
+        try {
+            d = Double.parseDouble(s);
+        } catch (NumberFormatException nfe) {
+
+        }
+
+        System.out.println(d);
     }
 }
