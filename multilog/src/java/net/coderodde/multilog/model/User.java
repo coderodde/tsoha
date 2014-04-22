@@ -729,6 +729,29 @@ public class User {
         if (connection == null) {
             return false;
         }
+
+        PreparedStatement ps =
+                DB.getPreparedStatement(connection,
+                                        Config.
+                                        SQL_MAGIC.
+                                        BAN_USER);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+            return false;
+        }
+
+        try {
+            ps.setDouble(1, duration);
+            ps.setLong(2, getId());
+            ps.executeUpdate();
+            closeResources(connection, ps, null);
+            return true;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, null);
+            return false;
+        }
     }
 
     /**

@@ -327,6 +327,10 @@ public class Config {
                 "updated_at) " +
                 "VALUES ((SELECT max(thread_id) FROM threads) + 1, " +
                 "?, ?, NOW(), NOW());";
+
+        public static final String BAN_USER =
+                "UPDATE users SET ban_until = NOW() + INTERVAL '? HOURS' " +
+                "WHERE user_id = ?;";
     }
 
     /**
