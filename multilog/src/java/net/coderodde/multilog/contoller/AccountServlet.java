@@ -79,6 +79,7 @@ public class AccountServlet extends HttpServlet {
 
             serveAsNonedibleView(request, targetUser);
 
+            // TODO: fix this shit.
             if (currentUser.getUserType() == UserType.MOD) {
                 serveViewForModerator(request, targetUser, currentUser);
             } else if (currentUser.getUserType() == UserType.ADMIN) {
@@ -199,6 +200,7 @@ public class AccountServlet extends HttpServlet {
         if (who.getUserType() == UserType.USER) {
             request.setAttribute("can_ban", true);
             request.setAttribute("can_promote_to_moderator", true);
+            request.setAttribute("target_id", who.getId());
         }
     }
 
@@ -218,14 +220,15 @@ public class AccountServlet extends HttpServlet {
             request.setAttribute("can_promote_to_moderator", true);
             request.setAttribute("can_promote_to_admin", true);
             request.setAttribute("can_ban", true);
+            request.setAttribute("candelete", true);
+            request.setAttribute("target_id", who.getId());
         } else if (who.getUserType() == UserType.MOD) {
             request.setAttribute("can_promote_to_admin", true);
             request.setAttribute("can_degrade_to_user", true);
             request.setAttribute("can_ban", true);
+            request.setAttribute("candelete", true);
+            request.setAttribute("target_id", who.getId());
         }
-
-        request.setAttribute("target_id", who.getId());
-        request.setAttribute("candelete", true);
     }
 
     /**
