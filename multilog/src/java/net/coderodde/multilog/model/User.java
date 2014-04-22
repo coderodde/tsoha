@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -731,26 +732,19 @@ public class User {
             return false;
         }
 
-        PreparedStatement ps =
-                DB.getPreparedStatement(connection,
-                                        Config.
-                                        SQL_MAGIC.
-                                        BAN_USER);
+        Statement statement = null;
 
-        if (ps == null) {
-            closeResources(connection, null, null);
-            return false;
-        }
-
+        // duration is a double, getId() a long; no danger of SQL-injection.
+        String sql = "UPDATE users SET ban_until = NOW() + INTERVAL '" +
+                     duration + " HOURS' WHERE user_id = " + getId() + ";";
         try {
-            ps.setObject(1, new PGInterval(duration + " hours"));
-            ps.setLong(2, getId());
-            ps.executeUpdate();
-            closeResources(connection, ps, null);
+            statement = connection.createStatement();
+            statement.executeUpdate(sql);
+            closeResources(connection, statement, null);
             return true;
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
-            closeResources(connection, ps, null);
+            closeResources(connection, statement, null);
             return false;
         }
     }

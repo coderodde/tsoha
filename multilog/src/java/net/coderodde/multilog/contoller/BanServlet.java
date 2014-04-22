@@ -152,7 +152,8 @@ public class BanServlet extends HttpServlet {
                 if (targetUser.ban(duration)) {
                     request.setAttribute("notice", "Ban applied.");
                 } else {
-                    request.setAttribute("notice", "Banning as an admin failed.");
+                    request.setAttribute("notice",
+                                         "Banning as an admin failed.");
                 }
             } else {
                 // No privileges.
