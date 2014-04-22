@@ -329,7 +329,7 @@ public class Config {
                 "?, ?, NOW(), NOW());";
 
         public static final String BAN_USER =
-                "UPDATE users SET ban_until = NOW() + INTERVAL '? HOURS' " +
+                "UPDATE users SET ban_until = NOW() + ? " +
                 "WHERE user_id = ?;";
     }
 

@@ -158,7 +158,7 @@ public class BanServlet extends HttpServlet {
             throw new IllegalStateException("Unknown user type.");
         }
 
-        request.getRequestDispatcher("account.jsp").forward(request, response);
+        request.getRequestDispatcher("account").forward(request, response);
     }
 
     /**
