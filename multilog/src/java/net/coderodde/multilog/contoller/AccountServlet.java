@@ -45,6 +45,9 @@ public class AccountServlet extends HttpServlet {
             if (currentUser != null) {
                 request.setAttribute("posts", currentUser.getPostCount());
                 serveAsMyOwnEdibleView(request, currentUser);
+                request.getRequestDispatcher("account.jsp")
+                       .forward(request, response);
+                return;
             }
 
             request.getRequestDispatcher("home").forward(request, response);
