@@ -621,7 +621,8 @@ public class User {
             ps.setBoolean(4, getShowRealName());
             ps.setBoolean(5, getShowEmail());
             ps.setString(6, getDescription());
-            ps.setLong(7, getId());
+            ps.setString(7, getUserType().toString());
+            ps.setLong(8, getId());
             ps.executeUpdate();
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
@@ -861,7 +862,7 @@ public class User {
             return -1;
         }
     }
-    
+
     /**
      * Extracts a single user from a given result set.
      *

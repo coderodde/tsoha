@@ -69,8 +69,9 @@
             <c:if test="${can_degrade_to_user}">
                 Can degrade to user.
                 <!-- Degrading a moderator to user. -->
-                <form action="degrade" method="post">
-                    <input type="hidden" name="to_level" value="user">
+                <form action="promote" method="post">
+                    <input type="hidden" name="promoted_id" value="${target_id}"
+                    <input type="hidden" name="promotion_level" value="user">
                     <input type="submit" value="Degrade to user">
                 </form>
             </c:if>

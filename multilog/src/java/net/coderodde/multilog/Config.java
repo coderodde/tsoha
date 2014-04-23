@@ -213,6 +213,7 @@ public class Config {
                 "show_real_name = ?, " +    // show real name.
                 "show_email = ?, " +        // show email.
                 "description = ?, " +       // description.
+                "user_type = ?, " +         // user type.
                 "updated_at = NOW() " +     // Update the timestamp.
                 "WHERE user_id = ?;";       // user ID.
 
