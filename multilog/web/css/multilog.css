@@ -246,6 +246,11 @@ body {
     border-radius: 3px;
 }
 
+#account_name_div {
+    margin: 8px;
+    padding: 0px;
+}
+
 .reply_area {
     margin-left: auto;
     margin-right: auto;
