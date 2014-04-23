@@ -1,4 +1,4 @@
-package net.coderodde.multilog.contoller;
+package net.coderodde.multilog.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.UserType;
+import static net.coderodde.multilog.Utils.prepareNavibar;
 
 /**
  * This servlet is responsible for managing privilege levels.
@@ -47,6 +48,8 @@ public class PromoteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        prepareNavibar(request);
+
         final User currentUser = User.getCurrentlySignedUser(request);
 
         if (currentUser == null) {

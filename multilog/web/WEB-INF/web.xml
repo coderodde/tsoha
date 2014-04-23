@@ -6,71 +6,71 @@
     </servlet>
     <servlet>
         <servlet-name>SigninServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.SigninServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.SigninServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.HomeServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.HomeServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SignoutServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.SignoutServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.SignoutServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TopicServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.TopicServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.TopicServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SignupController</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.SignupServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.SignupServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AccountServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.AccountServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.AccountServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteAccountServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.DeleteAccountServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.DeleteAccountServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateAccountServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.UpdateAccountServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.UpdateAccountServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ThreadServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.ThreadServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.ThreadServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PostServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.PostServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.PostServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdatePostServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.UpdatePostServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.UpdatePostServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NewTopicServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.NewTopicServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.NewTopicServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteTopicServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.DeleteTopicServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.DeleteTopicServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteThreadServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.DeleteThreadServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.DeleteThreadServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NewThreadServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.NewThreadServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.NewThreadServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>BanServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.BanServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.BanServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PromoteServlet</servlet-name>
-        <servlet-class>net.coderodde.multilog.contoller.PromoteServlet</servlet-class>
+        <servlet-class>net.coderodde.multilog.controller.PromoteServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ListTest</servlet-name>

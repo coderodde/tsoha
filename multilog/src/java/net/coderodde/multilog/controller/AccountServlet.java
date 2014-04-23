@@ -1,4 +1,4 @@
-package net.coderodde.multilog.contoller;
+package net.coderodde.multilog.controller;
 
 import java.io.IOException;
 import java.util.Map;
@@ -11,6 +11,7 @@ import net.coderodde.multilog.model.MessageRead;
 import net.coderodde.multilog.model.Thread;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.UserType;
+import static net.coderodde.multilog.Utils.prepareNavibar;
 
 /**
  * This servlet handles the account related activities.
@@ -36,6 +37,8 @@ public class AccountServlet extends HttpServlet {
         User currentUser = User.getCurrentlySignedUser(request);
         User targetUser = null;
         long id = -1;
+
+        prepareNavibar(request);
 
         try {
             id = Long.parseLong(idString);

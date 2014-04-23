@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import net.coderodde.multilog.controller.HomeServlet;
 import net.coderodde.multilog.model.User;
 
 /**
@@ -213,6 +214,16 @@ public class Utils {
         }
 
         return new String(saltChars);
+    }
+
+    public static final void prepareNavibar(final HttpServletRequest request) {
+        final User user = User.getCurrentlySignedUser(request);
+
+        if (user != null) {
+            HomeServlet.prepareNavibarForSingedUser(request, user);
+        } else {
+            HomeServlet.prepareNavibarForUnsignedUser(request);
+        }
     }
 
     /**

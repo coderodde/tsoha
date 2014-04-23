@@ -1,7 +1,6 @@
-package net.coderodde.multilog.contoller;
+package net.coderodde.multilog.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.Topic;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.UserType;
+import static net.coderodde.multilog.Utils.prepareNavibar;
 
 /**
  * This servlet is responsible for deleting topics and all the data related to
@@ -50,6 +50,8 @@ public class DeleteTopicServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User currentUser = User.getCurrentlySignedUser(request);
+
+        prepareNavibar(request);
 
         if (currentUser == null) {
             request.setAttribute("notice", "Please stop hacking.");

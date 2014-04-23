@@ -1,4 +1,4 @@
-package net.coderodde.multilog.contoller;
+package net.coderodde.multilog.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -9,6 +9,7 @@ import net.coderodde.multilog.Config;
 import net.coderodde.multilog.Utils;
 import net.coderodde.multilog.model.User;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+import static net.coderodde.multilog.Utils.prepareNavibar;
 
 /**
  * This servlet is responsible for updating the user accounts.
@@ -48,6 +49,8 @@ public class UpdateAccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        prepareNavibar(request);
+
         User currentUser = Utils.getSignedUser(request);
 
         if (currentUser == null) {

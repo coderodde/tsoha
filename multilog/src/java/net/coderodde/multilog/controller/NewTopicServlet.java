@@ -1,4 +1,4 @@
-package net.coderodde.multilog.contoller;
+package net.coderodde.multilog.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -9,6 +9,7 @@ import net.coderodde.multilog.model.Topic;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.UserType;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+import static net.coderodde.multilog.Utils.prepareNavibar;
 
 /**
  * This servlet is responsible for saving the new topics.
@@ -49,6 +50,8 @@ public class NewTopicServlet extends HttpServlet {
     protected void doPost(final HttpServletRequest request,
                           final HttpServletResponse response)
             throws ServletException, IOException {
+        prepareNavibar(request);
+
         final User currentUser = User.getCurrentlySignedUser(request);
 
         if (currentUser == null) {

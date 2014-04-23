@@ -1,4 +1,4 @@
-package net.coderodde.multilog.contoller;
+package net.coderodde.multilog.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -9,6 +9,7 @@ import net.coderodde.multilog.model.Post;
 import net.coderodde.multilog.model.Thread;
 import net.coderodde.multilog.model.User;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+import static net.coderodde.multilog.Utils.prepareNavibar;
 
 /**
  * This servlet is responsible for persisting the posts.
@@ -57,6 +58,8 @@ public class PostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        prepareNavibar(request);
+
         final User currentUser = User.getCurrentlySignedUser(request);
 
         if (currentUser == null) {

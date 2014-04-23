@@ -1,4 +1,4 @@
-package net.coderodde.multilog.contoller;
+package net.coderodde.multilog.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -6,19 +6,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.model.Thread;
+import net.coderodde.multilog.model.Topic;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.UserType;
+import static net.coderodde.multilog.Utils.prepareNavibar;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 /**
- * This servlet is responsible for deleting threads of <tt>multilog</tt>.
+ * This servlet is responsible for creating new threads.
  *
  * @author Rodion Efremov
  * @version 1.6
  */
-public class DeleteThreadServlet extends HttpServlet {
+public class NewThreadServlet extends HttpServlet {
 
     /**
-     * Handles the HTTP <code>GET</code> method. Basically prints a warning.
+     * Handles the HTTP <code>GET</code> method. Basically, prints a warning.
      *
      * @param request servlet request.
      * @param response servlet response.
@@ -30,92 +33,95 @@ public class DeleteThreadServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("notice",
-                             "Don't use GET-method for deleting threads. " +
-                             "Please stop hacking.");
+                             "Creating a thread through GET-method is not " +
+                             "supported. Please stop hacking.");
         request.getRequestDispatcher("threadsview.jsp")
                .forward(request, response);
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method. If all input data is valid,
-     * deletes a thread.
+     * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @param request servlet request.
+     * @param response servlet response.
+     *
+     * @throws ServletException if a servlet-specific error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        prepareNavibar(request);
+
         User currentUser = User.getCurrentlySignedUser(request);
 
         if (currentUser == null) {
             request.setAttribute("notice",
-                                 "You are not signed in. " +
-                                 "Please stop hacking.");
+                                 "No current user. Please stop hacking.");
             request.getRequestDispatcher("threadsview.jsp")
                    .forward(request, response);
             return;
+        } else {
+            request.setAttribute("isSignedIn", true);
         }
 
-        if (currentUser.getUserType() == UserType.USER) {
-            // No privileges.
+        final String threadName = request.getParameter("thread_name");
+
+        if (threadName == null || threadName.isEmpty()) {
             request.setAttribute("notice",
-                                 "You do not have the privileges " +
-                                 "to delete a thread. " +
-                                 "Please stop hacking.");
+                                 "No thread given. Please stop hacking.");
             request.getRequestDispatcher("threadsview.jsp")
                    .forward(request, response);
             return;
         }
 
-        final String threadIdString = request.getParameter("thread_id");
+        final String escapedThreadName = escapeHtml4(threadName);
+        final String topicIdString = request.getParameter("topic_id");
 
-        if (threadIdString == null || threadIdString.isEmpty()) {
-            request.setAttribute("notice",
-                                 "No thread ID.");
-            request.getRequestDispatcher("threadsview.jsp")
-                   .forward(request, response);
-            return;
-        }
-
-        long id = -1L;
+        long topicId = -1L;
 
         try {
-            id = Long.parseLong(threadIdString);
+            topicId = Long.parseLong(topicIdString);
         } catch (NumberFormatException nfe) {
             nfe.printStackTrace(System.err);
-        }
-
-        if (id == -1L) {
             request.setAttribute("notice",
-                                 "Bad thread ID '" +
-                                 threadIdString + "'.");
+                                 "Bad topic ID: '" +
+                                 topicIdString + "'.");
             request.getRequestDispatcher("threadsview.jsp")
                    .forward(request, response);
             return;
         }
 
-        Thread t = Thread.read(id);
+        Topic topic = Topic.read(topicId);
 
-        if (t == null) {
+        if (topic == null) {
             request.setAttribute("notice",
-                                 "No thread with ID '" +
-                                 id + "'.");
+                                 "No topic with ID '" +
+                                 topicId + "' found.");
             request.getRequestDispatcher("threadsview.jsp")
                    .forward(request, response);
             return;
         }
 
-        if (t.delete()) {
+        Thread t = new Thread().setName(escapedThreadName)
+                               .setTopic(topic);
+
+        if (t.create()) {
             request.setAttribute("notice",
-                                 "Deleted thread '" +
-                                 t.getName() + "'.");
+                                 "Thread '" + t.getName() + "' " +
+                                 "created.");
         } else {
             request.setAttribute("notice",
-                                 "Could not delete thread '" +
+                                 "Could not create thread '" +
                                  t.getName() + "'.");
+        }
+
+        request.setAttribute("topic_name", t.getTopic().getName());
+        request.setAttribute("threadList", t.getTopic().getThreads());
+
+        if (currentUser.getUserType() != UserType.USER) {
+            // Can remove.
+            request.setAttribute("isMod", true);
         }
 
         request.getRequestDispatcher("threadsview.jsp")

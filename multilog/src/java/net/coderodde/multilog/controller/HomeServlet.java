@@ -1,4 +1,4 @@
-package net.coderodde.multilog.contoller;
+package net.coderodde.multilog.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -94,7 +94,7 @@ public class HomeServlet extends HttpServlet {
      *
      * @param request the request object.
      */
-    static void prepareNavibarForUnsignedUser
+    public static void prepareNavibarForUnsignedUser
         (final HttpServletRequest request) {
         request.setAttribute("right_left", "Sign in");
         request.setAttribute("right_left_url", "signin.jsp");
@@ -108,7 +108,7 @@ public class HomeServlet extends HttpServlet {
      * @param request the request object.
      * @param user the user object.
      */
-    static void prepareNavibarForSingedUser
+    public static void prepareNavibarForSingedUser
         (final HttpServletRequest request, final User user) {
         request.setAttribute("right_left", "Sign out");
         request.setAttribute("right_left_url", "signout");

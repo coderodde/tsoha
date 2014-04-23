@@ -1,4 +1,4 @@
-package net.coderodde.multilog.contoller;
+package net.coderodde.multilog.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static net.coderodde.multilog.Utils.prepareNavibar;
 import net.coderodde.multilog.model.MessageRead;
 import net.coderodde.multilog.model.Post;
 import net.coderodde.multilog.model.Thread;
@@ -41,6 +42,8 @@ public class ThreadServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        prepareNavibar(request);
+
         final User currentUser = User.getCurrentlySignedUser(request);
 
         if (currentUser != null) {

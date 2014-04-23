@@ -1,4 +1,4 @@
-package net.coderodde.multilog.contoller;
+package net.coderodde.multilog.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.Config;
 import net.coderodde.multilog.model.User;
+import static net.coderodde.multilog.Utils.prepareNavibar;
 
 /**
  * This servlet authenticates the users, and upon successful authentication
@@ -52,6 +53,8 @@ public class SigninServlet extends HttpServlet {
     protected void doPost(final HttpServletRequest request,
                           final HttpServletResponse response)
             throws ServletException, IOException {
+        prepareNavibar(request);
+
         String username = request.getParameter(Config.SESSION_MAGIC.USERNAME);
         String password = request.getParameter(Config.SESSION_MAGIC.PASSWORD);
 
