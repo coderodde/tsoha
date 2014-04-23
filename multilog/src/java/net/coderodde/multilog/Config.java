@@ -207,15 +207,15 @@ public class Config {
          */
         public static final String UPDATE_USER =
                 "UPDATE users SET " +
-                "first_name = ?, " +        // first name.
-                "last_name = ?, " +         // last_name.
-                "email = ?, " +             // email.
-                "show_real_name = ?, " +    // show real name.
-                "show_email = ?, " +        // show email.
-                "description = ?, " +       // description.
-                "user_type = ?, " +         // user type.
-                "updated_at = NOW() " +     // Update the timestamp.
-                "WHERE user_id = ?;";       // user ID.
+                "first_name = ?, " +                // first name.
+                "last_name = ?, " +                 // last_name.
+                "email = ?, " +                     // email.
+                "show_real_name = ?, " +            // show real name.
+                "show_email = ?, " +                // show email.
+                "description = ?, " +               // description.
+                "user_type = ?::e_user_type, " +    // user type.
+                "updated_at = NOW() " +             // Update the timestamp.
+                "WHERE user_id = ?;";               // user ID.
 
         /**
          * The template for changing a user's password.
