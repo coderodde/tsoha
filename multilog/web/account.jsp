@@ -54,7 +54,7 @@
                 Can promote to moderator.
                 <form action="promote" method="post">
                     <input type="hidden" name="promoted_id" value="${target_id}">
-                    <inpyt type="hidden" name="promotion_level" value="mod">
+                    <input type="hidden" name="promotion_level" value="mod">
                     <input type="submit" value="Promote to moderator">
                 </form>
             </c:if>
