@@ -19,7 +19,7 @@
             <hr/>
 
             <div class="user_info">
-                <div id="account_name_div">${username}</div>
+                <div id="account_name_div"><h2>${username}</h2></div>
 
                 <c:if test="${edit == true}" >
                     <%@ include file="accountedit.jspf" %>

@@ -142,6 +142,7 @@ public class AccountServlet extends HttpServlet {
     static void serveAsNonedibleView(final HttpServletRequest request,
                                      final User who) {
         request.setAttribute("view", true);
+        request.setAttribute("username", who.getUsername());
 
         // Other attributes.
         request.setAttribute("posts", 0);
@@ -174,6 +175,7 @@ public class AccountServlet extends HttpServlet {
      */
     static void serveAsMyOwnEdibleView(final HttpServletRequest request,
                                        final User who) {
+        request.setAttribute("username", who.getUsername());
         request.setAttribute("edit", true);
         request.setAttribute("candelete", true);
 
@@ -204,6 +206,7 @@ public class AccountServlet extends HttpServlet {
                                       final User who,
                                       final User mod) {
         serveAsNonedibleView(request, who);
+        request.setAttribute("username", who.getUsername());
 
         if (who.getUserType() == UserType.USER) {
             request.setAttribute("can_ban", true);
@@ -223,6 +226,7 @@ public class AccountServlet extends HttpServlet {
                                   final User who,
                                   final User admin) {
         serveAsNonedibleView(request, who);
+        request.setAttribute("username", who.getUsername());
 
         if (who.getUserType() == UserType.USER) {
             request.setAttribute("can_promote_to_moderator", true);
