@@ -104,12 +104,19 @@ public class PromoteServlet extends HttpServlet {
                                  "No user with ID '" + targetUserId + "'.");
             request.getRequestDispatcher("home").forward(request, response);
             return;
+        } else if (targetUser.getUserType() == UserType.ADMIN) {
+            request.setAttribute("notice",
+                                 "You cannot tamper with administrators.");
+            request.getRequestDispatcher("home").forward(request, response);
+            return;
         }
 
         // Here, currentUser is either mod or admin.
+        // targetUser is not admin.
         if (currentUser.getUserType() == UserType.MOD) {
             if (targetUser.getUserType() == UserType.USER) {
-                if (promotionLevel.equals("mod") == false) {
+                if ("mod".equals(promotionLevel) == false) {
+
                     request.setAttribute("notice",
                                          "Cannot promote to anything else " +
                                          "but moderator. Stop hacking.");
@@ -119,14 +126,12 @@ public class PromoteServlet extends HttpServlet {
                 }
 
                 // Valid. Promote user to moderator.
-                targetUser.setUserType(UserType.MOD);
+                promote(targetUser, UserType.MOD, request);
 
-                if (targetUser.update()) {
-
-                } else {
-
-                }
-
+                request.getRequestDispatcher(
+                        "account?id=" + targetUser.getId())
+                        .forward(request, response);
+                return;
             } else {
                 request.setAttribute("notice",
                                      "Cannot promote. Please stop hacking.");
@@ -134,10 +139,63 @@ public class PromoteServlet extends HttpServlet {
                 return;
             }
         } else if (currentUser.getUserType() == UserType.ADMIN) {
+            if (targetUser.getUserType() == UserType.USER) {
+                if ("mod".equals(promotionLevel)) {
 
+                    promote(targetUser, UserType.MOD, request);
+
+                } else if ("admin".equals(promotionLevel)) {
+
+                    promote(targetUser, UserType.ADMIN, request);
+
+                } else {
+                    throw new IllegalStateException(
+                            "Unknown promotion level: " + promotionLevel);
+                }
+            } else if (targetUser.getUserType() == UserType.MOD) {
+                if ("admin".equals(promotionLevel)) {
+
+                    promote(targetUser, UserType.ADMIN, request);
+
+                } else if ("user".equals(promotionLevel)) {
+
+                    promote(targetUser, UserType.USER, request);
+
+                } else {
+                    throw new IllegalArgumentException(
+                            "Unknown promotion level: " + promotionLevel);
+                }
+            }
         } else {
             throw new IllegalStateException(
                     "Unknown user type: " + currentUser.getUserType());
+        }
+
+        request.getRequestDispatcher("account?id=" + targetUser.getId())
+               .forward(request, response);
+    }
+
+    private static final void promote(final User targetUser,
+                                      final UserType type,
+                                      final HttpServletRequest request) {
+        targetUser.setUserType(type);
+
+        String verbSuccess = (type.toString().equalsIgnoreCase("user") ?
+                              "downgraded" : "promoted");
+
+        String verbFailure = (type.toString().equalsIgnoreCase("user") ?
+                              "downgrade" : "promote");
+
+        if (targetUser.update()) {
+            request.setAttribute("notice",
+                                 "'" + targetUser.getUsername() + "' " +
+                                 verbSuccess + " to " +
+                                 type.toString().toLowerCase() + ".");
+        } else {
+            request.setAttribute("notice",
+                                 "Could not " + verbFailure + " '" +
+                                 targetUser.getUsername() + "' to " +
+                                 type.toString().toLowerCase() + ".");
         }
     }
 
