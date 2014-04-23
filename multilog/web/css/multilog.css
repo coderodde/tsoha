@@ -240,6 +240,11 @@ body {
     padding-right: 20px;
 }
 
+.post_intro:hover {
+    background-color: black;
+    color: pink;
+}
+
 .reply_area {
     margin-left: auto;
     margin-right: auto;

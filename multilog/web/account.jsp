@@ -51,7 +51,6 @@
                 </form>
             </c:if>
             <c:if test="${can_promote_to_moderator}">
-                Can promote to moderator.
                 <form action="promote" method="post">
                     <input type="hidden" name="promoted_id" value="${target_id}" >
                     <input type="hidden" name="promotion_level" value="mod">
@@ -59,7 +58,6 @@
                 </form>
             </c:if>
             <c:if test="${can_promote_to_admin}">
-                Can promote to administrator.
                 <form action="promote" method="post">
                     <input type="hidden" name="promoted_id" value="${target_id}" >
                     <input type="hidden" name="promotion_level" value="admin">
@@ -67,7 +65,6 @@
                 </form>
             </c:if>
             <c:if test="${can_degrade_to_user}">
-                Can degrade to user.
                 <!-- Degrading a moderator to user. -->
                 <form action="promote" method="post">
                     <input type="hidden" name="promoted_id" value="${target_id}" >
