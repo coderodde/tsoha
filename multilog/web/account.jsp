@@ -43,11 +43,10 @@
                 <%@ include file="thread_updates.jspf" %>
             </c:if>
             <c:if test="${can_ban}">
-                Can ban.
                 <form action="ban" method="post">
                     <input type="text" name="ban_hours">
-                    <input type="hidden" name="banned_id" value="${target_id}">
                     <input type="submit" value="Ban">
+                    <input type="hidden" name="banned_id" value="${target_id}">
                 </form>
             </c:if>
             <c:if test="${can_promote_to_moderator}">
