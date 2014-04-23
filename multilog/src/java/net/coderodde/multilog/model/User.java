@@ -621,7 +621,8 @@ public class User {
             ps.setBoolean(4, getShowRealName());
             ps.setBoolean(5, getShowEmail());
             ps.setString(6, getDescription());
-            ps.setString(7, getUserType().toString());
+            ps.setObject(7, getUserType());
+//            ps.setString(7, getUserType().toString());
             ps.setLong(8, getId());
             ps.executeUpdate();
         } catch (SQLException sqle) {
