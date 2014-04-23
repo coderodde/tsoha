@@ -622,7 +622,7 @@ public class User {
             ps.setBoolean(5, getShowEmail());
             ps.setString(6, getDescription());
 //            ps.setObject(7, getUserType());
-            ps.setString(7, getUserType().toString());
+            ps.setString(7, getUserType().getDBName());
             ps.setLong(8, getId());
             ps.executeUpdate();
         } catch (SQLException sqle) {
