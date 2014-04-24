@@ -1,6 +1,9 @@
 package net.coderodde.multilog.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +12,9 @@ import net.coderodde.multilog.Config;
 import net.coderodde.multilog.Utils;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.UserType;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  * This servlet handles the sign up process.
@@ -17,6 +23,7 @@ import net.coderodde.multilog.model.UserType;
  * @version 0.1
  */
 public class SignupServlet extends HttpServlet {
+    private String FilenameUtils;
 
     /**
      * Handles the HTTP <code>GET</code> method which renders the sign up page.
@@ -193,6 +200,30 @@ public class SignupServlet extends HttpServlet {
             return;
         }
 
+        // Try receive an avatar.
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        InputStream inStream = null;
+
+        if (isMultipart) {
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            ServletFileUpload upload = new ServletFileUpload(factory);
+
+            try {
+                List<FileItem> items = upload.parseRequest(request);
+
+                for (FileItem fi : items) {
+                    if (fi.isFormField()) {
+                        continue;
+                    }
+
+                    inStream = fi.getInputStream();
+                    break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
+            }
+        }
+
         // Once here, all form data is OK, so create a user.
         boolean created = new User().setUsername(username)
                                     .setPassword(password)
@@ -210,6 +241,7 @@ public class SignupServlet extends HttpServlet {
 
         if (created) {
             request.getRequestDispatcher("home").forward(request, response);
+            
         } else {
             request.setAttribute("notice", "Could not create a user.");
             request.getRequestDispatcher("signup").forward(request, response);

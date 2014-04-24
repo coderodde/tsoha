@@ -483,7 +483,9 @@ public class User {
             ps.setString(4, getFirstName());
             ps.setString(5, getLastName());
             ps.setString(6, getEmail());
-            ps.setString(7, description);
+            ps.setString(7, getDescription());
+            ps.setBoolean(8, getShowRealName());
+            ps.setBoolean(9, getShowEmail());
             ps.executeUpdate();
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);

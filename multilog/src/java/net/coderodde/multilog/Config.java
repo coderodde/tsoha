@@ -175,26 +175,33 @@ public class Config {
          */
         public static final String CREATE_USER =
                 "INSERT INTO users (" +
-                "user_id," +
-                "username," +
-                "salt," +
-                "passwd_hash," +
-                "first_name," +
-                "last_name," +
-                "email," +
-                "description," +
-                "created_at," +
+                "user_id, " +
+                "username, " +
+                "salt, " +
+                "passwd_hash, " +
+                "first_name, " +
+                "last_name, " +
+                "email, " +
+                "description, " +
+                "show_real_name, " +
+                "show_email, " +
+                "created_at, " +
                 "updated_at) " +
                 "VALUES (" +
-                "(SELECT max(user_id) FROM users) + 1," +
-                "?," +                                      // user name.
-                "?," +                                      // salt.
-                "?," +                                      // passwd_hash.
-                "?," +                                      // first_name.
-                "?," +                                      // last_name.
-                "?," +                                      // email.
-                "?," +                                      // description.
-                "NOW(), NOW());";
+                "(SELECT max(user_id) FROM users) + 1," +    // user ID.
+                "?, " +                                      // user name.
+                "?, " +                                      // salt.
+                "?, " +                                      // passwd_hash.
+                "?, " +                                      // first_name.
+                "?, " +                                      // last_name.
+                "?, " +                                      // email.
+                "?, " +                                      // description.
+                "?, " +                                      // show name.
+                "?, " +                                      // show email.
+                "NOW(), NOW());";                            // time stamps.
+
+        public static final String ADD_AVATAR =
+                "UPDATE users SET image = ? WHERE user_id = ?;";
 
         /**
          * The template for removing a user.
