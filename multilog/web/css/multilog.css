@@ -216,13 +216,6 @@ body {
     padding: 3px;
 }
 
-.post_intro_name:hover {
-    margin: 3px;
-    padding: 3px;
-    background-color: black;
-    color: pink;
-}
-
 .edit_post_button {
     margin: 3px;
     float: right;
