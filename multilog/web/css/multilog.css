@@ -211,11 +211,6 @@ body {
     font-style: normal;
 }
 
-.post_intro_name {
-    margin: 3px;
-    padding: 3px;
-}
-
 a:hover {
     background-color: black;
     color: pink;
