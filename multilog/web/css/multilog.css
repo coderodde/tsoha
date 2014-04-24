@@ -212,6 +212,8 @@ body {
 }
 
 a:hover {
+    padding:4px;
+    border-radius: 3px;
     background-color: black;
     color: pink;
     text-decoration: none;
