@@ -20,7 +20,7 @@
 
             <div id="sign_up_div">
                 <h2>Sign up</h2>
-                <form action="signup" method="POST" enctype="multipart/form-data">
+                <form action="signup" method="POST">
                     <table style="width: 100%;">
                         <tr> <td> Image:                                 </td> <td> <input type="file" accept="image/*" name="avatar">                                                       </td> <td>                                                            </td> </tr>
                         <tr> <td> User name:                             </td> <td> <input type="text" name="<%= Config.SESSION_MAGIC.USERNAME %>"                  value="${im_username}" > </td> <td class="${su_error_username}"> ${bad_username}               </td> </tr>
