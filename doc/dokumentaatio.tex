@@ -208,8 +208,13 @@ Toteuttaessa \textbf{multilog}:n näkymäkomponentit pidettiin JSP-tiedostoina e
 \subsection{net.coderodde.multilog.controller}
 \begin{description}
   \item[AccountServlet.java] näyttää käyttäjien profiilit,
+  \item[BanServlet.java] laittaa käyttäjät käyttökieltoon,
   \item[DeleteAccountServlet.java] poistaa profiilin,
+  \item[DeleteThreadServlet.java] poistaa säikkeet,
+  \item[DeleteTopic.java] poistaa aiheet,
   \item[HomeServlet.java] valmistelee alkunäytön,
+  \item[NewThreadServlet.java] luo uudet säikkeet,
+  \item[NewTopicServlet.java] luo uudet aiheet,
   \item[PostServlet.java] tallentaa uudet postaukset,
   \item[SigninServlet.java] autentikoi ja kirjaa käyttäjän sisään,
   \item[SignoutServlet.java] lopettaa käyttäjän session,
@@ -233,5 +238,11 @@ Toteuttaessa \textbf{multilog}:n näkymäkomponentit pidettiin JSP-tiedostoina e
 
 \section{Käyttöliittymä ja järjestelmän komponentit}
 
+\begin{figure}[H]
+  \caption{Käyttöliittymäkaavio}
+  \centering
+  \includegraphics[width=\textwidth, keepaspectratio]{ViewDiagram}
+  \label{fig:viewdiagram}
+\end{figure}
 
 \end{document}
