@@ -53,6 +53,7 @@ public class Topic {
 
         if (ps == null) {
             closeResources(conn, null, null);
+            return null;
         }
 
         ResultSet rs = null;

@@ -225,23 +225,26 @@ public class SignupServlet extends HttpServlet {
         }
 
         // Once here, all form data is OK, so create a user.
-        boolean created = new User().setUsername(username)
-                                    .setPassword(password)
-                                    .setSalt(Utils.createSalt())
-                                    .setEmail(email)
-                                    .setFirstName(firstName)
-                                    .setLastName(lastName)
-                                    .setShowEmail(bShowEmail)
-                                    .setShowRealName(bShowRealName)
-                                    .setDescription(description)
-                                    .setUserType(UserType.USER)
-                                    .end()
-                                    .create();
+        User user = new User().setUsername(username)
+                              .setPassword(password)
+                              .setSalt(Utils.createSalt())
+                              .setEmail(email)
+                              .setFirstName(firstName)
+                              .setLastName(lastName)
+                              .setShowEmail(bShowEmail)
+                              .setShowRealName(bShowRealName)
+                              .setDescription(description)
+                              .setUserType(UserType.USER)
+                              .end();
 
+        boolean created = user.create();
 
         if (created) {
+            if (inStream != null) {
+                user.addAvatar(inStream);
+            }
+
             request.getRequestDispatcher("home").forward(request, response);
-            
         } else {
             request.setAttribute("notice", "Could not create a user.");
             request.getRequestDispatcher("signup").forward(request, response);

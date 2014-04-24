@@ -1,5 +1,6 @@
 package net.coderodde.multilog.model;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -486,6 +487,40 @@ public class User {
             ps.setString(7, getDescription());
             ps.setBoolean(8, getShowRealName());
             ps.setBoolean(9, getShowEmail());
+            ps.executeUpdate();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, null);
+            return false;
+        }
+
+        closeResources(connection, ps, null);
+        return true;
+    }
+
+    public final boolean addAvatar(final InputStream is) {
+        if (is == null) {
+            return false;
+        }
+
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return false;
+        }
+
+        PreparedStatement ps = DB.getPreparedStatement(connection,
+                                                       Config.
+                                                       SQL_MAGIC.
+                                                       ADD_AVATAR);
+        if (ps == null) {
+            closeResources(connection, null, null);
+            return false;
+        }
+
+        try {
+            ps.setBinaryStream(1, is);
+            ps.setLong(2, getId());
             ps.executeUpdate();
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
