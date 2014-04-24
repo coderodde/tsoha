@@ -1,9 +1,6 @@
 package net.coderodde.multilog.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,9 +9,7 @@ import net.coderodde.multilog.Config;
 import net.coderodde.multilog.Utils;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.UserType;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 /**
  * This servlet handles the sign up process.
@@ -23,7 +18,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  * @version 0.1
  */
 public class SignupServlet extends HttpServlet {
-    private String FilenameUtils;
 
     /**
      * Handles the HTTP <code>GET</code> method which renders the sign up page.
@@ -85,10 +79,12 @@ public class SignupServlet extends HttpServlet {
         final String email = request.getParameter(Config.SESSION_MAGIC.EMAIL);
 
         final String firstName =
-                request.getParameter(Config.SESSION_MAGIC.FIRST_NAME);
+                escapeHtml4(request
+                            .getParameter(Config.SESSION_MAGIC.FIRST_NAME));
 
         final String lastName =
-                request.getParameter(Config.SESSION_MAGIC.LAST_NAME);
+                escapeHtml4(request
+                            .getParameter(Config.SESSION_MAGIC.LAST_NAME));
 
         final String showRealName =
                 request.getParameter(Config.SESSION_MAGIC.SHOW_REAL_NAME);
@@ -97,7 +93,8 @@ public class SignupServlet extends HttpServlet {
                 request.getParameter(Config.SESSION_MAGIC.SHOW_EMAIL);
 
         final String description =
-                request.getParameter(Config.SESSION_MAGIC.DESCRIPTION);
+                escapeHtml4(request
+                            .getParameter(Config.SESSION_MAGIC.DESCRIPTION));
 
         final boolean bShowEmail = (showEmail != null &&
                                     showEmail.equalsIgnoreCase("on"));
@@ -199,31 +196,6 @@ public class SignupServlet extends HttpServlet {
                    .forward(request, response);
             return;
         }
-
-        // Try receive an avatar.
-        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        InputStream inStream = null;
-
-        if (isMultipart) {
-            DiskFileItemFactory factory = new DiskFileItemFactory();
-            ServletFileUpload upload = new ServletFileUpload(factory);
-
-            try {
-                List<FileItem> items = upload.parseRequest(request);
-
-                for (FileItem fi : items) {
-                    if (fi.isFormField()) {
-                        continue;
-                    }
-
-                    inStream = fi.getInputStream();
-                    break;
-                }
-            } catch (Exception e) {
-                e.printStackTrace(System.err);
-            }
-        }
-
         // Once here, all form data is OK, so create a user.
         User user = new User().setUsername(username)
                               .setPassword(password)
@@ -240,10 +212,8 @@ public class SignupServlet extends HttpServlet {
         boolean created = user.create();
 
         if (created) {
-            if (inStream != null) {
-                user.addAvatar(inStream);
-            }
-
+            request.setAttribute("notice",
+                                 "User " + user.getUsername() + " created.");
             request.getRequestDispatcher("home").forward(request, response);
         } else {
             request.setAttribute("notice", "Could not create a user.");

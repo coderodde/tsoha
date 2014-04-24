@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.Config;
+import static net.coderodde.multilog.Utils.prepareNavibar;
 import net.coderodde.multilog.model.MessageRead;
 import net.coderodde.multilog.model.Thread;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.UserType;
-import static net.coderodde.multilog.Utils.prepareNavibar;
 
 /**
  * This servlet handles the account related activities.
