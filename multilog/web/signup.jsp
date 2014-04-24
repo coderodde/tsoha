@@ -30,7 +30,7 @@
                         <tr> <td> E-mail:                                </td> <td> <input type="text" name="<%= Config.SESSION_MAGIC.EMAIL %>"                     value="${im_email}"    > </td> <td class="${su_error_email}"> ${bad_email}                     </td> </tr>
                         <tr> <td> Show real name:                        </td> <td> <input type="checkbox" name="<%= Config.SESSION_MAGIC.SHOW_REAL_NAME %>"        ${im_show_name}        > </td> <td>                                                            </td> </tr>
                         <tr> <td> Show email:                            </td> <td> <input type="checkbox" name="<%= Config.SESSION_MAGIC.SHOW_EMAIL %>"            ${im_show_email}       > </td> <td>                                                            </td> </tr>
-                        <tr> <td> Description:                           </td> <td> <textarea rows="4">${im_description}</textarea>                                                          </td> <td>                                                            </td> </tr>
+                        <tr> <td> Description:                           </td> <td> <textarea rows="4" name="<%= Config.SESSION_MAGIC.DESCRIPTION %>">${im_description}</textarea>           </td> <td>                                                            </td> </tr>
                         <tr> <td> <input type="submit" value="Sign up!"> </td> <td>                                                                                                          </td> <td>                                                            </td> </tr>
                     </table>
                     <p style="color: red;">${notice}</p>
