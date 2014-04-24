@@ -30,7 +30,7 @@
                 <c:forEach var="post" items="${requestScope.postList}">
 
                     <div class="post_item" style="margin-left: <c:out value="${6 + 10 * post.indent}" />px;">
-                        <div class="post_intro" onclick="window.location='account?id=${post.user.id}'">${post.user.username} at
+                        <div class="post_intro" > <div class="post_intro_name" onclick="window.location='account?id=${post.user.id}'"> ${post.user.username} </div> at
 
                         <c:if test="${can_reply == true}">
                             <div class="reply_button" onclick="setReplyTarget(${post.id}, '${post.user.username}');">Reply</div>

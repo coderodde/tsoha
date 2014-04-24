@@ -211,6 +211,18 @@ body {
     font-style: normal;
 }
 
+.post_intro_name {
+    margin: 3px;
+    padding: 3px;
+}
+
+.post_intro_name {
+    margin: 3px;
+    padding: 3px;
+    background-color: black;
+    color: pink;
+}
+
 .edit_post_button {
     margin: 3px;
     float: right;
