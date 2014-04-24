@@ -71,6 +71,13 @@ public class Post {
      */
     private boolean edible;
 
+    /**
+     * Reads a post with ID <code>postId</code> from database.
+     *
+     * @param postId the ID of a desired post.
+     *
+     * @return a post object or <code>null</code> if something fails.
+     */
     public static final Post read(final long postId) {
         Connection conn = DB.getConnection();
 
@@ -103,6 +110,13 @@ public class Post {
         return post;
     }
 
+    /**
+     * Extracts a post from a result set.
+     *
+     * @param rs the result set to extract from.
+     *
+     * @return a post object or <code>null</code> if something fails.
+     */
     private static final Post extractPost(final ResultSet rs) {
         try {
             if (rs.next() == false) {
@@ -141,6 +155,11 @@ public class Post {
         }
     }
 
+    /**
+     * Persists this post to database.
+     *
+     * @return <code>true</code> upon success, <code>false</code> otherwise.
+     */
     public boolean create() {
         Connection connection = DB.getConnection();
 
@@ -180,6 +199,11 @@ public class Post {
         return true;
     }
 
+    /**
+     * Updates this post.
+     *
+     * @return <code>true</code> upon success, <code>false</code> otherwise.
+     */
     public boolean update() {
         Connection connection = DB.getConnection();
 
@@ -211,6 +235,11 @@ public class Post {
         return true;
     }
 
+    /**
+     * Deletes this post from database.
+     *
+     * @return <code>true</code> upon success, <code>false</code> otherwise.
+     */
     public boolean delete() {
         removeMessageReads();
 
@@ -242,6 +271,9 @@ public class Post {
         }
     }
 
+    /**
+     * Removes all the message reads of this post.
+     */
     public final void removeMessageReads() {
         Connection connection = DB.getConnection();
 
@@ -270,6 +302,11 @@ public class Post {
         }
     }
 
+    /**
+     * Returns the ID of this post.
+     *
+     * @return the ID of this post.
+     */
     public long getId() {
         return id;
     }
@@ -329,6 +366,11 @@ public class Post {
         return parentPost;
     }
 
+    /**
+     * Returns the indentation level of this post.
+     *
+     * @return the indentation level of this post.
+     */
     public int getIndent() {
         return indent;
     }
@@ -632,12 +674,5 @@ public class Post {
      */
     public Post end() {
         return this;
-    }
-
-    public static void main(String... args) {
-        Post p = new Post();
-        p.setText("_#*hello*#_ #code here# [http://google.fi|Google!]");
-        p.setText("_hello*[|");
-        System.out.println(p.getHtml());
     }
 }

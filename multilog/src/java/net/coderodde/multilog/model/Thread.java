@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -52,12 +51,22 @@ public class Thread {
      */
     private Timestamp updatedAt;
 
+    /**
+     * The thread comparator comparing by thread names.
+     */
     public static final Comparator<Thread> tc = new Comparator<Thread>() {
         public int compare(Thread o1, Thread o2) {
             return o1.getName().compareTo(o2.getName());
         }
     };
 
+    /**
+     * Reads a thread from database.
+     *
+     * @param id the ID of the thread to read.
+     *
+     * @return a thread upon success, <code>null</code> otherwise.
+     */
     public static final Thread read(final long id) {
         Connection conn = DB.getConnection();
 
@@ -90,6 +99,13 @@ public class Thread {
         return thread;
     }
 
+    /**
+     * Extracts a thread from a result set.
+     *
+     * @param rs the result set to extract from.
+     *
+     * @return a thread upon success, or <code>null</code> otherwise.
+     */
     private static final Thread extractThread(final ResultSet rs) {
         try {
             if (rs.next() == false) {
@@ -113,6 +129,13 @@ public class Thread {
         }
     }
 
+    /**
+     * Extracts a list of posts from a result set.
+     *
+     * @param rs the result set to extract from.
+     *
+     * @return a list of posts upon success, <code>null</code> otherwise.
+     */
     private final List<Post> extractPostList(final ResultSet rs) {
         List<Post> postList = new ArrayList<Post>();
 
@@ -142,6 +165,15 @@ public class Thread {
         return postList;
     }
 
+    /**
+     * Checks whether this post and <code>o</code> are considered equal.
+     * Implements the needed API for storing threads in a hash map/set.
+     *
+     * @param o the object to compare to.
+     *
+     * @return <code>true</code> if the two object equal, <code>false</code>
+     * otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -155,11 +187,22 @@ public class Thread {
         return getId() == ((Thread) o).getId();
     }
 
+    /**
+     * Returns the hash code of this thread.
+     *
+     * @return the hash code of this thread.
+     */
     @Override
     public int hashCode() {
         return (int) getId();
     }
 
+    /**
+     * Returns a list of all posts in this thread upon success,
+     * <code>null</code> otherwise.
+     *
+     * @return a list of all posts in this thread.
+     */
     public List<Post> getAllPosts() {
         Connection conn = DB.getConnection();
 
@@ -248,6 +291,11 @@ public class Thread {
         return updatedAt;
     }
 
+    /**
+     * Updates the 'update' time stamp of this thread.
+     *
+     * @return <code>true</code> upon success, <code>false</code> otherwise.
+     */
     public boolean updateTimestamp() {
         Connection connection = DB.getConnection();
 
@@ -279,10 +327,21 @@ public class Thread {
         return true;
     }
 
+    /**
+     * Returns <code>true</code> if 'createdAt' and 'updatedAt' timestamps
+     * differ, <code>false</code> otherwise.
+     *
+     * @return (See above.)
+     */
     public final boolean isTimestampsDifferent() {
         return !getCreatedAt().equals(getUpdatedAt());
     }
 
+    /**
+     * Persists this thread in the database.
+     *
+     * @return <code>true</code> upon success, <code>false</code> otherwise.
+     */
     public boolean create() {
         Connection connection = DB.getConnection();
 
@@ -314,6 +373,11 @@ public class Thread {
         }
     }
 
+    /**
+     * Deletes this thread from database.
+     *
+     * @return <code>true</code> upon success, <code>false</code> otherwise.
+     */
     public boolean delete() {
         List<Post> childrenPosts = getAllPosts();
 

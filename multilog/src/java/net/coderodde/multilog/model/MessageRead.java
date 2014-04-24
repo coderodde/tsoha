@@ -14,8 +14,11 @@ import net.coderodde.multilog.Config;
 import static net.coderodde.multilog.Utils.closeResources;
 
 /**
- * This class wraps a user ID and thread ID, such that
- * @author rodionefremov
+ * This class wraps a user ID and thread ID meaning that a user has read a
+ * post.
+ *
+ * @author Rodion Efremov
+ * @version 1.6
  */
 public class MessageRead {
 
@@ -36,24 +39,55 @@ public class MessageRead {
 
     }
 
+    /**
+     * Returns the user ID of this message read.
+     *
+     * @return the user ID of this message read.
+     */
     public long getUserId() {
         return userId;
     }
 
+    /**
+     * Returns the post ID of this message read.
+     *
+     * @return the post ID of this message read.
+     */
     public long getPostId() {
         return postId;
     }
 
+    /**
+     * Sets the user ID for this message read.
+     *
+     * @param userId the ID to set.
+     *
+     * @return itself for chaining.
+     */
     public MessageRead setUserId(final long userId) {
         this.userId = userId;
         return this;
     }
 
+    /**
+     * Sets the post ID for this message read.
+     *
+     * @param postId the post ID to set.
+     *
+     * @return itself for chaining.
+     */
     public MessageRead setPostId(final long postId) {
         this.postId = postId;
         return this;
     }
 
+    /**
+     * Fetches the list of message reads of the specified user.
+     *
+     * @param user the user to fetch for.
+     *
+     * @return the list of message reads.
+     */
     public static final List<MessageRead>
             getAllMessageReadsOfUser(final User user) {
         Connection connection = DB.getConnection();
@@ -87,6 +121,14 @@ public class MessageRead {
         return list;
     }
 
+    /**
+     * Extracts the list of message reads from a result set.
+     *
+     * @param rs the result set.
+     *
+     * @return the list of message reads or <code>null</code> if something
+     * fails.
+     */
     private static final List<MessageRead>
             extractMessageReadList(final ResultSet rs) {
         List<MessageRead> list = new ArrayList<MessageRead>();
@@ -103,6 +145,15 @@ public class MessageRead {
         return list;
     }
 
+    /**
+     * Returns a map mapping every thread with unread posts to the amount of
+     * posts in the thread.
+     *
+     * @param user the user to fetch for.
+     *
+     * @return a map mapping a thread <tt>T</tt> (containing unread posts) to
+     * the amount of new posts in <tt>T</tt>.
+     */
     public static final Map<Thread, Integer>
             findUpdatedThreads(final User user) {
         final List<MessageRead> messageReads = getAllMessageReadsOfUser(user);
@@ -135,6 +186,13 @@ public class MessageRead {
         return map;
     }
 
+    /**
+     * Extracts all unique posts from the message read list.
+     *
+     * @param messageReads the message read list to extract from.
+     *
+     * @return the list of posts.
+     */
     private static final List<Post> findAllPostsFromMessageReads
             (final List<MessageRead> messageReads) {
         final Set<Post> postSet = new HashSet<Post>();
@@ -146,6 +204,13 @@ public class MessageRead {
         return new ArrayList<Post>(postSet);
     }
 
+    /**
+     * Extracts all unique threads from the list of posts.
+     *
+     * @param posts the list of posts to process.
+     *
+     * @return the list of threads.
+     */
     private static final List<Thread>
             findAllThreadsFromPosts(final List<Post> posts) {
         final Set<Thread> threadSet = new HashSet<Thread>();
@@ -157,6 +222,12 @@ public class MessageRead {
         return new ArrayList<Thread>(threadSet);
     }
 
+    /**
+     * Persists a message read to the database.
+     *
+     * @return <code>true</code> if successfully saved to database,
+     * <code>false</code> otherwise.
+     */
     public boolean create() {
         Connection connection = DB.getConnection();
 

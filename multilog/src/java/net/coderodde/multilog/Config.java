@@ -68,7 +68,7 @@ public class Config {
         public static final String USERNAME = "username";
 
         /**
-         * The key name for currnet password.
+         * The key name for current password.
          */
         public static final String CURRENT_PASSWORD = "current_password";
 
@@ -200,6 +200,9 @@ public class Config {
                 "?, " +                                      // show email.
                 "NOW(), NOW());";                            // time stamps.
 
+        /**
+         * Not used.
+         */
         public static final String ADD_AVATAR =
                 "UPDATE users SET image = ? WHERE user_id = ?;";
 
@@ -310,6 +313,9 @@ public class Config {
         public static final String UPDATE_TOPIC_TIMESTAMP =
                 "UPDATE topics SET updated_at = NOW() WHERE topic_id = ?;";
 
+        /**
+         * The template for creating a new topic.
+         */
         public static final String CREATE_NEW_TOPIC =
                 "INSERT INTO topics (" +
                 "topic_name, " +
@@ -317,15 +323,27 @@ public class Config {
                 "updated_at) " +
                 "VALUES (?, NOW(), NOW());";
 
+        /**
+         * The template for deleting a topic.
+         */
         public static final String DELETE_TOPIC =
                 "DELETE FROM topics WHERE topic_id = ?;";
 
+        /**
+         * The template for deleting a thread.
+         */
         public static final String DELETE_THREAD =
                 "DELETE FROM threads WHERE thread_id = ?;";
 
+        /**
+         * The template for deleting a post.
+         */
         public static final String DELETE_POST =
                 "DELETE FROM posts WHERE post_id = ?;";
 
+        /**
+         * The template for creating a thread.
+         */
         public static final String CREATE_THREAD =
                 "INSERT INTO threads (" +
                 "thread_id, " +
@@ -336,9 +354,15 @@ public class Config {
                 "VALUES ((SELECT max(thread_id) FROM threads) + 1, " +
                 "?, ?, NOW(), NOW());";
 
+        /**
+         * The template for removing a ban timestamp.
+         */
         public static final String REMOVE_BAN_TIMESTAMP =
                 "UPDATE users SET ban_until = NULL WHERE user_id = ?;";
 
+        /**
+         * The template for counting posts of a user.
+         */
         public static final String COUNT_POSTS =
                 "SELECT COUNT(*) FROM posts WHERE user_id = ?;";
     }
@@ -374,7 +398,7 @@ public class Config {
         public static final char URL_END = ']';
 
         /**
-         * The token to separating URL and label. (Not required."
+         * The token to separating URL and label. (Not required.)
          */
         public static final char SEPARATOR = '|';
 

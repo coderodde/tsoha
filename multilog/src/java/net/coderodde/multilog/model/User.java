@@ -2,7 +2,6 @@ package net.coderodde.multilog.model;
 
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import net.coderodde.multilog.Config;
 import net.coderodde.multilog.Utils;
 import static net.coderodde.multilog.Utils.closeResources;
-import org.postgresql.util.PGInterval;
 
 /**
  * This class implements a user type for <tt>multilog</tt>..
@@ -23,6 +21,9 @@ import org.postgresql.util.PGInterval;
  */
 public class User {
 
+    /**
+     * A sentinel object.
+     */
     public static final User BAD_PASSWORD_USER = new User();
 
     /**
@@ -117,6 +118,11 @@ public class User {
                                           SIGNED_IN_USER_ATTRIBUTE);
     }
 
+    /**
+     * Signs out a currently signed in user.
+     *
+     * @param request the servlet request.
+     */
     public static final void signout(final HttpServletRequest request) {
         request.getSession()
                .removeAttribute(Config.SESSION_MAGIC.SIGNED_IN_USER_ATTRIBUTE);
@@ -498,6 +504,11 @@ public class User {
         return true;
     }
 
+    /**
+     * This shit is not used (yet?).
+     * @param is
+     * @return
+     */
     public final boolean addAvatar(final InputStream is) {
         if (is == null) {
             return false;
@@ -549,6 +560,11 @@ public class User {
         return getHash(password, salt).equals(this.getHash());
     }
 
+    /**
+     * Marks (in database) all the posts in the list as read.
+     *
+     * @param posts the posts to mark.
+     */
     public void addMessageReads(List<Post> posts) {
         for (Post p : posts) {
             new MessageRead().setPostId(p.getId())
@@ -557,6 +573,14 @@ public class User {
         }
     }
 
+    /**
+     * Checks whether two object equal.
+     *
+     * @param o the object to compare against.
+     *
+     * @return <code>true</code> if the two object equal, <code>false</code>
+     * otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -635,6 +659,11 @@ public class User {
         return user;
     }
 
+    /**
+     * Updates this user in the database.
+     *
+     * @return <code>true</code> upon success, <code>false</code> otherwise.
+     */
     public boolean update() {
         Connection conn = DB.getConnection();
 
@@ -672,6 +701,13 @@ public class User {
         return true;
     }
 
+    /**
+     * Changes the password of this user in the database.
+     *
+     * @param newPassword new password.
+     *
+     * @return <code>true</code> upon success, <code>false</code> otherwise.
+     */
     public boolean changePassword(final String newPassword) {
         Connection conn = DB.getConnection();
 
@@ -749,6 +785,11 @@ public class User {
         return user;
     }
 
+    /**
+     * Deletes the user from database.
+     *
+     * @return <code>true</code> upon success, <code>false</code> otherwise.
+     */
     public boolean delete() {
         Connection conn = DB.getConnection();
 
@@ -779,6 +820,13 @@ public class User {
         return true;
     }
 
+    /**
+     * Bans a user.
+     *
+     * @param duration the duration in hours.
+     *
+     * @return <code>true</code> upon success, <code>false</code> otherwise.
+     */
     public boolean ban(final double duration) {
         if (getUserType() == UserType.ADMIN) {
             // Cannot ban an admin.
@@ -815,6 +863,12 @@ public class User {
         }
     }
 
+    /**
+     * Checks whether this user is banned.
+     *
+     * @return <code>true</code> if this user is banned; <code>false</code>
+     * if not or SQL fails.
+     */
     public final boolean isBanned() {
         final Timestamp ts = getBannedUntil();
 
@@ -861,6 +915,11 @@ public class User {
         return !notBanned;
     }
 
+    /**
+     * Computes the amount of posts written by this user.
+     *
+     * @return the amount of posts written by this user or -1 if SQL failed.
+     */
     public final int getPostCount() {
         Connection connection = DB.getConnection();
 
@@ -937,19 +996,5 @@ public class User {
             sqle.printStackTrace(System.err);
             return null;
         }
-    }
-
-    public static void main(String... args) {
-        String s = "3.2";
-
-        double d = 0.0;
-
-        try {
-            d = Double.parseDouble(s);
-        } catch (NumberFormatException nfe) {
-
-        }
-
-        System.out.println(d);
     }
 }

@@ -40,6 +40,13 @@ public class Topic {
      */
     private Timestamp updatedAt;
 
+    /**
+     * Reads a topic from the database.
+     *
+     * @param id the ID of the topic to read.
+     *
+     * @return the topic object upon success or <code>null</code> otherwise.
+     */
     public static final Topic read(final long id) {
         Connection conn = DB.getConnection();
 
@@ -72,6 +79,11 @@ public class Topic {
         return topic;
     }
 
+    /**
+     * Reads from database all the topics.
+     *
+     * @return the list of topics upon success, <code>null</code> otherwise.
+     */
     public static final List<Topic> getAllTopics() {
         Connection connection = DB.getConnection();
 
@@ -159,6 +171,11 @@ public class Topic {
         return topicList;
     }
 
+    /**
+     * Persists this topic to database.
+     *
+     * @return <code>true</code> upon success, <code>false</code> otherwise.
+     */
     public boolean create() {
         Connection connection = DB.getConnection();
 
@@ -188,6 +205,13 @@ public class Topic {
         return true;
     }
 
+    /**
+     * Deletes this topic from the database. Cascades the deleting to threads
+     * and so on.
+     *
+     * @return <code>true</code> upon success, <code>false</code> if
+     * something fails.
+     */
     public boolean delete() {
         List<Thread> childrenThreads = getThreads();
 
@@ -339,10 +363,21 @@ public class Topic {
         return threadList;
     }
 
+    /**
+     * Returns <code>true</code> if 'updatedAt' and 'createdAt' timestamps are
+     * different.
+     *
+     * @return (See above.)
+     */
     public final boolean isTimestampsDifferent() {
         return !getCreatedAt().equals(getUpdatedAt());
     }
 
+    /**
+     * Updates the 'updatedAt' timestamp to the current moment.
+     *
+     * @return <code>true</code> upon success, <code>false</code> otherwise.
+     */
     public boolean updateTimestamp() {
         Connection connection = DB.getConnection();
 
