@@ -216,6 +216,12 @@ body {
     padding: 3px;
 }
 
+a:hover {
+    background-color: black;
+    color: pink;
+    text-decoration: none;
+}
+
 .edit_post_button {
     margin: 3px;
     float: right;

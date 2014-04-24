@@ -30,7 +30,7 @@
                 <c:forEach var="post" items="${requestScope.postList}">
 
                     <div class="post_item" style="margin-left: <c:out value="${6 + 10 * post.indent}" />px;">
-                        <div class="post_intro" > <a href="account?id=${post.user.id}">${post.user.username}</a> at
+                        <div class="post_intro" > <a href="account?id=${post.user.id}">${post.user.username}</a>
 
                         <c:if test="${can_reply == true}">
                             <div class="reply_button" onclick="setReplyTarget(${post.id}, '${post.user.username}');">Reply</div>
@@ -39,7 +39,7 @@
                         <c:if test="${post.fresh}">
                             <div class="fresh_label">New!</div>
                         </c:if>
-                            <span class="float_right" style="font-style: normal; font-weight: normal;">
+                            <span class="float_right" style="font-style: normal; font-weight: normal;"> at
                                 <fmt:formatDate pattern="yyyy.MM.dd  HH:mm:ss z" value="${post.createdAt}" />
                                 <c:if test="${post.timestampsDifferent}" >
                                     , updated at <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss z" value="${post.updatedAt}" />
