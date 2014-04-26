@@ -507,6 +507,7 @@ public class User {
             ps = connection.prepareStatement(Config.
                                              SQL_MAGIC.
                                              GET_USER_ID_BY_NAME);
+            ps.setString(1, getUsername());
             ResultSet rs = ps.executeQuery();
             this.setId(extractId(rs));
             closeResources(connection, ps, null);
