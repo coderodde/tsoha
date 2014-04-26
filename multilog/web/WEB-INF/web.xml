@@ -76,6 +76,10 @@
         <servlet-name>SearchServlet</servlet-name>
         <servlet-class>net.coderodde.multilog.controller.SearchServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AvatarServlet</servlet-name>
+        <servlet-class>net.coderodde.multilog.controller.AvatarServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListTest</servlet-name>
         <url-pattern>/ListTest</url-pattern>
@@ -151,6 +155,10 @@
     <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>
         <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AvatarServlet</servlet-name>
+        <url-pattern>/avatar</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

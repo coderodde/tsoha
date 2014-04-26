@@ -374,6 +374,9 @@ public class Config {
 
         public static final String SAVE_AVATAR =
                 "UPDATE users SET image = ? WHERE username = ?;";
+
+        public static final String GET_AVATAR_BY_USER_ID =
+                "SELECT image FROM users WHERE user_id = ?;";
     }
 
     /**
