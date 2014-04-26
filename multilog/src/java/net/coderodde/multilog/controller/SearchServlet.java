@@ -3,15 +3,14 @@ package net.coderodde.multilog.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.coderodde.multilog.Utils;
 import net.coderodde.multilog.model.Post;
 import net.coderodde.multilog.model.Thread;
 
@@ -35,6 +34,7 @@ public class SearchServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Utils.prepareNavibar(request);
         final String query = request.getParameter("query");
 
         if (query == null || query.isEmpty()) {
@@ -43,24 +43,31 @@ public class SearchServlet extends HttpServlet {
             return;
         }
 
-        Set<Thread> threadSet = new HashSet<Thread>();
         List<Post> postList = Post.getPostsByRegex(query);
 
+        Map<Thread, Integer> map = new TreeMap<Thread, Integer>(Thread.tc);
+
         for (final Post post : postList) {
-            threadSet.add(post.getThread());
+            final Thread thread = post.getThread();
+
+            if (map.containsKey(thread) == false) {
+                map.put(thread, 1);
+            } else {
+                map.put(thread, map.get(thread) + 1);
+            }
         }
 
-        if (threadSet.isEmpty()) {
+        if (map.isEmpty()) {
             request.setAttribute("title", "No results.");
-        } else if (threadSet.size() == 1) {
+        } else if (map.size() == 1) {
             request.setAttribute("title", "1 result.");
-        } else if (threadSet.size() > 1) {
-            request.setAttribute("title", threadSet.size());
+        } else if (map.size() > 1) {
+            request.setAttribute("title", map.size() + " results.");
         }
 
-        List<Thread> threadList = new ArrayList<Thread>(threadSet);
-        Collections.sort(threadList, Thread.tc);
-        request.setAttribute("resultList", threadList);
+        // Carry the query to the next view.
+        request.setAttribute("query_value", query);
+        request.setAttribute("result_map", map);
         request.getRequestDispatcher("search.jsp").forward(request, response);
     }
 

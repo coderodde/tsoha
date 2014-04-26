@@ -19,14 +19,14 @@
             <hr/>
 
             <form action="search" method="get">
-                <input type="text" name="query">
+                <input type="text" name="query" value="${query_value}">
                 <input type="submit" value="Search!">
             </form>
 
             <div class="result_container">
                 <h2>${title}</h2>
-                <c:forEach var="result" items="${requestScope.resultList}">
-                    <div class="result_item">${result.name}</div>
+                <c:forEach var="entry" items="${requestScope.result_map}">
+                    <div class="result_item" onclick="window.location='thread?id=${entry.id}'">${entry.name} - ${entry.value}</div>
                 </c:forEach>
             </div>
 
