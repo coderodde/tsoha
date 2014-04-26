@@ -1,7 +1,7 @@
             <!-- This is a JSP fragment for the application's navibar. -->
             <div id="navibar">
                 <ul id="navilist" class="no_bullets">
-                    <li class="list-left-item navibar-item"  onclick="window.location='https://www.google.com'">Search</li>
+                    <li class="list-left-item navibar-item"  onclick="window.location='search.jsp'">Search</li>
                     <li class="list-left-item navibar-item"  onclick="window.location='topic'">Browse</li>
                     <li class="list-right-item navibar-item" onclick="window.location='${right_left_url}'">${right_left}</li>
                     <li class="list-right-item navibar-item" onclick="window.location='${right_right_url}'">${right_right}</li>

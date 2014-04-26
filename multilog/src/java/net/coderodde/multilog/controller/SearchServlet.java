@@ -33,14 +33,14 @@ public class SearchServlet extends HttpServlet {
 
         if (query == null || query.isEmpty()) {
             request.setAttribute("notice", "No query given.");
-            request.getRequestDispatcher("search").forward(request, response);
+            request.getRequestDispatcher("search.jsp").forward(request, response);
             return;
         }
         List<Thread> threads = new ArrayList<Thread>();
         threads.add(Thread.read(2));
         request.setAttribute("resultList", threads);
 
-        request.getRequestDispatcher("search").forward(request, response);
+        request.getRequestDispatcher("search.jsp").forward(request, response);
     }
 
     /**
