@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import net.coderodde.multilog.Config;
 import static net.coderodde.multilog.Utils.closeResources;
 import net.coderodde.multilog.model.Thread;
@@ -108,6 +110,78 @@ public class Post {
         Post post = extractPost(rs);
         closeResources(conn, ps, rs);
         return post;
+    }
+
+    public static final List<Post> getPostsByRegex(String regex) {
+        if (regex == null || regex.isEmpty()) {
+            return null;
+        }
+
+        boolean prepend = regex.charAt(0) != '%';
+        boolean append = regex.charAt(regex.length() - 1) != '%';
+
+        if (prepend) {
+            regex = "%" + regex;
+        }
+
+        if (append) {
+            regex += '%';
+        }
+
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return null;
+        }
+
+        PreparedStatement ps =
+                DB.getPreparedStatement(connection,
+                                        Config.
+                                        SQL_MAGIC.FETCH_POSTS_BY_REGEX);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+            return null;
+        }
+
+        ResultSet rs = null;
+
+        try {
+            ps.setString(1, regex);
+            rs = ps.executeQuery();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, rs);
+            return null;
+        }
+
+        List<Post> postList = extractPostList(rs);
+        closeResources(connection, ps, rs);
+        return postList;
+    }
+
+    /**
+     * Extracts a list of posts from the input result set.
+     *
+     * @param rs the result set to extract from.
+     *
+     * @return the list of posts or <code>null</code> if something fails.
+     */
+    private static final List<Post> extractPostList(final ResultSet rs) {
+        List<Post> postList = new ArrayList<Post>();
+        Post p;
+
+        for (;;) {
+            p = extractPost(rs);
+
+            if (p == null) {
+                break;
+            }
+
+            postList.add(p);
+        }
+
+        return postList.isEmpty() ? null : postList;
     }
 
     /**

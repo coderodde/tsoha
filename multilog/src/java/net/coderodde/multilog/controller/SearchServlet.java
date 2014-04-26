@@ -2,11 +2,17 @@ package net.coderodde.multilog.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.coderodde.multilog.model.Post;
 import net.coderodde.multilog.model.Thread;
 
 /**
@@ -36,10 +42,25 @@ public class SearchServlet extends HttpServlet {
             request.getRequestDispatcher("search.jsp").forward(request, response);
             return;
         }
-        List<Thread> threads = new ArrayList<Thread>();
-        threads.add(Thread.read(2));
-        request.setAttribute("resultList", threads);
 
+        Set<Thread> threadSet = new HashSet<Thread>();
+        List<Post> postList = Post.getPostsByRegex(query);
+
+        for (final Post post : postList) {
+            threadSet.add(post.getThread());
+        }
+
+        if (threadSet.isEmpty()) {
+            request.setAttribute("title", "No results.");
+        } else if (threadSet.size() == 1) {
+            request.setAttribute("title", "1 result.");
+        } else if (threadSet.size() > 1) {
+            request.setAttribute("title", threadSet.size());
+        }
+
+        List<Thread> threadList = new ArrayList<Thread>(threadSet);
+        Collections.sort(threadList, Thread.tc);
+        request.setAttribute("resultList", threadList);
         request.getRequestDispatcher("search.jsp").forward(request, response);
     }
 
