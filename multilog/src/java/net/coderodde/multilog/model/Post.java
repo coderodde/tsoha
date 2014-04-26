@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import net.coderodde.multilog.Config;
@@ -113,8 +114,10 @@ public class Post {
     }
 
     public static final List<Post> getPostsByRegex(String regex) {
+        final List<Post> empty = Collections.<Post>emptyList();
+
         if (regex == null || regex.isEmpty()) {
-            return null;
+            return empty;
         }
 
         boolean prepend = regex.charAt(0) != '%';
@@ -131,7 +134,7 @@ public class Post {
         Connection connection = DB.getConnection();
 
         if (connection == null) {
-            return null;
+            return empty;
         }
 
         PreparedStatement ps =
@@ -141,7 +144,7 @@ public class Post {
 
         if (ps == null) {
             closeResources(connection, null, null);
-            return null;
+            return empty;
         }
 
         ResultSet rs = null;
@@ -152,7 +155,7 @@ public class Post {
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
             closeResources(connection, ps, rs);
-            return null;
+            return empty;
         }
 
         List<Post> postList = extractPostList(rs);
@@ -181,7 +184,7 @@ public class Post {
             postList.add(p);
         }
 
-        return postList.isEmpty() ? null : postList;
+        return postList;
     }
 
     /**
