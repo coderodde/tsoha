@@ -373,10 +373,7 @@ public class Config {
                 "SELECT * FROM posts WHERE post_text ~ ?;";
 
         public static final String SAVE_AVATAR =
-                "UPDATE users SET image = ? WHERE user_id = ?;";
-
-        public static final String GET_USER_ID_BY_NAME =
-                "SELECT user_id FROM users WHERE username = ?;";
+                "UPDATE users SET image = ? WHERE username = ?;";
     }
 
     /**

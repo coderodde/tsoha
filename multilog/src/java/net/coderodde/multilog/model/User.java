@@ -494,28 +494,12 @@ public class User {
             ps.setBoolean(8, getShowRealName());
             ps.setBoolean(9, getShowEmail());
             ps.executeUpdate();
-            closeResources(null, ps, null);
+            closeResources(connection, ps, null);
+            return true;
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
             closeResources(connection, ps, null);
             return false;
-        }
-
-
-        try {
-            // Now load the new user's ID.
-            ps = connection.prepareStatement(Config.
-                                             SQL_MAGIC.
-                                             GET_USER_ID_BY_NAME);
-            ps.setString(1, getUsername());
-            ResultSet rs = ps.executeQuery();
-            this.setId(extractId(rs));
-            closeResources(connection, ps, null);
-            return true;
-        } catch (SQLException sqle) {
-            sqle.printStackTrace(System.err);
-            closeResources(connection, ps, null);
-            return true;
         }
     }
 

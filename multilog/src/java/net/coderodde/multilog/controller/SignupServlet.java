@@ -234,7 +234,7 @@ public class SignupServlet extends HttpServlet {
         if (created) {
             if (pair.getSecond() != null) {
                 // Try to persist the avatar.
-                if (processAvatar(pair.getSecond(), user.getId()) == false) {
+                if (processAvatar(pair.getSecond(), user) == false) {
                     sb.append("Could not persist the avatar.<br/>");
                 }
             }
@@ -275,7 +275,7 @@ public class SignupServlet extends HttpServlet {
     }
 
     private static final boolean processAvatar(final FileItem item,
-                                               final long userId) {
+                                               final User user) {
         if (item.isFormField()) {
             throw new IllegalArgumentException(
                     "Form field should not get here.");
@@ -308,7 +308,7 @@ public class SignupServlet extends HttpServlet {
 
         try {
             ps.setBinaryStream(1, is);
-            ps.setLong(2, userId);
+            ps.setString(2, user.getUsername());
             ps.executeUpdate();
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
