@@ -45,9 +45,6 @@ public class SearchServlet extends HttpServlet {
         }
 
         List<Post> postList = Post.getPostsByRegex(query);
-
-        request.setAttribute("title", postList.size());
-
         Map<Thread, Integer> map = new TreeMap<Thread, Integer>(Thread.tc);
 
         for (final Post post : postList) {
@@ -60,13 +57,13 @@ public class SearchServlet extends HttpServlet {
             }
         }
 
-//        if (map.isEmpty()) {
-//            request.setAttribute("title", "No results.");
-//        } else if (map.size() == 1) {
-//            request.setAttribute("title", "1 result.");
-//        } else if (map.size() > 1) {
-//            request.setAttribute("title", map.size() + " results.");
-//        }
+        if (map.isEmpty()) {
+            request.setAttribute("title", "No results.");
+        } else if (map.size() == 1) {
+            request.setAttribute("title", "1 result.");
+        } else if (map.size() > 1) {
+            request.setAttribute("title", map.size() + " results.");
+        }
 
         // Carry the query to the next view.
         request.setAttribute("query_value", query);

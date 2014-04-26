@@ -367,7 +367,7 @@ public class Config {
                 "SELECT COUNT(*) FROM posts WHERE user_id = ?;";
 
         public static final String FETCH_POSTS_BY_REGEX =
-                "SELECT * FROM posts WHERE post_text SIMILAR TO ?;";
+                "SELECT * FROM posts WHERE post_text ~ ?;";
     }
 
     /**
