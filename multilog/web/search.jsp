@@ -26,7 +26,7 @@
             <div class="result_container">
                 <h2>${title}</h2>
                 <c:forEach var="entry" items="${requestScope.result_map}">
-                    <div class="result_item" onclick="window.location='thread?id=${entry.id}'">${entry.name} - ${entry.value}</div>
+                    <div class="result_item" onclick="window.location='thread?id=${entry-key.id}'">${entry.key.name} - ${entry.value}</div>
                 </c:forEach>
             </div>
 
