@@ -113,23 +113,20 @@ public class Post {
         return post;
     }
 
+    /**
+     * Fetches the posts matching a regular expression.
+     *
+     * @param regex the regular expression to match.
+     *
+     * @return the list of posts matching <code>regex</code>; an empty list
+     * if something fails or no matches.
+     */
     public static final List<Post> getPostsByRegex(String regex) {
         final List<Post> empty = Collections.<Post>emptyList();
 
         if (regex == null || regex.isEmpty()) {
             return empty;
         }
-
-//        boolean prepend = (regex.charAt(0) != '%');
-//        boolean append = (regex.charAt(regex.length() - 1) != '%');
-//
-//        if (prepend) {
-//            regex = "%" + regex;
-//        }
-//
-//        if (append) {
-//            regex += '%';
-//        }
 
         Connection connection = DB.getConnection();
 
