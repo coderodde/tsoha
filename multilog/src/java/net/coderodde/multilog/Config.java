@@ -366,8 +366,14 @@ public class Config {
         public static final String COUNT_POSTS =
                 "SELECT COUNT(*) FROM posts WHERE user_id = ?;";
 
+        /**
+         * The template for querying the post content.
+         */
         public static final String FETCH_POSTS_BY_REGEX =
                 "SELECT * FROM posts WHERE post_text ~ ?;";
+
+        public static final String SAVE_AVATAR =
+                "UPDATE users SET image = ? WHERE user_id = ?;";
     }
 
     /**

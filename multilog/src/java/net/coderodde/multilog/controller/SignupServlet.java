@@ -1,15 +1,27 @@
 package net.coderodde.multilog.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.Config;
 import net.coderodde.multilog.Utils;
+import net.coderodde.multilog.model.DB;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.UserType;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import static net.coderodde.multilog.Utils.closeResources;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  * This servlet handles the sign up process.
@@ -180,6 +192,36 @@ public class SignupServlet extends HttpServlet {
             request.setAttribute("su_error_email", "su_error");
         }
 
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        FileItem avatar = null;
+
+        if (isMultipart) {
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            List<FileItem> items = null;
+
+            try {
+                items = upload.parseRequest(request);
+            } catch (FileUploadException fue) {
+                fue.printStackTrace(System.err);
+            }
+
+            if (items != null) {
+                Iterator<FileItem> it = items.iterator();
+
+                while (it.hasNext()) {
+                    FileItem item = it.next();
+
+                    if (item.isFormField()) {
+                        continue;
+                    } else {
+                        avatar = item;
+                        break;
+                    }
+                }
+            }
+        }
+
         if (hasErrors) {
             saveIntermediateData(request,
                                  username,
@@ -210,15 +252,83 @@ public class SignupServlet extends HttpServlet {
                               .end();
 
         boolean created = user.create();
+        StringBuilder sb = new StringBuilder();
 
         if (created) {
+            if (avatar != null) {
+                // Try to persist the avatar.
+                if (processAvatar(avatar, user.getId()) == false) {
+                    sb.append("Could not persist the avatar.<br/>");
+                }
+            }
+
             request.setAttribute("notice",
-                                 "User " + user.getUsername() + " created.");
+                                 sb.toString() + "User " + user.getUsername() +
+                                 " created.");
             request.getRequestDispatcher("home").forward(request, response);
         } else {
             request.setAttribute("notice", "Could not create a user.");
             request.getRequestDispatcher("signup").forward(request, response);
         }
+    }
+
+    private static final boolean processAvatar(final FileItem item,
+                                               final long userId) {
+        if (item.isFormField()) {
+            throw new IllegalArgumentException(
+                    "Form field should not get here.");
+        }
+
+        InputStream is = null;
+
+        try {
+            is = item.getInputStream();
+        } catch (IOException ioe) {
+            ioe.printStackTrace(System.err);
+            return false;
+        }
+
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return false;
+        }
+
+        PreparedStatement ps = DB.getPreparedStatement(connection,
+                                                       Config.
+                                                       SQL_MAGIC.
+                                                       SAVE_AVATAR);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+        }
+
+        try {
+            ps.setBinaryStream(1, is);
+            ps.setLong(2, userId);
+            ps.executeUpdate();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, null);
+
+            try {
+                is.close();
+            } catch (IOException ioe) {
+                ioe.printStackTrace(System.err);
+            }
+
+            return false;
+        }
+
+        closeResources(connection, ps, null);
+
+        try {
+            is.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace(System.err);
+        }
+        
+        return true;
     }
 
     /**
