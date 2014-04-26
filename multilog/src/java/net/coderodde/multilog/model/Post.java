@@ -120,16 +120,16 @@ public class Post {
             return empty;
         }
 
-        boolean prepend = (regex.charAt(0) != '%');
-        boolean append = (regex.charAt(regex.length() - 1) != '%');
-
-        if (prepend) {
-            regex = "%" + regex;
-        }
-
-        if (append) {
-            regex += '%';
-        }
+//        boolean prepend = (regex.charAt(0) != '%');
+//        boolean append = (regex.charAt(regex.length() - 1) != '%');
+//
+//        if (prepend) {
+//            regex = "%" + regex;
+//        }
+//
+//        if (append) {
+//            regex += '%';
+//        }
 
         Connection connection = DB.getConnection();
 
