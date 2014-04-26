@@ -527,7 +527,7 @@ public class User {
 
             long id = rs.getLong("user_id");
 
-            if (rs.next() == false) {
+            if (rs.next() == true) {
                 // Current username is not unique.
                 return -2L;
             }
