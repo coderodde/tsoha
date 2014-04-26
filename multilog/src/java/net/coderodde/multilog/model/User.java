@@ -494,14 +494,48 @@ public class User {
             ps.setBoolean(8, getShowRealName());
             ps.setBoolean(9, getShowEmail());
             ps.executeUpdate();
+            closeResources(null, ps, null);
         } catch (SQLException sqle) {
             sqle.printStackTrace(System.err);
             closeResources(connection, ps, null);
             return false;
         }
 
-        closeResources(connection, ps, null);
-        return true;
+
+        try {
+            // Now load the new user's ID.
+            ps = connection.prepareStatement(Config.
+                                             SQL_MAGIC.
+                                             GET_USER_ID_BY_NAME);
+            ResultSet rs = ps.executeQuery();
+            this.setId(extractId(rs));
+            closeResources(connection, ps, null);
+            return true;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, null);
+            return true;
+        }
+    }
+
+    private static final long extractId(final ResultSet rs) {
+        try {
+            if (rs.next() == false) {
+                return -1L;
+            }
+
+            long id = rs.getLong("user_id");
+
+            if (rs.next() == false) {
+                // Current username is not unique.
+                return -2L;
+            }
+
+            return id;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            return -1L;
+        }
     }
 
     /**

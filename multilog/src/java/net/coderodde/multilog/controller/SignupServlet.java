@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -15,16 +14,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.Config;
 import net.coderodde.multilog.Utils;
+import net.coderodde.multilog.Utils.Pair;
+import static net.coderodde.multilog.Utils.closeResources;
 import net.coderodde.multilog.model.DB;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.UserType;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import static net.coderodde.multilog.Utils.closeResources;
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import net.coderodde.multilog.Utils.Pair;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 /**
  * This servlet handles the sign up process.
@@ -304,6 +303,7 @@ public class SignupServlet extends HttpServlet {
 
         if (ps == null) {
             closeResources(connection, null, null);
+            return false;
         }
 
         try {
