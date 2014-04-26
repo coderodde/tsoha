@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import static net.coderodde.multilog.Utils.closeResources;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import net.coderodde.multilog.Utils.Pair;
 
 /**
  * This servlet handles the sign up process.
@@ -72,41 +75,46 @@ public class SignupServlet extends HttpServlet {
             return;
         }
 
+        boolean multipart = ServletFileUpload.isMultipartContent(request);
+
+        if (multipart == false) {
+            throw new IllegalStateException(
+                    "Form enctype should be multipart.");
+        }
+
+        ServletFileUpload sfu =
+                new ServletFileUpload(new DiskFileItemFactory());
+
         HomeServlet.prepareNavibarForUnsignedUser(request);
+
+        Pair<Map<String, String>, FileItem> pair = getFormFields(sfu, request);
+        Map<String, String> map = pair.getFirst();
 
         // Try to sign up a new user.
         // Get all the form data as to send it back to the view in case some
         // crap happens.
-        final String username =
-                request.getParameter(Config.SESSION_MAGIC.USERNAME);
+        final String username = map.get(Config.SESSION_MAGIC.USERNAME);
 
-        final String password =
-                request.getParameter(Config.SESSION_MAGIC.PASSWORD);
+        final String password = map.get(Config.SESSION_MAGIC.PASSWORD);
 
         final String passwordConfirmation =
-                request.getParameter(Config.
-                                     SESSION_MAGIC.
-                                     PASSWORD_CONFIRMATION);
+                map.get(Config.SESSION_MAGIC.PASSWORD_CONFIRMATION);
 
-        final String email = request.getParameter(Config.SESSION_MAGIC.EMAIL);
+        final String email = map.get(Config.SESSION_MAGIC.EMAIL);
 
         final String firstName =
-                escapeHtml4(request
-                            .getParameter(Config.SESSION_MAGIC.FIRST_NAME));
+                escapeHtml4(map.get(Config.SESSION_MAGIC.FIRST_NAME));
 
         final String lastName =
-                escapeHtml4(request
-                            .getParameter(Config.SESSION_MAGIC.LAST_NAME));
+                escapeHtml4(map.get(Config.SESSION_MAGIC.LAST_NAME));
 
         final String showRealName =
-                request.getParameter(Config.SESSION_MAGIC.SHOW_REAL_NAME);
+                map.get(Config.SESSION_MAGIC.SHOW_REAL_NAME);
 
-        final String showEmail =
-                request.getParameter(Config.SESSION_MAGIC.SHOW_EMAIL);
+        final String showEmail = map.get(Config.SESSION_MAGIC.SHOW_EMAIL);
 
         final String description =
-                escapeHtml4(request
-                            .getParameter(Config.SESSION_MAGIC.DESCRIPTION));
+                escapeHtml4(map.get(Config.SESSION_MAGIC.DESCRIPTION));
 
         final boolean bShowEmail = (showEmail != null &&
                                     showEmail.equalsIgnoreCase("on"));
@@ -192,36 +200,6 @@ public class SignupServlet extends HttpServlet {
             request.setAttribute("su_error_email", "su_error");
         }
 
-        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        FileItem avatar = null;
-
-        if (isMultipart) {
-            DiskFileItemFactory factory = new DiskFileItemFactory();
-            ServletFileUpload upload = new ServletFileUpload(factory);
-            List<FileItem> items = null;
-
-            try {
-                items = upload.parseRequest(request);
-            } catch (FileUploadException fue) {
-                fue.printStackTrace(System.err);
-            }
-
-            if (items != null) {
-                Iterator<FileItem> it = items.iterator();
-
-                while (it.hasNext()) {
-                    FileItem item = it.next();
-
-                    if (item.isFormField()) {
-                        continue;
-                    } else {
-                        avatar = item;
-                        break;
-                    }
-                }
-            }
-        }
-
         if (hasErrors) {
             saveIntermediateData(request,
                                  username,
@@ -255,9 +233,9 @@ public class SignupServlet extends HttpServlet {
         StringBuilder sb = new StringBuilder();
 
         if (created) {
-            if (avatar != null) {
+            if (pair.getSecond() != null) {
                 // Try to persist the avatar.
-                if (processAvatar(avatar, user.getId()) == false) {
+                if (processAvatar(pair.getSecond(), user.getId()) == false) {
                     sb.append("Could not persist the avatar.<br/>");
                 }
             }
@@ -270,6 +248,31 @@ public class SignupServlet extends HttpServlet {
             request.setAttribute("notice", "Could not create a user.");
             request.getRequestDispatcher("signup").forward(request, response);
         }
+    }
+
+    private static final Pair<Map<String, String>, FileItem> getFormFields
+            (final ServletFileUpload upload, final HttpServletRequest request) {
+        Map<String, String> map = new TreeMap<String, String>();
+        List<FileItem> fileItems = null;
+
+        try {
+            fileItems = upload.parseRequest(request);
+        } catch (FileUploadException fue) {
+            fue.printStackTrace(System.err);
+            return null;
+        }
+
+        FileItem avatarFileItem = null;
+
+        for (final FileItem item : fileItems) {
+            if (item.isFormField()) {
+                map.put(item.getFieldName(), item.getString());
+            } else if (avatarFileItem == null) {
+                avatarFileItem = item;
+            }
+        }
+
+        return new Pair<Map<String, String>, FileItem>(map, avatarFileItem);
     }
 
     private static final boolean processAvatar(final FileItem item,
@@ -327,7 +330,7 @@ public class SignupServlet extends HttpServlet {
         } catch (IOException ioe) {
             ioe.printStackTrace(System.err);
         }
-        
+
         return true;
     }
 

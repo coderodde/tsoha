@@ -235,6 +235,24 @@ public class Utils {
         return md;
     }
 
+    public static final class Pair<F, S> {
+        private final F first;
+        private final S second;
+
+        public Pair(F first, S second) {
+            this.first = first;
+            this.second = second;
+        }
+
+        public final F getFirst() {
+            return first;
+        }
+
+        public final S getSecond() {
+            return second;
+        }
+    }
+
     /**
      * Loads the map used in salt generation.
      */
