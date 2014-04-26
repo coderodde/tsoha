@@ -282,13 +282,14 @@ public class SignupServlet extends HttpServlet {
         }
 
         InputStream is = null;
+        byte[] bytes = item.get();
 
-        try {
-            is = item.getInputStream();
-        } catch (IOException ioe) {
-            ioe.printStackTrace(System.err);
-            return false;
-        }
+//        try {
+//            is = item.getInputStream();
+//        } catch (IOException ioe) {
+//            ioe.printStackTrace(System.err);
+//            return false;
+//        }
 
         Connection connection = DB.getConnection();
 
@@ -307,7 +308,8 @@ public class SignupServlet extends HttpServlet {
         }
 
         try {
-            ps.setBinaryStream(1, is);
+            ps.setBytes(1, bytes);
+//            ps.setBinaryStream(1, is);
             ps.setString(2, user.getUsername());
             ps.executeUpdate();
         } catch (SQLException sqle) {
