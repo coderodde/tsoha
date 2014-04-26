@@ -72,6 +72,10 @@
         <servlet-name>PromoteServlet</servlet-name>
         <servlet-class>net.coderodde.multilog.controller.PromoteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>net.coderodde.multilog.controller.SearchServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListTest</servlet-name>
         <url-pattern>/ListTest</url-pattern>
@@ -143,6 +147,10 @@
     <servlet-mapping>
         <servlet-name>PromoteServlet</servlet-name>
         <url-pattern>/promote</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -175,7 +175,7 @@ body {
     margin: 0;
 }
 
-.update_container, .thread_container, .post_container, .topic_container {
+.update_container, .thread_container, .post_container, .topic_container, .result_container {
     padding: 10px;
     margin: 0;
     margin-top: 10px;
@@ -185,7 +185,7 @@ body {
     border: 2px solid #2894f7;
 }
 
-.update_item, .thread_item, .post_item, .topic_item {
+.update_item, .thread_item, .post_item, .topic_item, .result_item {
     margin: 6px;
     padding: 6px;
     border-radius: 6px;
@@ -193,7 +193,7 @@ body {
     background-color: #fafaea;
 }
 
-.update_item:hover, .thread_item:hover, .topic_item:hover {
+.update_item:hover, .thread_item:hover, .topic_item:hover, .result_item:hover {
     margin: 6px;
     padding: 6px;
     border-radius: 6px;
