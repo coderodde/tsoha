@@ -39,11 +39,14 @@ public class SearchServlet extends HttpServlet {
 
         if (query == null || query.isEmpty()) {
             request.setAttribute("notice", "No query given.");
-            request.getRequestDispatcher("search.jsp").forward(request, response);
+            request.getRequestDispatcher("search.jsp")
+                   .forward(request, response);
             return;
         }
 
         List<Post> postList = Post.getPostsByRegex(query);
+
+        request.setAttribute("title", postList.size());
 
         Map<Thread, Integer> map = new TreeMap<Thread, Integer>(Thread.tc);
 
@@ -57,13 +60,13 @@ public class SearchServlet extends HttpServlet {
             }
         }
 
-        if (map.isEmpty()) {
-            request.setAttribute("title", "No results.");
-        } else if (map.size() == 1) {
-            request.setAttribute("title", "1 result.");
-        } else if (map.size() > 1) {
-            request.setAttribute("title", map.size() + " results.");
-        }
+//        if (map.isEmpty()) {
+//            request.setAttribute("title", "No results.");
+//        } else if (map.size() == 1) {
+//            request.setAttribute("title", "1 result.");
+//        } else if (map.size() > 1) {
+//            request.setAttribute("title", map.size() + " results.");
+//        }
 
         // Carry the query to the next view.
         request.setAttribute("query_value", query);

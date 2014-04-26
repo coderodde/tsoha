@@ -120,8 +120,8 @@ public class Post {
             return empty;
         }
 
-        boolean prepend = regex.charAt(0) != '%';
-        boolean append = regex.charAt(regex.length() - 1) != '%';
+        boolean prepend = (regex.charAt(0) != '%');
+        boolean append = (regex.charAt(regex.length() - 1) != '%');
 
         if (prepend) {
             regex = "%" + regex;
