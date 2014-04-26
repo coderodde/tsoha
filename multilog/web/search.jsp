@@ -20,10 +20,11 @@
 
             <form action="search" method="get">
                 <input type="text" name="query">
-                <input type="submig" value="Search">
+                <input type="submit" value="Search!">
             </form>
 
             <div class="result_container">
+                <h2>${title}</h2>
                 <c:forEach var="result" items="${requestScope.resultList}">
                     <div class="result_item">${result.name}</div>
                 </c:forEach>
