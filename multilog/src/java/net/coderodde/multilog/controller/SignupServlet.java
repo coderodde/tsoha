@@ -316,22 +316,22 @@ public class SignupServlet extends HttpServlet {
             sqle.printStackTrace(System.err);
             closeResources(connection, ps, null);
 
-            try {
-                is.close();
-            } catch (IOException ioe) {
-                ioe.printStackTrace(System.err);
-            }
+//            try {
+//                is.close();
+//            } catch (IOException ioe) {
+//                ioe.printStackTrace(System.err);
+//            }
 
             return false;
         }
 
         closeResources(connection, ps, null);
 
-        try {
-            is.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace(System.err);
-        }
+//        try {
+//            is.close();
+//        } catch (IOException ioe) {
+//            ioe.printStackTrace(System.err);
+//        }
 
         return true;
     }
