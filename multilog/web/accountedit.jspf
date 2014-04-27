@@ -4,21 +4,22 @@
                 <table>
                     <tr>
                         <td><img class="avatar" src="avatar?id=${user_id}" alt="${username}"></td>
-                    </tr>
-                    <tr>
-                        <table>
-                            <tr> <td>New avatar:                                      </td> <td> <input type="file" name="avatar" >                                                                     </td> <td>                                                                             </td> </tr>
-                            <tr> <td>Posts:                                       </td> <td> ${posts}                                                                                                   </td> <td>                                                                             </td> </tr>
-                            <tr> <td>First name:                                  </td> <td> <input type="text"     name="<%= Config.SESSION_MAGIC.FIRST_NAME %>"     value="${current_firstname}">     </td> <td>                                                                             </td> </tr>
-                            <tr> <td>Last name:                                   </td> <td> <input type="text"     name="<%= Config.SESSION_MAGIC.LAST_NAME %>"      value="${current_lastname}">      </td> <td>                                                                             </td> </tr>
-                            <tr> <td>Description:                                 </td> <td> <textarea rows="4"     name="<%= Config.SESSION_MAGIC.DESCRIPTION %>">${current_description}</textarea>    </td> <td>                                                                             </td> </tr>
-                            <tr> <td>Email:                                       </td> <td> <input type="text"     name="<%= Config.SESSION_MAGIC.EMAIL %>"          value="${current_email}">         </td> <td class="su_error_email"> ${bad_email}                                         </td> </tr>
-                            <tr> <td>Show real name:                              </td> <td> <input type="checkbox" name="<%= Config.SESSION_MAGIC.SHOW_REAL_NAME %>" ${current_show_real_name}>        </td> <td>                                                                             </td> </tr>
-                            <tr> <td>Show email:                                  </td> <td> <input type="checkbox" name="<%= Config.SESSION_MAGIC.SHOW_EMAIL %>"     ${current_show_email}>            </td> <td>                                                                             </td> </tr>
-                            <tr> <td>Password:                                    </td> <td> <input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD %>"                                         </td> <td class="su_error_new_password"> ${bad_new_password}                           </td> </tr>
-                            <tr> <td>Password confirmation:                       </td> <td> <input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD_CONFIRMATION %>">                           </td> <td class="su_error_new_password_confirmation"> ${bad_new_password_confirmation} </td> </tr>
-                            <tr> <td><input type="submit" value="Update account"> </td> <td>                                                                                                            </td> <td>                                                                             </td> </tr>
-                        </table>
+
+                        <td>
+                            <table>
+                                <tr> <td>New avatar:                                      </td> <td> <input type="file" name="avatar" >                                                                     </td> <td>                                                                             </td> </tr>
+                                <tr> <td>Posts:                                       </td> <td> ${posts}                                                                                                   </td> <td>                                                                             </td> </tr>
+                                <tr> <td>First name:                                  </td> <td> <input type="text"     name="<%= Config.SESSION_MAGIC.FIRST_NAME %>"     value="${current_firstname}">     </td> <td>                                                                             </td> </tr>
+                                <tr> <td>Last name:                                   </td> <td> <input type="text"     name="<%= Config.SESSION_MAGIC.LAST_NAME %>"      value="${current_lastname}">      </td> <td>                                                                             </td> </tr>
+                                <tr> <td>Description:                                 </td> <td> <textarea rows="4"     name="<%= Config.SESSION_MAGIC.DESCRIPTION %>">${current_description}</textarea>    </td> <td>                                                                             </td> </tr>
+                                <tr> <td>Email:                                       </td> <td> <input type="text"     name="<%= Config.SESSION_MAGIC.EMAIL %>"          value="${current_email}">         </td> <td class="su_error_email"> ${bad_email}                                         </td> </tr>
+                                <tr> <td>Show real name:                              </td> <td> <input type="checkbox" name="<%= Config.SESSION_MAGIC.SHOW_REAL_NAME %>" ${current_show_real_name}>        </td> <td>                                                                             </td> </tr>
+                                <tr> <td>Show email:                                  </td> <td> <input type="checkbox" name="<%= Config.SESSION_MAGIC.SHOW_EMAIL %>"     ${current_show_email}>            </td> <td>                                                                             </td> </tr>
+                                <tr> <td>Password:                                    </td> <td> <input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD %>"                                         </td> <td class="su_error_new_password"> ${bad_new_password}                           </td> </tr>
+                                <tr> <td>Password confirmation:                       </td> <td> <input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD_CONFIRMATION %>">                           </td> <td class="su_error_new_password_confirmation"> ${bad_new_password_confirmation} </td> </tr>
+                                <tr> <td><input type="submit" value="Update account"> </td> <td>                                                                                                            </td> <td>                                                                             </td> </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
             </form>
