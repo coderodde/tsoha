@@ -141,8 +141,9 @@ public class AccountServlet extends HttpServlet {
      */
     static void serveAsNonedibleView(final HttpServletRequest request,
                                      final User who) {
-        request.setAttribute("view", true);
+        request.setAttribute("user_id", who.getId());
         request.setAttribute("username", who.getUsername());
+        request.setAttribute("view", true);
 
         // Other attributes.
         request.setAttribute("posts", 0);

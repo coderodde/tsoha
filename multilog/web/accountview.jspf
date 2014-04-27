@@ -1,6 +1,8 @@
                 <table class="info_table">
                     <tr>
-                        <td class="info_td"></td>
+                        <td class="info_td">
+                            <img src="avatar?id=${user_id}" alt="${username}" height="200px" width="200px">
+                        </td>
                         <td class="info_td">
                             <table class="info_map_table">
                                 <tr>
