@@ -14,8 +14,10 @@ import static net.coderodde.multilog.Utils.closeResources;
 import net.coderodde.multilog.model.DB;
 
 /**
+ * This servlet is responsible for sending users' avatars.
  *
- * @author rodionefremov
+ * @author Rodion Efremov
+ * @version 1.6
  */
 public class AvatarServlet extends HttpServlet {
 
@@ -88,13 +90,13 @@ public class AvatarServlet extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP
-     * <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @param request servlet request.
+     * @param response servlet response.
+     *
+     * @throws ServletException if a servlet-specific error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -103,13 +105,13 @@ public class AvatarServlet extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP
-     * <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @param request servlet request.
+     * @param response servlet response.
+     *
+     * @throws ServletException if a servlet-specific error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -118,12 +120,12 @@ public class AvatarServlet extends HttpServlet {
     }
 
     /**
-     * Returns a short description of the servlet.
+     * Returns a short description of this servlet.
      *
-     * @return a String containing servlet description
+     * @return a String containing servlet description.
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This servlet is responsible for serving users' avatars.";
     }
 }

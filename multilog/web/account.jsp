@@ -21,6 +21,8 @@
             <div class="user_info">
                 <div id="account_name_div"><h2>${username}</h2></div>
 
+                <img src="avatar?id=${user_id}" alt="${username}" height="200px" width="200px">
+
                 <c:if test="${edit == true}" >
                     <%@ include file="accountedit.jspf" %>
                 </c:if>
