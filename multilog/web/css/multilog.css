@@ -126,11 +126,6 @@ body {
     font-style: normal;
 }
 
-.avatar {
-    position: relative;
-    right: 0px;
-}
-
 .user_info {
     margin-left: auto;
     margin-right: auto;
