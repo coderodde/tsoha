@@ -18,6 +18,15 @@
                                 <tr> <td>Password:                                    </td> <td> <input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD %>"                                         </td> <td class="su_error_new_password"> ${bad_new_password}                           </td> </tr>
                                 <tr> <td>Password confirmation:                       </td> <td> <input type="password" name="<%= Config.SESSION_MAGIC.PASSWORD_CONFIRMATION %>">                           </td> <td class="su_error_new_password_confirmation"> ${bad_new_password_confirmation} </td> </tr>
                                 <tr> <td><input type="submit" value="Update account"> </td> <td>                                                                                                            </td> <td>                                                                             </td> </tr>
+
+                                <tr>
+                                    <td>
+                                        <form action="accountdelete" method="post">
+                                            <input type="hidden" value="${target_id}" name="user_id">
+                                            <input type="submit" value="Delete account!" >
+                                        </form>
+                                    </td> <td></td> <td></td>
+                                </tr>
                             </table>
                         </td>
                     </tr>

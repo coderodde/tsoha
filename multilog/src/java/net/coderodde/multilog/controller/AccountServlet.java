@@ -179,7 +179,7 @@ public class AccountServlet extends HttpServlet {
         request.setAttribute("user_id", who.getId());
         request.setAttribute("username", who.getUsername());
         request.setAttribute("edit", true);
-        request.setAttribute("candelete", true);
+//        request.setAttribute("candelete", true);
 
         request.setAttribute("current_firstname", who.getFirstName());
         request.setAttribute("current_lastname", who.getLastName());
