@@ -1,15 +1,22 @@
 package net.coderodde.multilog.controller;
 
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.Config;
 import net.coderodde.multilog.Utils;
-import net.coderodde.multilog.model.User;
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+import net.coderodde.multilog.Utils.Pair;
+import static net.coderodde.multilog.Utils.getFormFields;
 import static net.coderodde.multilog.Utils.prepareNavibar;
+import static net.coderodde.multilog.Utils.processAvatar;
+import net.coderodde.multilog.model.User;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 /**
  * This servlet is responsible for updating the user accounts.
@@ -59,22 +66,40 @@ public class UpdateAccountServlet extends HttpServlet {
             return;
         }
 
+        boolean multipart = ServletFileUpload.isMultipartContent(request);
+
+        if (multipart == false) {
+            throw new IllegalStateException(
+                    "Form 'enctype' should be 'multipart/form-data'.");
+        }
+
+        ServletFileUpload sfu =
+                new ServletFileUpload(new DiskFileItemFactory());
+
         // Once here, 'currentUser' is not null.
         HomeServlet.prepareNavibarForSingedUser(request, currentUser);
 
+        final Pair<Map<String, String>, FileItem> pair =
+                getFormFields(sfu, request);
+
+        final Map<String, String> map = pair.getFirst();
+
         boolean hasErrors = false;
 
-        String firstName =
-                request.getParameter(Config.SESSION_MAGIC.FIRST_NAME);
+        final String firstName =
+                escapeHtml4(map.get(Config.SESSION_MAGIC.FIRST_NAME)).trim();
+//                request.getParameter(Config.SESSION_MAGIC.FIRST_NAME);
 
-        String lastName =
-                request.getParameter(Config.SESSION_MAGIC.LAST_NAME);
+        final String lastName =
+                escapeHtml4(map.get(Config.SESSION_MAGIC.LAST_NAME)).trim();
+//                request.getParameter(Config.SESSION_MAGIC.LAST_NAME);
 
         String description =
-                request.getParameter(Config.SESSION_MAGIC.DESCRIPTION);
+                escapeHtml4(map.get(Config.SESSION_MAGIC.DESCRIPTION)).trim();
+//                request.getParameter(Config.SESSION_MAGIC.DESCRIPTION);
 
         final String email =
-                request.getParameter(Config.SESSION_MAGIC.EMAIL);
+                request.getParameter(Config.SESSION_MAGIC.EMAIL).trim();
 
         if (Utils.isValidEmail(email) == false) {
             request.setAttribute("bad_email", "Invalid email address.");
@@ -82,9 +107,9 @@ public class UpdateAccountServlet extends HttpServlet {
         }
 
         // HMTL-escaping.
-        firstName = escapeHtml4(firstName).trim();
-        lastName = escapeHtml4(lastName).trim();
-        description = escapeHtml4(description).trim();
+//        firstName = escapeHtml4(firstName).trim();
+//        lastName = escapeHtml4(lastName).trim();
+//        description = escapeHtml4(description).trim();
 
         final String showRealName =
                 request.getParameter(Config.SESSION_MAGIC.SHOW_REAL_NAME);
@@ -149,6 +174,12 @@ public class UpdateAccountServlet extends HttpServlet {
 
         if (currentUser.update()) {
             sb.append("Account updated.");
+
+            if (pair.getSecond() != null) {
+                if (processAvatar(pair.getSecond(), currentUser) == false) {
+                    sb.append("Could not upload the avatar.");
+                }
+            }
         } else {
             sb.append("Could not update the account.");
         }

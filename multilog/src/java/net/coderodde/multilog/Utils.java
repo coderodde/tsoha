@@ -1,19 +1,27 @@
 package net.coderodde.multilog;
 
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import net.coderodde.multilog.controller.HomeServlet;
+import net.coderodde.multilog.model.DB;
 import net.coderodde.multilog.model.User;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  * This class provides utilities for multilog.
@@ -251,6 +259,79 @@ public class Utils {
         public final S getSecond() {
             return second;
         }
+    }
+
+    public static final Pair<Map<String, String>, FileItem> getFormFields
+            (final ServletFileUpload upload, final HttpServletRequest request) {
+        Map<String, String> map = new TreeMap<String, String>();
+        List<FileItem> fileItems = null;
+
+        try {
+            fileItems = upload.parseRequest(request);
+        } catch (FileUploadException fue) {
+            fue.printStackTrace(System.err);
+            return null;
+        }
+
+        FileItem avatarFileItem = null;
+
+        for (final FileItem item : fileItems) {
+            if (item.isFormField()) {
+                map.put(item.getFieldName(), item.getString());
+            } else if (avatarFileItem == null) {
+                avatarFileItem = item;
+            }
+        }
+
+        return new Pair<Map<String, String>, FileItem>(map, avatarFileItem);
+    }
+
+    /**
+     * Attempts to upload the avatar represented by <code>item</code> for the
+     * user <code>user</code>.
+     *
+     * @param item the file item holding the avatar.
+     * @param user the user to set the avatar for.
+     *
+     * @return <code>true</code> upon success, <code>false</code> otherwise.
+     */
+    public static final boolean processAvatar
+            (final FileItem item, final User user) {
+        if (item.isFormField()) {
+            throw new IllegalArgumentException(
+                    "Form field should not get here.");
+        }
+
+        InputStream is = null;
+        byte[] bytes = item.get();
+        Connection connection = DB.getConnection();
+
+        if (connection == null) {
+            return false;
+        }
+
+        PreparedStatement ps = DB.getPreparedStatement(connection,
+                                                       Config.
+                                                       SQL_MAGIC.
+                                                       SAVE_AVATAR);
+
+        if (ps == null) {
+            closeResources(connection, null, null);
+            return false;
+        }
+
+        try {
+            ps.setBytes(1, bytes);
+            ps.setString(2, user.getUsername());
+            ps.executeUpdate();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace(System.err);
+            closeResources(connection, ps, null);
+            return false;
+        }
+
+        closeResources(connection, ps, null);
+        return true;
     }
 
     /**

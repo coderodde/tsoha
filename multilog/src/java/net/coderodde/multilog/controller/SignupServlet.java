@@ -1,13 +1,7 @@
 package net.coderodde.multilog.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import net.coderodde.multilog.Config;
 import net.coderodde.multilog.Utils;
 import net.coderodde.multilog.Utils.Pair;
-import static net.coderodde.multilog.Utils.closeResources;
-import net.coderodde.multilog.model.DB;
+import static net.coderodde.multilog.Utils.getFormFields;
+import static net.coderodde.multilog.Utils.processAvatar;
 import net.coderodde.multilog.model.User;
 import net.coderodde.multilog.model.UserType;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
@@ -78,7 +71,7 @@ public class SignupServlet extends HttpServlet {
 
         if (multipart == false) {
             throw new IllegalStateException(
-                    "Form enctype should be multipart.");
+                    "Form 'enctype' should be 'multipart/form-data'.");
         }
 
         ServletFileUpload sfu =
@@ -247,93 +240,6 @@ public class SignupServlet extends HttpServlet {
             request.setAttribute("notice", "Could not create a user.");
             request.getRequestDispatcher("signup").forward(request, response);
         }
-    }
-
-    private static final Pair<Map<String, String>, FileItem> getFormFields
-            (final ServletFileUpload upload, final HttpServletRequest request) {
-        Map<String, String> map = new TreeMap<String, String>();
-        List<FileItem> fileItems = null;
-
-        try {
-            fileItems = upload.parseRequest(request);
-        } catch (FileUploadException fue) {
-            fue.printStackTrace(System.err);
-            return null;
-        }
-
-        FileItem avatarFileItem = null;
-
-        for (final FileItem item : fileItems) {
-            if (item.isFormField()) {
-                map.put(item.getFieldName(), item.getString());
-            } else if (avatarFileItem == null) {
-                avatarFileItem = item;
-            }
-        }
-
-        return new Pair<Map<String, String>, FileItem>(map, avatarFileItem);
-    }
-
-    private static final boolean processAvatar(final FileItem item,
-                                               final User user) {
-        if (item.isFormField()) {
-            throw new IllegalArgumentException(
-                    "Form field should not get here.");
-        }
-
-        InputStream is = null;
-        byte[] bytes = item.get();
-
-//        try {
-//            is = item.getInputStream();
-//        } catch (IOException ioe) {
-//            ioe.printStackTrace(System.err);
-//            return false;
-//        }
-
-        Connection connection = DB.getConnection();
-
-        if (connection == null) {
-            return false;
-        }
-
-        PreparedStatement ps = DB.getPreparedStatement(connection,
-                                                       Config.
-                                                       SQL_MAGIC.
-                                                       SAVE_AVATAR);
-
-        if (ps == null) {
-            closeResources(connection, null, null);
-            return false;
-        }
-
-        try {
-            ps.setBytes(1, bytes);
-//            ps.setBinaryStream(1, is);
-            ps.setString(2, user.getUsername());
-            ps.executeUpdate();
-        } catch (SQLException sqle) {
-            sqle.printStackTrace(System.err);
-            closeResources(connection, ps, null);
-
-//            try {
-//                is.close();
-//            } catch (IOException ioe) {
-//                ioe.printStackTrace(System.err);
-//            }
-
-            return false;
-        }
-
-        closeResources(connection, ps, null);
-
-//        try {
-//            is.close();
-//        } catch (IOException ioe) {
-//            ioe.printStackTrace(System.err);
-//        }
-
-        return true;
     }
 
     /**

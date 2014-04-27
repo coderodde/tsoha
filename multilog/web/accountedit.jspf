@@ -1,8 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="net.coderodde.multilog.Config"%>
-            <form action="accountupdate" method="post">
+            <form action="accountupdate" method="post" enctype="multipart/form-data">
                 <table>
-                    <tr> <td>Posts:                                       </td> <td> ${posts}                                                                                              </td> <td>                                                                             </td> </tr>
+                    <tr> <td>Avatar:                                      </td> <td> <input type="file" name="avatar" >                                                                         </td> <td>                                                                             </td> </tr>
+                    <tr> <td>Posts:                                       </td> <td> ${posts}                                                                                                   </td> <td>                                                                             </td> </tr>
                     <tr> <td>First name:                                  </td> <td> <input type="text"     name="<%= Config.SESSION_MAGIC.FIRST_NAME %>"     value="${current_firstname}">     </td> <td>                                                                             </td> </tr>
                     <tr> <td>Last name:                                   </td> <td> <input type="text"     name="<%= Config.SESSION_MAGIC.LAST_NAME %>"      value="${current_lastname}">      </td> <td>                                                                             </td> </tr>
                     <tr> <td>Description:                                 </td> <td> <textarea rows="4"     name="<%= Config.SESSION_MAGIC.DESCRIPTION %>">${current_description}</textarea>    </td> <td>                                                                             </td> </tr>
