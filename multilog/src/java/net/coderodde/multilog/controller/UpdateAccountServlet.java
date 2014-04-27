@@ -98,8 +98,8 @@ public class UpdateAccountServlet extends HttpServlet {
                 escapeHtml4(map.get(Config.SESSION_MAGIC.DESCRIPTION)).trim();
 //                request.getParameter(Config.SESSION_MAGIC.DESCRIPTION);
 
-        final String email =
-                request.getParameter(Config.SESSION_MAGIC.EMAIL).trim();
+        final String email = map.get(Config.SESSION_MAGIC.EMAIL);
+//                request.getParameter(Config.SESSION_MAGIC.EMAIL).trim();
 
         if (Utils.isValidEmail(email) == false) {
             request.setAttribute("bad_email", "Invalid email address.");
@@ -112,19 +112,22 @@ public class UpdateAccountServlet extends HttpServlet {
 //        description = escapeHtml4(description).trim();
 
         final String showRealName =
-                request.getParameter(Config.SESSION_MAGIC.SHOW_REAL_NAME);
+                map.get(Config.SESSION_MAGIC.SHOW_REAL_NAME);
+//                request.getParameter(Config.SESSION_MAGIC.SHOW_REAL_NAME);
 
         final String showEmail =
-                request.getParameter(Config.SESSION_MAGIC.SHOW_EMAIL);
+                map.get(Config.SESSION_MAGIC.SHOW_EMAIL);
+//                request.getParameter(Config.SESSION_MAGIC.SHOW_EMAIL);
 
         final boolean doShowRealName = "on".equalsIgnoreCase(showRealName);
         final boolean doShowEmail = "on".equalsIgnoreCase(showEmail);
 
-        final String password =
-                request.getParameter(Config.SESSION_MAGIC.PASSWORD);
+        final String password = map.get(Config.SESSION_MAGIC.PASSWORD);
+//                request.getParameter(Config.SESSION_MAGIC.PASSWORD);
 
-        final String passwordConfirmation = request
-                .getParameter(Config.SESSION_MAGIC.PASSWORD_CONFIRMATION);
+        final String passwordConfirmation =
+                map.get(Config.SESSION_MAGIC.PASSWORD_CONFIRMATION);
+//                .getParameter(Config.SESSION_MAGIC.PASSWORD_CONFIRMATION);
 
         boolean doChangePassword = false;
 
