@@ -299,3 +299,11 @@ a:hover {
 .mk_url {
     color: #a80000;
 }
+
+.avatar {
+    max-width: 300px;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    margin: 20px;
+}

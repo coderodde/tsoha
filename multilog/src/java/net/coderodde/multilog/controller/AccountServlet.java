@@ -176,6 +176,7 @@ public class AccountServlet extends HttpServlet {
      */
     static void serveAsMyOwnEdibleView(final HttpServletRequest request,
                                        final User who) {
+        request.setAttribute("user_id", who.getId());
         request.setAttribute("username", who.getUsername());
         request.setAttribute("edit", true);
         request.setAttribute("candelete", true);
