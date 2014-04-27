@@ -156,14 +156,14 @@ body {
     width: 200px;
 }
 
-.info_map_table {
+/*.info_map_table {
     table-layout: fixed;
     width: 400px;
-}
+}*/
 
-.info_map_td {
+/*.info_map_td {
     width: 200px;
-}
+}*/
 
 #search_div {
     padding: 20px;
